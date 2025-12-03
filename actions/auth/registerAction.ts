@@ -1,5 +1,6 @@
 "use server";
 import { RegisterFormData } from "@/app/types/auth";
+import { cookies } from "next/headers";
 
 export async function registerAction(formData: FormData) {
   const name = String(formData.get("name") ?? "").trim();
@@ -53,6 +54,33 @@ export async function registerAction(formData: FormData) {
         message: data?.message ?? "Registration failed",
         backendErrors: data?.errors,
       };
+    }
+
+    const cookieStore = await cookies();
+    const setCookieHeader = res.headers.getSetCookie();
+
+    if (setCookieHeader) {
+      setCookieHeader.forEach((cookie) => {
+        const [nameValue, ...options] = cookie.split("; ");
+        const [name, value] = nameValue.split("=");
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const cookieOptions: any = {};
+        options.forEach((option) => {
+          const [key, val] = option.split("=");
+          const lowerKey = key.toLowerCase();
+          if (lowerKey === "path") cookieOptions.path = val;
+          else if (lowerKey === "httponly") cookieOptions.httpOnly = true;
+          else if (lowerKey === "secure") cookieOptions.secure = true;
+          else if (lowerKey === "samesite")
+            cookieOptions.sameSite = val.toLowerCase();
+          else if (lowerKey === "max-age") cookieOptions.maxAge = Number(val);
+          else if (lowerKey === "expires")
+            cookieOptions.expires = new Date(val).getTime();
+        });
+
+        cookieStore.set(name, value, cookieOptions);
+      });
     }
 
     return { ok: true, message: data?.message ?? "Account created", data };

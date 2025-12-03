@@ -1,28 +1,20 @@
-"use client"
-import { Fan } from "lucide-react"
+"use client";
 
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar"
+import { SidebarMenu, SidebarMenuItem } from "@/components/ui/sidebar";
+import Image from "next/image";
+import Link from "next/link";
 
 export function VersionSwitcher() {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <SidebarMenuButton
-          size="lg"
-          className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+        <Link
+          href="/"
+          className="flex items-center justify-center rounded-lg p-0"
         >
-          <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-            <Fan className="size-5" />
-          </div>
-          <div className="flex flex-col gap-0.5 leading-none">
-            <span className="font-medium font-mono text-lg">Skill Trade</span>
-          </div>
-        </SidebarMenuButton>
+          <Image src="/newlogo.png" alt="Logo" width={120} height={120} />
+        </Link>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }

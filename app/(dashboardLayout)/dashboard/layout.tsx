@@ -1,22 +1,28 @@
-import { AppSidebar } from "@/components/app-sidebar";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { UserRole } from "@/app/types/user";
+import { AppSidebar } from "@/components/app-sidebar";
+import { getProfileAction } from "@/actions/user/getProfileAction";
+import { Montserrat } from "next/font/google";
 
 export const dynamic = "force-dynamic";
 
-export default function DashboardLayout({
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin"],
+});
+
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const role = UserRole.FREELANCER;
+  const { role } = (await getProfileAction()).data;
 
   return (
-    <>
+    <div className={montserrat.className}>
       <SidebarProvider>
         <AppSidebar role={role} />
         <SidebarInset>
@@ -28,6 +34,6 @@ export default function DashboardLayout({
           </main>
         </SidebarInset>
       </SidebarProvider>
-    </>
+    </div>
   );
 }
