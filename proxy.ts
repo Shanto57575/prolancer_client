@@ -5,8 +5,9 @@ import { jwtDecode } from "jwt-decode";
 const AuthRoutes = ["/login", "/register"];
 
 const roleBasedRoutes = {
-  USER: [/^\/dashboard\/user/],
   ADMIN: [/^\/dashboard\/admin/],
+  CLIENT: [/^\/dashboard\/client/],
+  FREELANCER: [/^\/dashboard\/freelancer/],
 };
 
 type Role = keyof typeof roleBasedRoutes;
@@ -68,7 +69,6 @@ export async function proxy(request: NextRequest) {
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
             path: "/",
-            // Add maxAge if needed, usually matches token exp
           });
 
           return response;

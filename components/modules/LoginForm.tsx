@@ -64,7 +64,9 @@ export default function LoginForm({ action }: Props) {
         return;
       }
 
-      toast.success(result.message || "Logged in successfully");
+      toast.success(result.message || "Logged in successfully", {
+        position: "bottom-right",
+      });
       router.push("/");
     } catch (err) {
       toast.error("Login failed", {

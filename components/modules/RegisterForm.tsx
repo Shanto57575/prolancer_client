@@ -107,8 +107,8 @@ export default function RegisterForm({ action }: Props) {
       }
 
       toast.success(result.message || "Account created successfully!", {
-        description:
-          "Welcome to ProLancer. Please check your email to verify your account.",
+        description: "Welcome to ProLancer.",
+        position: "bottom-right",
       });
 
       router.push("/");

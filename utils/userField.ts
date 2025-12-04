@@ -5,6 +5,8 @@ export const userField = {
   // Client fields
   company: "",
   website: "",
+  companySize: "",
+  budgetPreference: "",
   // Common fields
   bio: "",
   location: "",
@@ -17,4 +19,7 @@ export const userField = {
   otherWebsiteLink: "",
   linkedinLink: "",
   hourlyRate: "",
+  languages: "",
+  education: "",
+  availability: "",
 };

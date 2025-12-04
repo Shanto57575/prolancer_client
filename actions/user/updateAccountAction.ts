@@ -64,6 +64,9 @@ export async function updateAccountAction(formData: FormData) {
       const experience = String(formData.get("experience") ?? "").trim();
       const location = String(formData.get("location") ?? "").trim();
       const designation = String(formData.get("designation") ?? "").trim();
+      const languages = String(formData.get("languages") ?? "").trim();
+      const education = String(formData.get("education") ?? "").trim();
+      const availability = String(formData.get("availability") ?? "").trim();
 
       if (bio) freelancerPayload.bio = bio;
       if (skills)
@@ -80,6 +83,17 @@ export async function updateAccountAction(formData: FormData) {
       if (experience) freelancerPayload.experience = parseInt(experience);
       if (location) freelancerPayload.location = location;
       if (designation) freelancerPayload.designation = designation;
+      if (languages)
+        freelancerPayload.languages = languages
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean);
+      if (education)
+        freelancerPayload.education = education
+          .split("\n")
+          .map((s) => s.trim())
+          .filter(Boolean);
+      if (availability) freelancerPayload.availability = availability;
 
       if (Object.keys(freelancerPayload).length > 0) {
         const freelancerRes = await fetch(
@@ -113,6 +127,10 @@ export async function updateAccountAction(formData: FormData) {
       const location = String(formData.get("location") ?? "").trim();
       const designation = String(formData.get("designation") ?? "").trim();
       const experience = String(formData.get("experience") ?? "").trim();
+      const companySize = String(formData.get("companySize") ?? "").trim();
+      const budgetPreference = String(
+        formData.get("budgetPreference") ?? ""
+      ).trim();
 
       if (company) clientPayload.company = company;
       if (website) clientPayload.website = website;
@@ -120,6 +138,8 @@ export async function updateAccountAction(formData: FormData) {
       if (location) clientPayload.location = location;
       if (designation) clientPayload.designation = designation;
       if (experience) clientPayload.experience = parseInt(experience);
+      if (companySize) clientPayload.companySize = companySize;
+      if (budgetPreference) clientPayload.budgetPreference = budgetPreference;
 
       if (Object.keys(clientPayload).length > 0) {
         const clientRes = await fetch(

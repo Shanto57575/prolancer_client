@@ -22,8 +22,21 @@ import {
   Globe,
   FileText,
   Building2,
+  Users,
+  Wallet,
+  Languages,
+  GraduationCap,
 } from "lucide-react";
 import { userField } from "@/utils/userField";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function ManageAccountForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -55,6 +68,8 @@ export default function ManageAccountForm() {
           // Client fields
           company: roleData?.company || "",
           website: roleData?.website || "",
+          companySize: roleData?.companySize || "",
+          budgetPreference: roleData?.budgetPreference || "",
           // Common fields
           bio: roleData?.bio || "",
           location: roleData?.location || "",
@@ -67,6 +82,9 @@ export default function ManageAccountForm() {
           otherWebsiteLink: roleData?.otherWebsiteLink || "",
           linkedinLink: roleData?.linkedinLink || "",
           hourlyRate: roleData?.hourlyRate?.toString() || "",
+          languages: roleData?.languages?.join(", ") || "",
+          education: roleData?.education?.join("\n") || "",
+          availability: roleData?.availability || "",
         });
       } else {
         toast.error(result.message || "Failed to fetch profile");
@@ -106,7 +124,6 @@ export default function ManageAccountForm() {
       return;
     }
 
-    console.log(userRole);
     setIsLoading(true);
     try {
       const fd = new FormData();
@@ -124,7 +141,13 @@ export default function ManageAccountForm() {
         if (formData.designation)
           fd.append("designation", formData.designation);
         if (formData.experience) fd.append("experience", formData.experience);
+        if (formData.companySize)
+          fd.append("companySize", formData.companySize);
+        if (formData.budgetPreference)
+          fd.append("budgetPreference", formData.budgetPreference);
       } else if (userRole === "FREELANCER") {
+        if (formData.designation)
+          fd.append("designation", formData.designation);
         if (formData.bio) fd.append("bio", formData.bio);
         if (formData.skills) fd.append("skills", formData.skills);
         if (formData.portfolio) fd.append("portfolio", formData.portfolio);
@@ -138,10 +161,13 @@ export default function ManageAccountForm() {
         if (formData.location) fd.append("location", formData.location);
         if (formData.designation)
           fd.append("designation", formData.designation);
+        if (formData.languages) fd.append("languages", formData.languages);
+        if (formData.education) fd.append("education", formData.education);
+        if (formData.availability)
+          fd.append("availability", formData.availability);
       }
 
       const result = await updateAccountAction(fd);
-      console.log(result);
 
       if (!result.ok) {
         toast.error(result.message || "Update failed");
@@ -149,7 +175,7 @@ export default function ManageAccountForm() {
       }
 
       toast.success(result.message || "Profile updated successfully");
-      await fetchProfile(); // Refresh data
+      await fetchProfile();
     } catch (err) {
       toast.error("Update failed", {
         description: err instanceof Error ? err.message : "Unexpected error",
@@ -178,10 +204,12 @@ export default function ManageAccountForm() {
           setFormData({ ...formData, profilePicture: url })
         }
       />
-      <h1 className="text-sm w-20 font-semibold p-1 rounded-full text-center text-emerald-100 bg-emerald-800">
-        {userRole}
-      </h1>
-      {/* Common Fields */}
+      <Button
+        type="button"
+        className="bg-emerald-100 text-emerald-900 hover:bg-emerald-200 hover:text-emerald-900"
+      >
+        {userRole.charAt(0) + userRole.slice(1).toLowerCase()} Account
+      </Button>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Field data-invalid={!!errors.name}>
           <FieldLabel htmlFor="name">Full Name *</FieldLabel>
@@ -262,6 +290,60 @@ export default function ManageAccountForm() {
             </Field>
           </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Field>
+              <FieldLabel htmlFor="companySize">Company Size</FieldLabel>
+              <div className="relative">
+                <Users className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <select
+                  id="companySize"
+                  name="companySize"
+                  disabled={isLoading}
+                  value={formData.companySize}
+                  onChange={(e) =>
+                    setFormData({ ...formData, companySize: e.target.value })
+                  }
+                  className="flex h-12 w-full rounded-md border border-input bg-transparent px-3 py-1 pl-11 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <option value="">Select Size</option>
+                  <option value="solo">Solo</option>
+                  <option value="1-10">1-10 Employees</option>
+                  <option value="11-50">11-50 Employees</option>
+                  <option value="51-200">51-200 Employees</option>
+                  <option value="201-500">201-500 Employees</option>
+                  <option value="500+">500+ Employees</option>
+                </select>
+              </div>
+            </Field>
+
+            <Field>
+              <FieldLabel htmlFor="budgetPreference">
+                Budget Preference
+              </FieldLabel>
+              <div className="relative">
+                <Wallet className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <select
+                  id="budgetPreference"
+                  name="budgetPreference"
+                  disabled={isLoading}
+                  value={formData.budgetPreference}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      budgetPreference: e.target.value,
+                    })
+                  }
+                  className="flex h-12 w-full rounded-md border border-input bg-transparent px-3 py-1 pl-11 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <option value="">Select Preference</option>
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                </select>
+              </div>
+            </Field>
+          </div>
+
           <Field>
             <FieldLabel htmlFor="bio">Bio</FieldLabel>
             <Textarea
@@ -326,11 +408,15 @@ export default function ManageAccountForm() {
                   name="experience"
                   type="number"
                   placeholder="0"
+                  min="0"
                   disabled={isLoading}
                   value={formData.experience}
-                  onChange={(e) =>
-                    setFormData({ ...formData, experience: e.target.value })
-                  }
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value === "" || parseFloat(value) >= 0) {
+                      setFormData({ ...formData, experience: value });
+                    }
+                  }}
                   className="h-12 pl-11"
                 />
               </div>
@@ -345,6 +431,21 @@ export default function ManageAccountForm() {
       {/* Freelancer-Specific Fields */}
       {userRole === "FREELANCER" && (
         <>
+          <Field>
+            <FieldLabel htmlFor="designation">Title</FieldLabel>
+            <Textarea
+              id="designation"
+              name="designation"
+              placeholder="Full Stack Developer, Web Designer, Content Writer etc.."
+              disabled={isLoading}
+              value={formData.designation}
+              onChange={(e) =>
+                setFormData({ ...formData, designation: e.target.value })
+              }
+              rows={4}
+              className="resize-none"
+            />
+          </Field>
           <Field>
             <FieldLabel htmlFor="bio">Bio</FieldLabel>
             <Textarea
@@ -362,7 +463,7 @@ export default function ManageAccountForm() {
           </Field>
 
           <Field>
-            <FieldLabel htmlFor="skills">Skills</FieldLabel>
+            <FieldLabel htmlFor="skills">Skills (comma-separated)</FieldLabel>
             <div className="relative">
               <FileText className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
@@ -378,9 +479,48 @@ export default function ManageAccountForm() {
                 className="h-12 pl-11"
               />
             </div>
-            <p className="text-xs text-slate-500 mt-1">
-              Separate skills with commas
-            </p>
+          </Field>
+
+          <Field>
+            <FieldLabel htmlFor="languages">
+              Languages (comma-separated)
+            </FieldLabel>
+            <div className="relative">
+              <Languages className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Input
+                id="languages"
+                name="languages"
+                type="text"
+                placeholder="English, Spanish, French (comma-separated)"
+                disabled={isLoading}
+                value={formData.languages}
+                onChange={(e) =>
+                  setFormData({ ...formData, languages: e.target.value })
+                }
+                className="h-12 pl-11"
+              />
+            </div>
+          </Field>
+
+          <Field>
+            <FieldLabel htmlFor="education">
+              Education (one per line)
+            </FieldLabel>
+            <div className="relative">
+              <GraduationCap className="absolute left-3 top-4 h-5 w-5 text-muted-foreground" />
+              <Textarea
+                id="education"
+                name="education"
+                placeholder="Enter your education details "
+                disabled={isLoading}
+                value={formData.education}
+                onChange={(e) =>
+                  setFormData({ ...formData, education: e.target.value })
+                }
+                rows={3}
+                className="pl-11 resize-none"
+              />
+            </div>
           </Field>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -462,11 +602,15 @@ export default function ManageAccountForm() {
                   name="hourlyRate"
                   type="number"
                   placeholder="50"
+                  min="0"
                   disabled={isLoading}
                   value={formData.hourlyRate}
-                  onChange={(e) =>
-                    setFormData({ ...formData, hourlyRate: e.target.value })
-                  }
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value === "" || parseFloat(value) >= 0) {
+                      setFormData({ ...formData, hourlyRate: value });
+                    }
+                  }}
                   className="h-12 pl-11"
                 />
               </div>
@@ -484,11 +628,15 @@ export default function ManageAccountForm() {
                   name="experience"
                   type="number"
                   placeholder="0"
+                  min="0"
                   disabled={isLoading}
                   value={formData.experience}
-                  onChange={(e) =>
-                    setFormData({ ...formData, experience: e.target.value })
-                  }
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value === "" || parseFloat(value) >= 0) {
+                      setFormData({ ...formData, experience: value });
+                    }
+                  }}
                   className="h-12 pl-11"
                 />
               </div>
@@ -517,21 +665,43 @@ export default function ManageAccountForm() {
             </Field>
 
             <Field>
-              <FieldLabel htmlFor="designation">Designation</FieldLabel>
+              <FieldLabel htmlFor="availability">Availability</FieldLabel>
               <div className="relative">
-                <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Input
-                  id="designation"
-                  name="designation"
-                  type="text"
-                  placeholder="Your title"
+                <Select
                   disabled={isLoading}
-                  value={formData.designation}
-                  onChange={(e) =>
-                    setFormData({ ...formData, designation: e.target.value })
+                  value={formData.availability}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, availability: value })
+                  }
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select Availability" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Availability</SelectLabel>
+                      <SelectItem value="Full-Time">Full-Time</SelectItem>
+                      <SelectItem value="Part-Time">Part-Time</SelectItem>
+                      <SelectItem value="Hourly">Hourly</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+
+                {/* <Select
+                  id="availability"
+                  name="availability"
+                  disabled={isLoading}
+                  value={formData.availability}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                    setFormData({ ...formData, availability: e.target.value })
                   }
                   className="h-12 pl-11"
-                />
+                >
+                  <option value="">Select Availability</option>
+                  <option value="Full-Time">Full-Time</option>
+                  <option value="Part-Time">Part-Time</option>
+                  <option value="Hourly">Hourly</option>
+                </Select> */}
               </div>
             </Field>
           </div>

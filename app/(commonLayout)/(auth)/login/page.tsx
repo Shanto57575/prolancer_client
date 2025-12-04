@@ -45,7 +45,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-linear-to-tr from-black via-gray-700 to-gray-900 p-12 items-center justify-center">
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-linear-to-br from-slate-900 via-indigo-950 to-slate-900 p-12 items-center justify-center">
         <div className="absolute inset-0 bg-grid-white/[0.05] bg-size-[32px_32px]" />
         <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
 

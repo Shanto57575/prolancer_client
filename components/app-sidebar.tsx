@@ -1,4 +1,5 @@
 "use client";
+
 import { SearchForm } from "@/components/search-form";
 import { VersionSwitcher } from "@/components/version-switcher";
 import {
@@ -16,6 +17,7 @@ import {
 import { UserRole } from "@/app/types/user";
 import Link from "next/link";
 import LogoutButton from "@/utils/LogoutButton";
+import { usePathname } from "next/navigation";
 
 export const ADMIN_ROUTES = [
   {
@@ -23,10 +25,18 @@ export const ADMIN_ROUTES = [
     items: [
       { title: "Manage Accounts", url: "/dashboard/manage-account" },
       {
+        title: "Manage Users",
+        url: "/dashboard/admin/manage-users",
+      },
+      {
         title: "Manage Freelancers",
         url: "/dashboard/admin/manage-freelancers",
       },
       { title: "Manage Clients", url: "/dashboard/admin/manage-clients" },
+      {
+        title: "Manage Service",
+        url: "/dashboard/admin/manage-service",
+      },
     ],
   },
   {
@@ -70,18 +80,14 @@ export const FREELANCER_ROUTES = [
 export const CLIENT_ROUTES = [
   {
     title: "My Profile",
-    items: [
-      { title: "Manage Account", url: "/dashboard/manage-account" },
-      // { title: "Company Info", url: "/dashboard/client/company" },
-      // { title: "Website", url: "/dashboard/client/website" },
-    ],
+    items: [{ title: "Manage Account", url: "/dashboard/manage-account" }],
   },
   {
-    title: "Projects",
+    title: "Jobs",
     items: [
-      { title: "Create Project", url: "/dashboard/client/create-project" },
-      { title: "My Projects", url: "/dashboard/client/projects" },
-      { title: "Hire Freelancer", url: "/dashboard/client/hire" },
+      { title: "Create Job", url: "/dashboard/client/create-job" },
+      { title: "My Posted Jobs", url: "/dashboard/client/my-posted-jobs" },
+      { title: "Hire Freelancer", url: "/dashboard/client/hire-freelancer" },
       { title: "Messages", url: "/dashboard/client/messages" },
     ],
   },
@@ -103,6 +109,8 @@ const ROLE_BASED_ROUTES = {
 export function AppSidebar({ role, ...props }: { role: UserRole }) {
   const data = ROLE_BASED_ROUTES[role] || [];
 
+  const pathname = usePathname();
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -117,7 +125,14 @@ export function AppSidebar({ role, ...props }: { role: UserRole }) {
               <SidebarMenu>
                 {group.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
+                    <SidebarMenuButton
+                      asChild
+                      className={`${
+                        item.url === pathname
+                          ? "bg-black text-white hover:bg-gray-700 hover:text-white duration-300 transition-all ease-in-out p-3"
+                          : ""
+                      }`}
+                    >
                       <Link href={item.url}>{item.title}</Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
