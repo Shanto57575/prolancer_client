@@ -17,8 +17,6 @@ export async function createService(formData: FormData) {
       body: JSON.stringify({ name, description }),
     });
 
-    console.log("headers", headers);
-
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Failed to create service");
 
@@ -75,9 +73,6 @@ export async function updateService(id: string, formData: FormData) {
       headers,
       body: JSON.stringify({ name, description }),
     });
-
-    console.log("headers", headers);
-    console.log("res", res);
 
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Failed to update service");

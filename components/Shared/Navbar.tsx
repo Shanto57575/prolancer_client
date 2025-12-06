@@ -57,7 +57,7 @@ interface MenuItem {
   items?: MenuItem[];
 }
 
-interface Navbar1Props {
+interface NavbarProps {
   logo?: {
     url: string;
     src: string;
@@ -112,6 +112,10 @@ export default function Navbar({
       ],
     },
     {
+      title: "Find Jobs",
+      url: "/jobs",
+    },
+    {
       title: "How It Works",
       url: "/how-it-works",
     },
@@ -125,7 +129,7 @@ export default function Navbar({
     signup: { title: "Sign Up", url: "/register" },
   },
   user = null,
-}: Navbar1Props) {
+}: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const getUserInitials = (user: any) => {

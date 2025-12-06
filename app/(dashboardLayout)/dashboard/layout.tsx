@@ -19,7 +19,7 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { role } = (await getProfileAction()).data;
+  const { role } = (await getProfileAction())?.data;
 
   return (
     <div className={montserrat.className}>

@@ -23,9 +23,18 @@ import {
   Underline as UnderlineIcon,
   List,
   ListOrdered,
+  CalendarIcon,
 } from "lucide-react";
 import { IService } from "@/app/types/service";
 import FileUploader from "@/components/FileUploader";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 
 interface JobFormProps {
   services: IService[];
@@ -33,7 +42,7 @@ interface JobFormProps {
     _id: string;
     title: string;
     description: string;
-    serviceCategory: string;
+    serviceCategory: string | { _id: string; name: string };
     jobType: string;
     budget?: number;
     timeline?: string;
@@ -117,6 +126,14 @@ export default function JobForm({
   const [attachments, setAttachments] = useState<string[]>(
     initialData?.attachments || []
   );
+  const [date, setDate] = useState(
+    initialData?.deadline ? new Date(initialData.deadline) : undefined
+  );
+
+  const defaultServiceCategory =
+    typeof initialData?.serviceCategory === "object"
+      ? initialData?.serviceCategory._id
+      : initialData?.serviceCategory;
 
   const editor = useEditor({
     extensions: [StarterKit, Underline],
@@ -229,7 +246,7 @@ export default function JobForm({
           <FieldContent>
             <select
               name="serviceCategory"
-              defaultValue={initialData?.serviceCategory}
+              defaultValue={defaultServiceCategory}
               className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
             >
               <option value="">Select Category</option>
@@ -295,7 +312,7 @@ export default function JobForm({
         </Field>
 
         <Field>
-          <FieldLabel>Total Freelancers Needed</FieldLabel>
+          <FieldLabel>Vacancies</FieldLabel>
           <FieldContent>
             <Input
               type="number"
@@ -322,7 +339,7 @@ export default function JobForm({
         </Field>
 
         <Field>
-          <FieldLabel>Timeline</FieldLabel>
+          <FieldLabel>Timeline / Expected Delivery</FieldLabel>
           <FieldContent>
             <Input
               name="timeline"
@@ -331,18 +348,39 @@ export default function JobForm({
             />
           </FieldContent>
         </Field>
-
         <Field>
           <FieldLabel>Deadline</FieldLabel>
           <FieldContent>
-            <Input
-              type="date"
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className={cn(
+                    "w-full justify-start text-left font-normal",
+                    !date && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {date ? format(date, "PPP") : <span>Pick a date</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={setDate}
+                  disabled={(date) =>
+                    date < new Date(new Date().setHours(0, 0, 0, 0))
+                  }
+                  autoFocus
+                />
+              </PopoverContent>
+            </Popover>
+            <input
+              type="hidden"
               name="deadline"
-              defaultValue={
-                initialData?.deadline
-                  ? new Date(initialData.deadline).toISOString().split("T")[0]
-                  : ""
-              }
+              value={date ? date.toISOString() : ""}
             />
           </FieldContent>
         </Field>

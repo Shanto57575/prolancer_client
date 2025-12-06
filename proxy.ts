@@ -6,7 +6,11 @@ const AuthRoutes = ["/login", "/register"];
 
 const roleBasedRoutes = {
   ADMIN: [/^\/dashboard\/admin/],
-  CLIENT: [/^\/dashboard\/client/],
+  CLIENT: [
+    /^\/dashboard\/client/,
+    /^\/dashboard\/manage-jobs/,
+    /^\/dashboard\/post-job/,
+  ],
   FREELANCER: [/^\/dashboard\/freelancer/],
 };
 

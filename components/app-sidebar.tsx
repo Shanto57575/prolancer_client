@@ -55,9 +55,10 @@ export const FREELANCER_ROUTES = [
     title: "My Profile",
     items: [
       { title: "Manage Account", url: "/dashboard/manage-account" },
-      { title: "Portfolio", url: "/dashboard/freelancer/portfolio" },
-      { title: "Skills", url: "/dashboard/freelancer/skills" },
-      { title: "Resume", url: "/dashboard/freelancer/resume" },
+      {
+        title: "My Applied Jobs",
+        url: "/dashboard/freelancer/my-applications",
+      },
     ],
   },
   {

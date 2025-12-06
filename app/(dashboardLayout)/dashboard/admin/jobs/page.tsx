@@ -34,6 +34,7 @@ export default async function AdminJobsPage({
           </thead>
           <tbody className="divide-y divide-border">
             {jobs?.length > 0 ? (
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               jobs.map((job: any) => (
                 <tr
                   key={job._id}
@@ -46,7 +47,11 @@ export default async function AdminJobsPage({
                       <span>{job.clientId?.name || "Unknown"}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4">{job.serviceCategory}</td>
+                  <td className="px-6 py-4">
+                    {typeof job.serviceCategory === "string"
+                      ? job.serviceCategory
+                      : job.serviceCategory?.name}
+                  </td>
                   <td className="px-6 py-4 capitalize">{job.jobType}</td>
                   <td className="px-6 py-4">
                     {job.budget ? `$${job.budget}` : "Negotiable"}

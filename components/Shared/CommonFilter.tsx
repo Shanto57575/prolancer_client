@@ -14,6 +14,7 @@ interface CommonFilterProps {
   options: { label: string; value: string }[];
   defaultValue?: string;
   placeholder?: string;
+  className?: string;
 }
 
 export default function CommonFilter({
@@ -21,6 +22,7 @@ export default function CommonFilter({
   options,
   defaultValue = "ALL",
   placeholder = "Select...",
+  className = "w-[160px]",
 }: CommonFilterProps) {
   const router = useRouter();
   const params = useSearchParams();
@@ -42,7 +44,7 @@ export default function CommonFilter({
 
   return (
     <Select value={currentValue} onValueChange={handleChange}>
-      <SelectTrigger className="w-[150px]">
+      <SelectTrigger className={className}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

@@ -20,6 +20,14 @@ export async function createJobAction(formData: FormData) {
       .map((s) => s.trim())
       .filter(Boolean);
 
+    const experienceLevel = formData.get("experienceLevel") as string;
+    const projectDuration = formData.get("projectDuration") as string;
+    const numFreelancers = formData.get("numFreelancers")
+      ? Number(formData.get("numFreelancers"))
+      : 1;
+    const deadline = formData.get("deadline") as string;
+    const attachments = formData.getAll("attachments") as string[];
+
     const headers = await getAuthHeaders();
     const res = await fetch(`${API_BASE}/jobs`, {
       method: "POST",
@@ -32,6 +40,11 @@ export async function createJobAction(formData: FormData) {
         budget,
         timeline,
         requiredSkills,
+        experienceLevel,
+        projectDuration,
+        numFreelancers,
+        deadline,
+        attachments,
       }),
     });
 
@@ -63,6 +76,14 @@ export async function updateJobAction(id: string, formData: FormData) {
       .map((s) => s.trim())
       .filter(Boolean);
 
+    const experienceLevel = formData.get("experienceLevel") as string;
+    const projectDuration = formData.get("projectDuration") as string;
+    const numFreelancers = formData.get("numFreelancers")
+      ? Number(formData.get("numFreelancers"))
+      : 1;
+    const deadline = formData.get("deadline") as string;
+    const attachments = formData.getAll("attachments") as string[];
+
     const headers = await getAuthHeaders();
     const res = await fetch(`${API_BASE}/jobs/${id}`, {
       method: "PATCH",
@@ -75,6 +96,11 @@ export async function updateJobAction(id: string, formData: FormData) {
         budget,
         timeline,
         requiredSkills,
+        experienceLevel,
+        projectDuration,
+        numFreelancers,
+        deadline,
+        attachments,
       }),
     });
 
@@ -112,13 +138,19 @@ export async function deleteJobAction(id: string) {
   }
 }
 
-export async function getMyJobsAction(page = 1, limit = 10, search = "") {
+export async function getMyJobsAction(
+  page = 1,
+  limit = 10,
+  search = "",
+  filters = {}
+) {
   try {
     const headers = await getAuthHeaders();
     const query = new URLSearchParams({
       page: String(page),
       limit: String(limit),
       search,
+      ...filters,
     });
 
     const res = await fetch(`${API_BASE}/jobs/my-jobs?${query.toString()}`, {
