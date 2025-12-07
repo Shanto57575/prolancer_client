@@ -8,15 +8,7 @@ import CommonFilter from "@/components/Shared/CommonFilter";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import {
-  Briefcase,
-  Clock,
-  X,
-  DollarSign,
-  Zap,
-  Star,
-  Sparkles,
-} from "lucide-react";
+import { Briefcase, Clock, X, DollarSign, Zap, Star } from "lucide-react";
 import Link from "next/link";
 
 const sortFields = [
@@ -112,8 +104,7 @@ export default async function AllJobsPage({
     (status && status !== "ALL");
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-50/50 relative overflow-hidden">
-      {/* Elegant background accents */}
+    <div className="max-w-7xl mx-auto min-h-screen relative overflow-hidden">
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-linear-to-br from-emerald-50/40 to-transparent rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-linear-to-tr from-blue-50/40 to-transparent rounded-full blur-3xl"></div>
 
@@ -126,7 +117,6 @@ export default async function AllJobsPage({
                 <div className="flex items-center gap-3 mb-3">
                   <div className="h-1 w-12 bg-linear-to-r from-emerald-500 to-teal-500 rounded-full"></div>
                   <span className="text-emerald-600 text-sm font-semibold tracking-wider uppercase flex items-center gap-1.5">
-                    <Sparkles className="h-3.5 w-3.5" />
                     Live Opportunities
                   </span>
                 </div>

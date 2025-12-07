@@ -6,7 +6,8 @@ export const ourFileRouter = {
   fileUploader: f({
     image: { maxFileSize: "8MB", maxFileCount: 5 },
     pdf: { maxFileSize: "16MB", maxFileCount: 3 },
-    // add more if needed: video, audio, any
+    text: { maxFileSize: "8MB", maxFileCount: 3 },
+    blob: { maxFileSize: "32MB", maxFileCount: 5 }, // Allows generic files
   }).onUploadComplete(async ({ file }) => {
     // This runs AFTER upload finishes
     console.log("Uploaded file:", file.ufsUrl);

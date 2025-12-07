@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import ChatList from "./ChatList";
 import { getMyChats } from "@/actions/chat/chat";
-import { Loader2 } from "lucide-react";
+import { Loader2, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
@@ -16,8 +16,9 @@ export default function ChatMainLayout({
   children,
   role,
 }: ChatMainLayoutProps) {
-  const [chats, setChats] = useState<any[]>([]);
+  const [chats, setChats] = useState<[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -38,14 +39,49 @@ export default function ChatMainLayout({
 
   const isRoot = pathname === `/dashboard/${role}/messages`;
 
+  useEffect(() => {
+    setIsMobileSidebarOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsMobileSidebarOpen(false);
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, []);
+
   return (
-    <div className="flex h-[calc(100vh-6rem)] border rounded-lg overflow-hidden bg-background shadow-sm">
+    <div className="flex h-[calc(100vh-4rem)] md:h-[calc(100vh-6rem)] overflow-hidden bg-background relative">
+      {/* Mobile Overlay */}
+      {isMobileSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={() => setIsMobileSidebarOpen(false)}
+        />
+      )}
+
+      {/* Chat List Sidebar */}
       <div
         className={cn(
-          "w-full md:w-80 border-r bg-muted/10",
-          isRoot ? "block" : "hidden md:block"
+          "border-r bg-background shrink-0 transition-transform duration-300 ease-in-out",
+          "md:w-80 xl:w-96 md:relative md:translate-x-0",
+          "fixed inset-y-0 left-0 z-50 w-[85%] max-w-sm md:max-w-none",
+          isMobileSidebarOpen
+            ? "translate-x-0"
+            : "-translate-x-full md:translate-x-0",
+          isRoot ? "md:block" : "md:block"
         )}
       >
+        {/* Close button for mobile */}
+        <button
+          onClick={() => setIsMobileSidebarOpen(false)}
+          className="absolute top-4 right-4 p-2 rounded-lg hover:bg-muted md:hidden z-10"
+          aria-label="Close chat list"
+        >
+          <X className="h-5 w-5" />
+        </button>
+
         {isLoading ? (
           <div className="flex items-center justify-center h-full">
             <Loader2 className="h-6 w-6 animate-spin" />
@@ -54,13 +90,25 @@ export default function ChatMainLayout({
           <ChatList chats={chats} role={role} />
         )}
       </div>
-      <div
-        className={cn(
-          "flex-1 flex flex-col min-w-0",
-          isRoot ? "hidden md:flex" : "flex"
+
+      {/* Chat Window Area */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        {/* Mobile Header - Only show when chat is open */}
+        {!isRoot && (
+          <div className="md:hidden border-b bg-background p-3 flex items-center gap-3 shrink-0">
+            <button
+              onClick={() => setIsMobileSidebarOpen(true)}
+              className="p-2 hover:bg-muted rounded-lg"
+              aria-label="Open chat list"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
+            <span className="font-medium text-sm">Messages</span>
+          </div>
         )}
-      >
-        {children}
+
+        {/* Content */}
+        <div className="flex-1 overflow-hidden">{children}</div>
       </div>
     </div>
   );

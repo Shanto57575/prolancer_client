@@ -1,12 +1,13 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card } from "@/components/ui/card";
+
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 interface ChatListProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   chats: any[];
   role: "client" | "freelancer";
 }
@@ -31,29 +32,41 @@ export default function ChatList({ chats, role }: ChatListProps) {
           <Link
             key={chat._id}
             href={`/dashboard/${role}/messages/${chat._id}`}
-            className="w-full"
+            className={cn(
+              "group flex items-center gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-slate-100 dark:hover:bg-slate-800/50",
+              isActive &&
+                "bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30"
+            )}
           >
-            <Card
-              className={cn(
-                "p-3 flex items-center gap-3 hover:bg-muted/50 transition-colors cursor-pointer",
-                isActive && "bg-muted border-primary/50"
-              )}
-            >
-              <Avatar>
-                <AvatarImage src={otherUser?.profilePicture} />
-                <AvatarFallback>
+            <div className="relative shrink-0">
+              <Avatar className="h-10 w-10 border border-slate-200 dark:border-slate-700 shadow-sm transition-transform group-hover:scale-105">
+                <AvatarImage
+                  src={otherUser?.profilePicture}
+                  className="object-cover"
+                />
+                <AvatarFallback className="bg-slate-100 dark:bg-slate-800 font-medium text-slate-600 dark:text-slate-300">
                   {otherUser?.name?.[0]?.toUpperCase() || "U"}
                 </AvatarFallback>
               </Avatar>
-              <div className="flex flex-col overflow-hidden">
-                <span className="font-semibold truncate">
+              {/* Optional: Add online indicator here if data available */}
+            </div>
+
+            <div className="flex flex-col min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-2">
+                <span
+                  className={cn(
+                    "font-semibold truncate text-sm text-slate-900 dark:text-slate-100",
+                    isActive && "text-blue-700 dark:text-blue-300"
+                  )}
+                >
                   {otherUser?.name || "Unknown User"}
                 </span>
-                <span className="text-xs text-muted-foreground truncate">
-                  {chat.jobId?.title}
-                </span>
+                {/* Time could go here */}
               </div>
-            </Card>
+              <span className="text-xs text-muted-foreground truncate font-medium">
+                {chat.jobId?.title}
+              </span>
+            </div>
           </Link>
         );
       })}

@@ -34,7 +34,6 @@ export default async function MyApplicationsPage({
     limit: 10,
     ...filters,
   });
-  console.log(applications);
 
   return (
     <div className="container mx-auto py-8 space-y-6 max-w-full px-4 sm:px-6 lg:px-8">

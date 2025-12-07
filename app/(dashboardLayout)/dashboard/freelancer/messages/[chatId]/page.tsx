@@ -8,7 +8,7 @@ export default async function FreelancerChatDetailPage({
 }) {
   const { chatId } = await params;
   const profile = await getProfileAction();
-  const userId = profile.ok ? (profile.data as any)?._id : "";
+  const userId = profile.ok ? profile.data._id : "";
 
   return <ChatWindow chatId={chatId} currentUserId={userId} />;
 }
