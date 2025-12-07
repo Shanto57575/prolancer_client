@@ -65,18 +65,17 @@ export default function ChatMainLayout({
       <div
         className={cn(
           "border-r bg-background shrink-0 transition-transform duration-300 ease-in-out",
-          "md:w-80 xl:w-96 md:relative md:translate-x-0",
+          "lg:w-80 xl:w-96 lg:relative lg:translate-x-0",
           "fixed inset-y-0 left-0 z-50 w-[85%] max-w-sm md:max-w-none",
           isMobileSidebarOpen
             ? "translate-x-0"
-            : "-translate-x-full md:translate-x-0",
-          isRoot ? "md:block" : "md:block"
+            : "-translate-x-full lg:translate-x-0",
+          isRoot ? "lg:block" : "lg:block"
         )}
       >
-        {/* Close button for mobile */}
         <button
           onClick={() => setIsMobileSidebarOpen(false)}
-          className="absolute top-4 right-4 p-2 rounded-lg hover:bg-muted md:hidden z-10"
+          className="absolute top-4 right-4 p-2 rounded-lg hover:bg-muted lg:hidden z-10"
           aria-label="Close chat list"
         >
           <X className="h-5 w-5" />
@@ -93,19 +92,17 @@ export default function ChatMainLayout({
 
       {/* Chat Window Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* Mobile Header - Only show when chat is open */}
-        {!isRoot && (
-          <div className="md:hidden border-b bg-background p-3 flex items-center gap-3 shrink-0">
-            <button
-              onClick={() => setIsMobileSidebarOpen(true)}
-              className="p-2 hover:bg-muted rounded-lg"
-              aria-label="Open chat list"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
-            <span className="font-medium text-sm">Messages</span>
-          </div>
-        )}
+        {/* Mobile/Tablet Header - Show menu button */}
+        <div className="lg:hidden border-b bg-background p-3 flex items-center gap-3 shrink-0">
+          <button
+            onClick={() => setIsMobileSidebarOpen(true)}
+            className="p-2 hover:bg-muted rounded-lg"
+            aria-label="Open chat list"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+          <span className="font-medium text-sm">Messages</span>
+        </div>
 
         {/* Content */}
         <div className="flex-1 overflow-hidden">{children}</div>

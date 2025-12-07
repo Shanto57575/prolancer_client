@@ -1,6 +1,5 @@
 "use client";
 
-import { SearchForm } from "@/components/search-form";
 import { VersionSwitcher } from "@/components/version-switcher";
 import {
   Sidebar,
@@ -13,11 +12,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { UserRole } from "@/app/types/user";
 import Link from "next/link";
 import LogoutButton from "@/utils/LogoutButton";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 export const ADMIN_ROUTES = [
   {
@@ -109,14 +110,19 @@ const ROLE_BASED_ROUTES = {
 
 export function AppSidebar({ role, ...props }: { role: UserRole }) {
   const data = ROLE_BASED_ROUTES[role] || [];
-
   const pathname = usePathname();
+  const { setOpenMobile, isMobile } = useSidebar();
+
+  useEffect(() => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  }, [pathname, setOpenMobile, isMobile]);
 
   return (
     <Sidebar {...props}>
       <SidebarHeader>
         <VersionSwitcher />
-        <SearchForm />
       </SidebarHeader>
       <SidebarContent>
         {data.map((group) => (

@@ -7,7 +7,6 @@ import { Loader2, Paperclip, Send, X, FileIcon } from "lucide-react";
 import { useState, useRef } from "react";
 import { sendMessage, triggerTyping } from "@/actions/chat/chat";
 import { useUploadThing } from "@/lib/uploadthing";
-import { toast } from "sonner";
 import Image from "next/image";
 
 interface Attachment {
@@ -44,14 +43,13 @@ export default function ChatInput({
       const files = Array.from(e.target.files);
       const newAttachments: Attachment[] = files.map((file) => ({
         name: file.name,
-        url: URL.createObjectURL(file), // Immediate local preview
+        url: URL.createObjectURL(file),
         type: file.type.startsWith("image/") ? "image" : "file",
         size: file.size,
-        file: file, // Store file for upload on send
+        file: file,
       }));
 
       setAttachments((prev) => [...prev, ...newAttachments]);
-      // Reset input so same file can be selected again if needed
       e.target.value = "";
     }
   };
@@ -67,11 +65,9 @@ export default function ChatInput({
     const messageContent = content;
     const messageAttachments = [...attachments];
 
-    // Clear input immediately for better UX
     setContent("");
     setAttachments([]);
 
-    // Show optimistic message IMMEDIATELY with blob URLs
     const tempId = `temp-${Date.now()}`;
     const optimisticMsg = {
       _id: tempId,

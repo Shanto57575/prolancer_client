@@ -32,7 +32,7 @@ interface MessageBubbleProps {
     type: string;
     size?: number;
   }[];
-  status?: "sending" | "sent" | "failed"; // For optimistic UI
+  status?: "sending" | "sent" | "failed";
 }
 
 function formatFileSize(bytes?: number) {
@@ -92,7 +92,7 @@ export default function MessageBubble({
                 : "bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 rounded-tl-none shadow-sm"
             )}
           >
-            <p className="leading-relaxed whitespace-pre-wrap break-words text-[15px] tracking-wide">
+            <p className="leading-relaxed whitespace-pre-wrap wrap-break-word text-[15px] tracking-wide">
               {content}
             </p>
           </div>
