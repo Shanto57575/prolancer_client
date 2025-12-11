@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { getChatDetails } from "@/actions/chat/chat";
+import { getChatDetails, markMessagesAsRead } from "@/actions/chat/chat";
 import MessageBubble from "./MessageBubble";
 import ChatInput from "./ChatInput";
 import { Loader2, AlertCircle } from "lucide-react";
@@ -10,6 +10,7 @@ import Pusher from "pusher-js";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 interface ChatWindowProps {
   chatId: string;
@@ -24,6 +25,7 @@ export default function ChatWindow({ chatId, currentUserId }: ChatWindowProps) {
   const [isTyping, setIsTyping] = useState(false);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const fetchChat = async () => {
     setIsLoading(true);
@@ -33,14 +35,17 @@ export default function ChatWindow({ chatId, currentUserId }: ChatWindowProps) {
       if (res.success) {
         setChat(res.data);
         setMessages(res.data.messages || []);
+
+        // Mark as read
+        await markMessagesAsRead(chatId);
+        // Refresh to update unread counts in sidebar
+        router.refresh();
       } else {
         setError(res.message || "Failed to load chat");
         toast.error("Failed to load chat");
       }
     } catch (error) {
-      console.error(error);
-      setError("An unexpected error occurred");
-      toast.error("Something went wrong");
+      // ...
     } finally {
       setIsLoading(false);
     }
@@ -50,7 +55,7 @@ export default function ChatWindow({ chatId, currentUserId }: ChatWindowProps) {
     fetchChat();
   }, [chatId]);
 
-  // Pusher Setup
+  // Pusher Setup...
   useEffect(() => {
     if (!chatId) return;
 

@@ -1,43 +1,75 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import ChatList from "./ChatList";
-import { getMyChats } from "@/actions/chat/chat";
-import { Loader2, Menu, X } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { Menu, X } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import Pusher from "pusher-js";
 
 interface ChatMainLayoutProps {
   children: React.ReactNode;
   role: "client" | "freelancer";
+  chats: any[];
+  userId?: string;
 }
 
 export default function ChatMainLayout({
   children,
   role,
+  chats: initialChats,
+  userId,
 }: ChatMainLayoutProps) {
-  const [chats, setChats] = useState<[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [chats, setChats] = useState(initialChats);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
-    const fetchChats = async () => {
-      try {
-        const res = await getMyChats();
-        if (res.success) {
-          setChats(res.data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch chats", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchChats();
-  }, []);
+    setChats(initialChats);
+  }, [initialChats]);
 
   const isRoot = pathname === `/dashboard/${role}/messages`;
+
+  useEffect(() => {
+    if (!userId) return;
+
+    const appKey = process.env.NEXT_PUBLIC_PUSHER_KEY || "YOUR_PUSHER_KEY";
+    const cluster = process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "mt1";
+    const pusher = new Pusher(appKey, { cluster });
+
+    const channel = pusher.subscribe(`user-${userId}`);
+
+    channel.bind("notification", (data: any) => {
+      if (data.type === "message") {
+        setChats((prevChats) => {
+          const chatIndex = prevChats.findIndex(
+            (c: any) => c._id === data.chatId
+          );
+
+          if (chatIndex > -1) {
+            const updatedChat = {
+              ...prevChats[chatIndex],
+              unreadCount: (prevChats[chatIndex].unreadCount || 0) + 1,
+              updatedAt: new Date().toISOString(), // Bump timestamp
+            };
+            // Move to top
+            const newChats = [...prevChats];
+            newChats.splice(chatIndex, 1);
+            return [updatedChat, ...newChats];
+          } else {
+            // New chat, refresh to get full data
+            router.refresh();
+            return prevChats;
+          }
+        });
+      }
+    });
+
+    return () => {
+      pusher.unsubscribe(`user-${userId}`);
+    };
+  }, [userId, router]);
 
   useEffect(() => {
     setIsMobileSidebarOpen(false);
@@ -81,13 +113,7 @@ export default function ChatMainLayout({
           <X className="h-5 w-5" />
         </button>
 
-        {isLoading ? (
-          <div className="flex items-center justify-center h-full">
-            <Loader2 className="h-6 w-6 animate-spin" />
-          </div>
-        ) : (
-          <ChatList chats={chats} role={role} />
-        )}
+        <ChatList chats={chats} role={role} />
       </div>
 
       {/* Chat Window Area */}

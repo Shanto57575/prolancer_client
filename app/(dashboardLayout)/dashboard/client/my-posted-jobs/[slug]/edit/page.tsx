@@ -22,7 +22,7 @@ export default async function EditJobPage({ params }: Props) {
   const services = servicesRes.ok ? servicesRes.data : [];
 
   return (
-    <div className="container py-8 max-w-4xl">
+    <div className="w-full mx-auto py-8 max-w-4xl">
       <JobForm services={services} initialData={job} isEditing={true} />
     </div>
   );

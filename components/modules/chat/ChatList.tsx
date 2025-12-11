@@ -62,6 +62,11 @@ export default function ChatList({ chats, role }: ChatListProps) {
                   {otherUser?.name || "Unknown User"}
                 </span>
                 {/* Time could go here */}
+                {chat.unreadCount > 0 && (
+                  <span className="flex items-center justify-center h-5 min-w-[20px] px-1.5 rounded-full bg-red-600 text-white text-[10px] font-bold">
+                    {chat.unreadCount}
+                  </span>
+                )}
               </div>
               <span className="text-xs text-muted-foreground truncate font-medium">
                 {chat.jobId?.title}

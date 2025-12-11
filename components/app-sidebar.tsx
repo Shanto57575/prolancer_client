@@ -24,19 +24,11 @@ export const ADMIN_ROUTES = [
   {
     title: "User Management",
     items: [
+      { title: "Admin Dashboard", url: "/dashboard" },
       { title: "Manage Accounts", url: "/dashboard/manage-account" },
       {
         title: "Manage Users",
         url: "/dashboard/admin/manage-users",
-      },
-      {
-        title: "Manage Freelancers",
-        url: "/dashboard/admin/manage-freelancers",
-      },
-      { title: "Manage Clients", url: "/dashboard/admin/manage-clients" },
-      {
-        title: "Manage Service",
-        url: "/dashboard/admin/manage-service",
       },
     ],
   },
@@ -55,6 +47,7 @@ export const FREELANCER_ROUTES = [
   {
     title: "My Profile",
     items: [
+      { title: "Freelancer Dashboard", url: "/dashboard" },
       { title: "Manage Account", url: "/dashboard/manage-account" },
       {
         title: "My Applied Jobs",
@@ -64,11 +57,7 @@ export const FREELANCER_ROUTES = [
   },
   {
     title: "Work",
-    items: [
-      { title: "My Services", url: "/dashboard/freelancer/services" },
-      { title: "Requests", url: "/dashboard/freelancer/requests" },
-      { title: "Messages", url: "/dashboard/freelancer/messages" },
-    ],
+    items: [{ title: "Messages", url: "/dashboard/freelancer/messages" }],
   },
   {
     title: "Finance",
@@ -82,7 +71,10 @@ export const FREELANCER_ROUTES = [
 export const CLIENT_ROUTES = [
   {
     title: "My Profile",
-    items: [{ title: "Manage Account", url: "/dashboard/manage-account" }],
+    items: [
+      { title: "Client Dashboard", url: "/dashboard" },
+      { title: "Manage Account", url: "/dashboard/manage-account" },
+    ],
   },
   {
     title: "Jobs",

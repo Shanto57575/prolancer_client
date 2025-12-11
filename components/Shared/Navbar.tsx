@@ -13,6 +13,7 @@ import {
   LogOut,
 } from "lucide-react";
 import Image from "next/image";
+import NotificationIndicator from "@/components/Shared/NotificationIndicator";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -149,7 +150,6 @@ export default function Navbar({
         {/* Desktop */}
         <nav className="hidden lg:flex items-center justify-between gap-6">
           <div className="flex items-center gap-8 xl:gap-10 flex-1">
-            {/* Logo */}
             <Link href={logo.url} className="flex items-center gap-2">
               <Image
                 src={logo.src}
@@ -172,67 +172,71 @@ export default function Navbar({
           {/* Right side actions */}
           <div className="flex items-center gap-3 shrink-0">
             {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="flex items-center gap-2 h-10 px-3"
-                  >
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage
-                        src={user.avatar}
-                        alt={user.name || user.email}
-                      />
-                      <AvatarFallback className="bg-primary text-primary-foreground text-sm">
-                        {getUserInitials(user)}
-                      </AvatarFallback>
-                    </Avatar>
-                    <span className="font-medium text-sm max-w-[120px] truncate">
-                      {user.name || user.email}
-                    </span>
-                    <ChevronDown className="h-4 w-4 opacity-50" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  className="w-56 animate-in fade-in-0 zoom-in-95"
-                >
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        {user.name || "User"}
-                      </p>
-                      <p className="text-xs leading-none text-muted-foreground truncate">
-                        {user.email}
-                      </p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link href="/dashboard" className="cursor-pointer">
-                      <User className="mr-2 h-4 w-4" />
-                      Dashboard
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link
-                      href="/dashboard/manage-account"
-                      className="cursor-pointer"
+              <>
+                <NotificationIndicator />
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="flex items-center gap-2 h-10 px-3"
                     >
-                      <Settings className="mr-2 h-4 w-4" />
-                      Manage Account
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={async () => await logoutAction()}
-                    className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950"
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage
+                          src={user.avatar}
+                          alt={user.name || user.email}
+                        />
+                        <AvatarFallback className="bg-primary text-primary-foreground text-sm">
+                          {getUserInitials(user)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="font-medium text-sm max-w-[120px] truncate">
+                        {user.name || user.email}
+                      </span>
+                      <ChevronDown className="h-4 w-4 opacity-50" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    align="end"
+                    className="w-56 animate-in fade-in-0 zoom-in-95"
                   >
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Logout
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">
+                          {user.name || "User"}
+                        </p>
+                        <p className="text-xs leading-none text-muted-foreground truncate">
+                          {user.email}
+                        </p>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard" className="cursor-pointer">
+                        <User className="mr-2 h-4 w-4" />
+                        Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link
+                        href="/dashboard/manage-account"
+                        className="cursor-pointer"
+                      >
+                        <Settings className="mr-2 h-4 w-4" />
+                        Manage Account
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={async () => await logoutAction()}
+                      className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
             ) : (
               <>
                 <Button
@@ -264,118 +268,123 @@ export default function Navbar({
             />
           </Link>
 
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-10 w-10 shrink-0"
+          <div className="flex items-center gap-2">
+            {user && <NotificationIndicator />}
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-10 w-10 shrink-0"
+                >
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </SheetTrigger>
+
+              <SheetContent
+                side="right"
+                className="w-[85vw] sm:w-[400px] overflow-y-auto p-0"
               >
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle menu</span>
-              </Button>
-            </SheetTrigger>
+                <SheetHeader className="px-6 py-5 border-b">
+                  <SheetTitle className="flex items-center gap-2 text-left">
+                    <Image
+                      src={logo.src}
+                      width={100}
+                      height={100}
+                      className="dark:invert h-8 w-auto"
+                      alt={logo.alt}
+                    />
+                  </SheetTitle>
+                </SheetHeader>
 
-            <SheetContent
-              side="right"
-              className="w-[85vw] sm:w-[400px] overflow-y-auto p-0"
-            >
-              <SheetHeader className="px-6 py-5 border-b">
-                <SheetTitle className="flex items-center gap-2 text-left">
-                  <Image
-                    src={logo.src}
-                    width={100}
-                    height={100}
-                    className="dark:invert h-8 w-auto"
-                    alt={logo.alt}
-                  />
-                </SheetTitle>
-              </SheetHeader>
+                <div className="px-6 py-6 flex flex-col gap-6">
+                  <nav className="flex flex-col gap-1">
+                    {menu.map((item) => renderMobileMenuItem(item, setIsOpen))}
+                  </nav>
 
-              <div className="px-6 py-6 flex flex-col gap-6">
-                <nav className="flex flex-col gap-1">
-                  {menu.map((item) => renderMobileMenuItem(item, setIsOpen))}
-                </nav>
-
-                <div className="flex flex-col gap-3 pt-4 border-t">
-                  {user ? (
-                    <>
-                      <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
-                        <Avatar className="h-10 w-10">
-                          <AvatarImage
-                            src={user.avatar}
-                            alt={user.name || user.email}
-                          />
-                          <AvatarFallback className="bg-primary text-primary-foreground">
-                            {getUserInitials(user)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium truncate">
-                            {user.name || "User"}
-                          </p>
-                          <p className="text-xs text-muted-foreground truncate">
-                            {user.email}
-                          </p>
+                  <div className="flex flex-col gap-3 pt-4 border-t">
+                    {user ? (
+                      <>
+                        <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+                          <Avatar className="h-10 w-10">
+                            <AvatarImage
+                              src={user.avatar}
+                              alt={user.name || user.email}
+                            />
+                            <AvatarFallback className="bg-primary text-primary-foreground">
+                              {getUserInitials(user)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium truncate">
+                              {user.name || "User"}
+                            </p>
+                            <p className="text-xs text-muted-foreground truncate">
+                              {user.email}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                      <Button
-                        asChild
-                        variant="outline"
-                        className="w-full justify-start gap-2"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        <Link href="/dashboard">
-                          <User className="h-4 w-4" />
-                          Dashboard
-                        </Link>
-                      </Button>
-                      <Button
-                        asChild
-                        variant="outline"
-                        className="w-full justify-start gap-2"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        <Link href="/dashboard/manage-account">
-                          <Settings className="h-4 w-4" />
-                          Manage Account
-                        </Link>
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start gap-2 text-red-600 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
-                        onClick={async () => {
-                          await logoutAction();
-                          setIsOpen(false);
-                        }}
-                      >
-                        <LogOut className="h-4 w-4" />
-                        Logout
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button
-                        asChild
-                        variant="outline"
-                        className="w-full justify-center"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        <Link href={auth.login.url}>{auth.login.title}</Link>
-                      </Button>
-                      <Button
-                        asChild
-                        className="w-full justify-center"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        <Link href={auth.signup.url}>{auth.signup.title}</Link>
-                      </Button>
-                    </>
-                  )}
+                        <Button
+                          asChild
+                          variant="outline"
+                          className="w-full justify-start gap-2"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          <Link href="/dashboard">
+                            <User className="h-4 w-4" />
+                            Dashboard
+                          </Link>
+                        </Button>
+                        <Button
+                          asChild
+                          variant="outline"
+                          className="w-full justify-start gap-2"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          <Link href="/dashboard/manage-account">
+                            <Settings className="h-4 w-4" />
+                            Manage Account
+                          </Link>
+                        </Button>
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start gap-2 text-red-600 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
+                          onClick={async () => {
+                            await logoutAction();
+                            setIsOpen(false);
+                          }}
+                        >
+                          <LogOut className="h-4 w-4" />
+                          Logout
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          asChild
+                          variant="outline"
+                          className="w-full justify-center"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          <Link href={auth.login.url}>{auth.login.title}</Link>
+                        </Button>
+                        <Button
+                          asChild
+                          className="w-full justify-center"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          <Link href={auth.signup.url}>
+                            {auth.signup.title}
+                          </Link>
+                        </Button>
+                      </>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </SheetContent>
-          </Sheet>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </header>

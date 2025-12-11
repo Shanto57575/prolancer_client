@@ -99,9 +99,14 @@ export async function proxy(request: NextRequest) {
       }
     }
 
+    if (pathname === "/dashboard") {
+      return NextResponse.next();
+    }
+
     if (pathname.startsWith("/dashboard/manage-account")) {
       return NextResponse.next();
     }
+
     return NextResponse.redirect(new URL("/", request.url));
   }
 

@@ -58,3 +58,14 @@ export const triggerTyping = async (chatId: string) => {
     headers,
   });
 };
+
+export const markMessagesAsRead = async (chatId: string) => {
+  const headers = await getAuthHeaders();
+
+  const res = await fetch(`${API_URL}/chats/${chatId}/read`, {
+    method: "PATCH",
+    headers,
+  });
+
+  return await res.json();
+};
