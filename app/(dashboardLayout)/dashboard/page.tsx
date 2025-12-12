@@ -5,6 +5,8 @@ import ClientDashboard from "@/components/Dashboard/ClientDashboard";
 import FreelancerDashboard from "@/components/Dashboard/FreelancerDashboard";
 import { redirect } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   const userRes = await getProfileAction();
 

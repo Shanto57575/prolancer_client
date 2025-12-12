@@ -38,7 +38,7 @@ export async function proxy(request: NextRequest) {
 
   if (!user && refreshToken) {
     try {
-      const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
+      const API_BASE = process.env.API_BASE_URL;
       const res = await fetch(`${API_BASE}/auth/refresh-token`, {
         method: "POST",
         headers: {

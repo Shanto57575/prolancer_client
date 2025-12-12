@@ -2,7 +2,24 @@
 
 import getAuthHeaders from "../sharedFunction/getAuthHeaders";
 
-const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const API_URL = process.env.API_BASE_URL;
+
+export const createChatAction = async (
+  jobId: string,
+  clientId: string,
+  freelancerId: string
+) => {
+  const headers = await getAuthHeaders();
+
+  const res = await fetch(`${API_URL}/chats`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ jobId, clientId, freelancerId }),
+  });
+
+  const data = await res.json();
+  return data;
+};
 
 export const getMyChats = async () => {
   const headers = await getAuthHeaders();

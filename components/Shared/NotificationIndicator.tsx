@@ -57,7 +57,7 @@ export default function NotificationIndicator() {
             <Button
               variant="ghost"
               size="sm"
-              className="h-auto px-2 py-0.5 text-xs text-blue-600"
+              className="h-auto px-2 py-0.5 text-xs text-emerald-600"
               onClick={clearUnread}
             >
               Mark all read

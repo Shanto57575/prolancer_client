@@ -75,7 +75,7 @@ export default function ImageUpload({
               onUploadBegin={() => setIsUploading(true)}
               appearance={{
                 button:
-                  "ut-ready:bg-blue-500 ut-uploading:cursor-not-allowed bg-blue-500 ut-uploading:bg-blue-400 w-full max-w-[200px]",
+                  "ut-ready:bg-emerald-500 ut-uploading:cursor-not-allowed bg-emerald-500 ut-uploading:bg-emerald-400 w-full max-w-[200px]",
                 allowedContent: "text-xs text-slate-500",
                 container: "items-start",
               }}

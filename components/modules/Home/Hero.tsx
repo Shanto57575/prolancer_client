@@ -1,7 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
-  Search,
   ArrowRight,
   Sparkles,
   TrendingUp,
@@ -21,7 +20,6 @@ import {
 } from "lucide-react";
 
 export default function ProlancerHero() {
-  const [searchFocused, setSearchFocused] = useState(false);
   const [currentRole, setCurrentRole] = useState(0);
 
   const roles = [
@@ -37,11 +35,11 @@ export default function ProlancerHero() {
       icon: Palette,
       linear: "from-pink-500 to-rose-500",
     },
-    { name: "Programming", icon: Code, linear: "from-blue-500 to-cyan-500" },
+    { name: "Programming", icon: Code, linear: "from-emerald-500 to-cyan-500" },
     {
       name: "Digital Marketing",
       icon: Megaphone,
-      linear: "from-blue-500 to-blue-500",
+      linear: "from-emerald-500 to-emerald-500",
     },
     {
       name: "Video & Animation",
@@ -56,7 +54,7 @@ export default function ProlancerHero() {
     {
       name: "Music & Audio",
       icon: Music,
-      linear: "from-violet-500 to-blue-500",
+      linear: "from-violet-500 to-emerald-500",
     },
   ];
 
@@ -64,15 +62,6 @@ export default function ProlancerHero() {
     { icon: Users, value: "5M+", label: "Talented Freelancers" },
     { icon: Award, value: "10M+", label: "Projects Completed" },
     { icon: Globe, value: "190+", label: "Countries Worldwide" },
-  ];
-
-  const popularSearches = [
-    "Logo Design",
-    "WordPress",
-    "AI Development",
-    "Social Media",
-    "Video Editing",
-    "SEO",
   ];
 
   useEffect(() => {
@@ -83,16 +72,15 @@ export default function ProlancerHero() {
   }, [roles.length]);
 
   return (
-    <div className="relative min-h-screen bg-linear-to-br from-slate-50 via-white to-blue-50 overflow-hidden">
-      {/* Animated Background Elements */}
+    <div className="relative min-h-screen bg-linear-to-br from-emerald-50 via-emerald-50 to-emerald-100 overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200/30 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-200/30 rounded-full blur-3xl animate-pulse"></div>
         <div
-          className="absolute top-40 right-20 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl animate-pulse"
+          className="absolute top-40 right-20 w-96 h-96 bg-emerald-200/30 rounded-full blur-3xl animate-pulse"
           style={{ animationDelay: "1s" }}
         ></div>
         <div
-          className="absolute bottom-20 left-1/3 w-80 h-80 bg-blue-200/30 rounded-full blur-3xl animate-pulse"
+          className="absolute bottom-20 left-1/3 w-80 h-80 bg-emerald-200/30 rounded-full blur-3xl animate-pulse"
           style={{ animationDelay: "2s" }}
         ></div>
 
@@ -102,7 +90,7 @@ export default function ProlancerHero() {
           style={{ animationDuration: "3s", animationDelay: "0.5s" }}
         >
           <div className="bg-white/80 backdrop-blur-sm p-3 rounded-2xl shadow-lg">
-            <Sparkles className="w-6 h-6 text-blue-500" />
+            <Sparkles className="w-6 h-6 text-emerald-500" />
           </div>
         </div>
         <div
@@ -110,7 +98,7 @@ export default function ProlancerHero() {
           style={{ animationDuration: "4s", animationDelay: "1s" }}
         >
           <div className="bg-white/80 backdrop-blur-sm p-3 rounded-2xl shadow-lg">
-            <Zap className="w-6 h-6 text-blue-500" />
+            <Zap className="w-6 h-6 text-emerald-500" />
           </div>
         </div>
         <div
@@ -118,7 +106,7 @@ export default function ProlancerHero() {
           style={{ animationDuration: "3.5s", animationDelay: "1.5s" }}
         >
           <div className="bg-white/80 backdrop-blur-sm p-3 rounded-2xl shadow-lg">
-            <TrendingUp className="w-6 h-6 text-blue-500" />
+            <TrendingUp className="w-6 h-6 text-emerald-500" />
           </div>
         </div>
       </div>
@@ -127,7 +115,7 @@ export default function ProlancerHero() {
       <div className="relative max-w-7xl mx-auto px-6 pt-20 md:pt-32 pb-20">
         {/* Top Badge */}
         <div className="flex justify-center mb-8 animate-fade-in">
-          <div className="inline-flex items-center gap-2 bg-linear-to-r from-blue-500 to-blue-500 text-white px-6 py-2.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer">
+          <div className="inline-flex items-center gap-2 bg-linear-to-r from-emerald-500 to-emerald-500 text-white px-6 py-2.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer">
             <Star className="w-4 h-4 fill-current" />
             <span className="text-sm font-semibold">
               Trusted by 10M+ professionals worldwide
@@ -139,11 +127,11 @@ export default function ProlancerHero() {
         {/* Hero Content */}
         <div className="text-center max-w-5xl mx-auto mb-12">
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight">
-            <span className="bg-linear-to-r from-slate-900 via-blue-900 to-slate-900 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-emerald-700 via-emerald-600 to-emerald-400 bg-clip-text text-transparent">
               Hire Expert
             </span>
             <br />
-            <span className="bg-linear-to-r from-blue-500 via-blue-500 to-pink-600 bg-clip-text text-transparent animate-linear">
+            <span className="bg-linear-to-r from-emerald-400 via-emerald-600 to-emerald-700 bg-clip-text text-transparent animate-linear">
               Freelancers
             </span>
           </h1>
@@ -160,51 +148,6 @@ export default function ProlancerHero() {
             to development, marketing to music — find the perfect match for your
             project.
           </p>
-
-          {/* Search Bar */}
-          <div className="max-w-4xl mx-auto mb-8">
-            <div
-              className={`bg-white rounded-2xl shadow-2xl p-3 flex flex-col md:flex-row gap-3 transition-all duration-300 ${
-                searchFocused
-                  ? "ring-4 ring-blue-500/20 shadow-blue-500/20"
-                  : ""
-              }`}
-            >
-              <div className="flex-1 flex items-center gap-3 px-4">
-                <Search
-                  className={`w-6 h-6 transition-colors ${
-                    searchFocused ? "text-blue-500" : "text-slate-400"
-                  }`}
-                />
-                <input
-                  type="text"
-                  placeholder="Search for any service..."
-                  className="flex-1 py-3 text-lg focus:outline-none text-slate-800 placeholder:text-slate-400"
-                  onFocus={() => setSearchFocused(true)}
-                  onBlur={() => setSearchFocused(false)}
-                />
-              </div>
-              <button className="bg-linear-to-r from-blue-500 to-blue-500 text-white px-8 py-4 rounded-xl font-bold hover:from-blue-700 hover:to-blue-700 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/50 flex items-center justify-center gap-2 group">
-                Search
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
-
-            {/* Popular Searches */}
-            <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
-              <span className="text-sm text-slate-500 font-medium">
-                Popular:
-              </span>
-              {popularSearches.map((search, index) => (
-                <button
-                  key={index}
-                  className="text-sm bg-white hover:bg-blue-50 text-slate-700 hover:text-blue-700 px-4 py-2 rounded-full border border-slate-200 hover:border-blue-300 transition-all duration-300 hover:shadow-md"
-                >
-                  {search}
-                </button>
-              ))}
-            </div>
-          </div>
 
           {/* Trust Indicators */}
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-16">
@@ -245,7 +188,7 @@ export default function ProlancerHero() {
                 >
                   <category.icon className="w-7 h-7 text-white" />
                 </div>
-                <h4 className="font-bold text-slate-800 group-hover:text-blue-500 transition-colors text-sm">
+                <h4 className="font-bold text-slate-800 group-hover:text-emerald-500 transition-colors text-sm">
                   {category.name}
                 </h4>
               </div>
@@ -260,11 +203,11 @@ export default function ProlancerHero() {
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
                   <div className="flex justify-center mb-3">
-                    <div className="bg-linear-to-br from-blue-100 to-blue-100 p-4 rounded-2xl">
-                      <stat.icon className="w-8 h-8 text-blue-500" />
+                    <div className="bg-linear-to-br from-emerald-100 to-emerald-100 p-4 rounded-2xl">
+                      <stat.icon className="w-8 h-8 text-emerald-500" />
                     </div>
                   </div>
-                  <div className="text-4xl font-black bg-linear-to-r from-blue-500 to-blue-500 bg-clip-text text-transparent mb-2">
+                  <div className="text-4xl font-black bg-linear-to-r from-emerald-500 to-emerald-500 bg-clip-text text-transparent mb-2">
                     {stat.value}
                   </div>
                   <div className="text-slate-600 font-medium">{stat.label}</div>
@@ -276,12 +219,12 @@ export default function ProlancerHero() {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
-          <button className="bg-linear-to-r from-blue-500 to-blue-500 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-blue-700 hover:to-blue-700 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/50 flex items-center gap-2 group">
+          <button className="bg-linear-to-r from-emerald-500 to-emerald-500 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-emerald-700 hover:to-emerald-700 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/50 flex items-center gap-2 group">
             Get Started
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
           <button className="bg-white text-slate-800 px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-50 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl flex items-center gap-2 group border border-slate-200">
-            <Play className="w-5 h-5 text-blue-500" />
+            <Play className="w-5 h-5 text-emerald-500" />
             Watch Demo
           </button>
         </div>

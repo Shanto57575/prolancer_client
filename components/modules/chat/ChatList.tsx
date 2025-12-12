@@ -35,7 +35,7 @@ export default function ChatList({ chats, role }: ChatListProps) {
             className={cn(
               "group flex items-center gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-slate-100 dark:hover:bg-slate-800/50",
               isActive &&
-                "bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30"
+                "bg-emerald-50 dark:bg-emerald-900/20 hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
             )}
           >
             <div className="relative shrink-0">
@@ -56,7 +56,7 @@ export default function ChatList({ chats, role }: ChatListProps) {
                 <span
                   className={cn(
                     "font-semibold truncate text-sm text-slate-900 dark:text-slate-100",
-                    isActive && "text-blue-700 dark:text-blue-300"
+                    isActive && "text-emerald-700 dark:text-emerald-300"
                   )}
                 >
                   {otherUser?.name || "Unknown User"}

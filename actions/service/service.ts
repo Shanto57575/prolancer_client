@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import getAuthHeaders from "../sharedFunction/getAuthHeaders";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
+const API_BASE = process.env.API_BASE_URL;
 
 export async function createService(formData: FormData) {
   try {

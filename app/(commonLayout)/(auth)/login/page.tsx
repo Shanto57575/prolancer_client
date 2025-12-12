@@ -5,7 +5,7 @@ import { Zap, Shield, Users } from "lucide-react";
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen bg-linear-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+    <div className="flex min-h-screen bg-linear-to-br from-slate-50 via-emerald-50 to-emerald-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
       <div className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-12">
         <div className="w-full max-w-md space-y-6">
           {/* Mobile Logo */}
@@ -36,7 +36,7 @@ export default function LoginPage() {
               Don&apos;t have an account?{" "}
               <Link
                 href="/register"
-                className="font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+                className="font-semibold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors"
               >
                 Create one
               </Link>
@@ -45,14 +45,14 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-linear-to-br from-slate-900 via-indigo-950 to-slate-900 p-12 items-center justify-center">
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-linear-to-br from-slate-900 via-emerald-950 to-slate-900 p-12 items-center justify-center">
         <div className="absolute inset-0 bg-grid-white/[0.05] bg-size-[32px_32px]" />
         <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
 
         <div className="relative z-10 max-w-md space-y-8 text-white">
           <div className="space-y-3">
             <h1 className="text-5xl font-bold tracking-tight">Welcome Back</h1>
-            <p className="text-xl text-blue-100">
+            <p className="text-xl text-emerald-100">
               Continue your journey with ProLancer
             </p>
           </div>
@@ -64,7 +64,7 @@ export default function LoginPage() {
               </div>
               <div>
                 <h3 className="font-semibold text-lg">Quick Access</h3>
-                <p className="text-sm text-blue-100">
+                <p className="text-sm text-emerald-100">
                   Jump right back into your projects and connections
                 </p>
               </div>
@@ -76,7 +76,7 @@ export default function LoginPage() {
               </div>
               <div>
                 <h3 className="font-semibold text-lg">Secure Platform</h3>
-                <p className="text-sm text-blue-100">
+                <p className="text-sm text-emerald-100">
                   Your account is protected with industry-leading security
                 </p>
               </div>
@@ -88,7 +88,7 @@ export default function LoginPage() {
               </div>
               <div>
                 <h3 className="font-semibold text-lg">Growing Community</h3>
-                <p className="text-sm text-blue-100">
+                <p className="text-sm text-emerald-100">
                   Join thousands of professionals building their careers
                 </p>
               </div>
@@ -97,16 +97,16 @@ export default function LoginPage() {
 
           <div className="pt-8">
             <div className="p-6 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20">
-              <p className="text-sm text-blue-100 italic">
+              <p className="text-sm text-emerald-100 italic">
                 &quot; ProLancer has transformed how I find and manage freelance
                 work. The platform is intuitive and the opportunities are
                 endless! &quot;
               </p>
               <div className="flex items-center gap-3 mt-4">
-                <div className="h-10 w-10 rounded-full bg-linear-to-br from-pink-400 to-purple-600" />
+                <div className="h-10 w-10 rounded-full bg-linear-to-br from-pink-400 to-emerald-600" />
                 <div>
                   <p className="text-sm font-semibold">Sarah Johnson</p>
-                  <p className="text-xs text-blue-100">UI/UX Designer</p>
+                  <p className="text-xs text-emerald-100">UI/UX Designer</p>
                 </div>
               </div>
             </div>

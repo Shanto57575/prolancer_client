@@ -5,12 +5,13 @@ import { useEffect, useRef, useState } from "react";
 import { getChatDetails, markMessagesAsRead } from "@/actions/chat/chat";
 import MessageBubble from "./MessageBubble";
 import ChatInput from "./ChatInput";
-import { Loader2, AlertCircle } from "lucide-react";
+import { Loader2, AlertCircle, Sparkles } from "lucide-react";
 import Pusher from "pusher-js";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { getProfileAction } from "@/actions/user/getProfileAction";
 
 interface ChatWindowProps {
   chatId: string;
@@ -23,9 +24,16 @@ export default function ChatWindow({ chatId, currentUserId }: ChatWindowProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isTyping, setIsTyping] = useState(false);
+  const [currentUserData, setCurrentUserData] = useState<any>(null);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    getProfileAction().then((res) => {
+      if (res.ok) setCurrentUserData(res.data);
+    });
+  }, []);
 
   const fetchChat = async () => {
     setIsLoading(true);
@@ -45,7 +53,7 @@ export default function ChatWindow({ chatId, currentUserId }: ChatWindowProps) {
         toast.error("Failed to load chat");
       }
     } catch (error) {
-      // ...
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
@@ -148,7 +156,7 @@ export default function ChatWindow({ chatId, currentUserId }: ChatWindowProps) {
                 src={otherUser?.profilePicture}
                 className="object-cover"
               />
-              <AvatarFallback className="bg-linear-to-br from-blue-500 to-indigo-500 text-white font-medium">
+              <AvatarFallback className="bg-linear-to-br from-emerald-500 to-emerald-500 text-white font-medium">
                 {otherUser?.name?.[0]?.toUpperCase() || "U"}
               </AvatarFallback>
             </Avatar>
@@ -160,7 +168,7 @@ export default function ChatWindow({ chatId, currentUserId }: ChatWindowProps) {
               {otherUser?.name || "Unknown User"}
             </h3>
             <p className="text-xs text-muted-foreground flex items-center gap-1.5 font-medium">
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-500/50"></span>
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500/50"></span>
               {chat.jobId?.title}
             </p>
           </div>
@@ -171,7 +179,7 @@ export default function ChatWindow({ chatId, currentUserId }: ChatWindowProps) {
       <div className="flex-1 overflow-y-auto p-3 md:p-4 lg:p-6 flex flex-col scroll-smooth">
         {messages.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center text-muted-foreground opacity-60">
-            <div className="w-20 h-20 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center mb-6 ring-8 ring-blue-50/50 dark:ring-blue-900/10">
+            <div className="w-20 h-20 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mb-6 ring-8 ring-emerald-50/50 dark:ring-emerald-900/10">
               <span className="text-4xl">👋</span>
             </div>
             <MessageBubble
@@ -183,27 +191,34 @@ export default function ChatWindow({ chatId, currentUserId }: ChatWindowProps) {
           </div>
         ) : (
           <div className="max-w-4xl mx-auto w-full pb-4">
-            {messages.map((msg, idx) => (
-              <MessageBubble
-                key={idx}
-                content={msg.content}
-                senderId={msg.senderId}
-                currentUserId={currentUserId}
-                createdAt={msg.createdAt}
-                attachments={msg.attachments}
-                status={msg.status}
-                senderName={
-                  msg.senderId === chat.clientId._id
-                    ? chat.clientId.name
-                    : chat.freelancerId.name
-                }
-                senderImage={
-                  msg.senderId === chat.clientId._id
-                    ? chat.clientId.profilePicture
-                    : chat.freelancerId.profilePicture
-                }
-              />
-            ))}
+            {messages.map((msg, idx) => {
+              const isClientSender = msg.senderId === chat.clientId._id;
+              const senderBaseName = isClientSender
+                ? chat.clientId.name
+                : chat.freelancerId.name;
+              const senderDisplayName =
+                msg.senderId === currentUserId
+                  ? `${senderBaseName} (You)`
+                  : senderBaseName;
+
+              return (
+                <MessageBubble
+                  key={idx}
+                  content={msg.content}
+                  senderId={msg.senderId}
+                  currentUserId={currentUserId}
+                  createdAt={msg.createdAt}
+                  attachments={msg.attachments}
+                  status={msg.status}
+                  senderName={senderDisplayName}
+                  senderImage={
+                    isClientSender
+                      ? chat.clientId.profilePicture
+                      : chat.freelancerId.profilePicture
+                  }
+                />
+              );
+            })}
           </div>
         )}
 

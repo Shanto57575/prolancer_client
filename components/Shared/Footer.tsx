@@ -78,16 +78,16 @@ export default function ProlancerFooter() {
   ];
 
   return (
-    <footer className="relative bg-linear-to-br from-slate-900 via-indigo-950 to-slate-900 text-white overflow-hidden">
+    <footer className="relative bg-linear-to-br from-slate-900 via-emerald-950 to-slate-900 text-white overflow-hidden">
       {/* Animated Background Pattern */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-500 rounded-full blur-3xl animate-pulse"></div>
         <div
-          className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl animate-pulse"
+          className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500 rounded-full blur-3xl animate-pulse"
           style={{ animationDelay: "1s" }}
         ></div>
         <div
-          className="absolute top-1/2 left-1/2 w-96 h-96 bg-purple-500 rounded-full blur-3xl animate-pulse"
+          className="absolute top-1/2 left-1/2 w-96 h-96 bg-emerald-500 rounded-full blur-3xl animate-pulse"
           style={{ animationDelay: "2s" }}
         ></div>
       </div>
@@ -132,8 +132,8 @@ export default function ProlancerFooter() {
                 </div>
               </div>
               <div className="flex items-center gap-3 bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
-                <div className="bg-blue-500/20 p-2 rounded-lg">
-                  <Globe className="w-6 h-6 text-blue-400" />
+                <div className="bg-emerald-500/20 p-2 rounded-lg">
+                  <Globe className="w-6 h-6 text-emerald-400" />
                 </div>
                 <div>
                   <div className="font-bold text-white">190+</div>
@@ -141,8 +141,8 @@ export default function ProlancerFooter() {
                 </div>
               </div>
               <div className="flex items-center gap-3 bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
-                <div className="bg-purple-500/20 p-2 rounded-lg">
-                  <Award className="w-6 h-6 text-purple-400" />
+                <div className="bg-emerald-500/20 p-2 rounded-lg">
+                  <Award className="w-6 h-6 text-emerald-400" />
                 </div>
                 <div>
                   <div className="font-bold text-white">Top Rated</div>
@@ -154,16 +154,16 @@ export default function ProlancerFooter() {
             {/* Social Media */}
             <div className="flex gap-3">
               {[
-                { Icon: Facebook, color: "from-blue-500 to-blue-500" },
+                { Icon: Facebook, color: "from-blue-400 to-blue-500" },
                 { Icon: Twitter, color: "from-sky-500 to-sky-500" },
-                { Icon: Instagram, color: "from-pink-600 to-purple-600" },
-                { Icon: Linkedin, color: "from-blue-600 to-blue-600" },
-                { Icon: Youtube, color: "from-red-600 to-red-500" },
+                { Icon: Instagram, color: "from-red-500 to-pink-600" },
+                { Icon: Linkedin, color: "from-blue-500 to-blue-500" },
+                { Icon: Youtube, color: "from-red-500 to-red-500" },
               ].map(({ Icon, color }, index) => (
                 <a
                   key={index}
                   href="#"
-                  className={`bg-linear-to-br ${color} p-3 rounded-xl hover:scale-110 hover:shadow-2xl transition-all duration-300 hover:shadow-blue-500/50`}
+                  className={`bg-linear-to-br ${color} p-3 rounded-xl hover:scale-110 hover:shadow-2xl transition-all duration-300 hover:shadow-emerald-500/50`}
                 >
                   <Icon className="w-5 h-5" />
                 </a>
@@ -178,12 +178,12 @@ export default function ProlancerFooter() {
 
               <div className="relative">
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="text-sm font-semibold text-blue-300 uppercase tracking-wider">
+                  <span className="text-sm font-semibold text-emerald-300 uppercase tracking-wider">
                     Stay Ahead
                   </span>
                 </div>
                 <h3 className="text-3xl font-bold mb-3">Join Our Community</h3>
-                <p className="text-indigo-100 mb-6">
+                <p className="text-emerald-100 mb-6">
                   Get exclusive opportunities, insider tips, and the latest
                   trends.
                 </p>
@@ -194,13 +194,13 @@ export default function ProlancerFooter() {
                     placeholder="Enter your email"
                     className="flex-1 px-6 py-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/30 placeholder:text-white/60 text-white focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
                   />
-                  <button className="bg-white text-blue-500 px-8 py-4 rounded-xl font-bold hover:bg-blue-400 hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center justify-center gap-2 group">
+                  <button className="bg-white text-emerald-500 px-8 py-4 rounded-xl font-bold hover:bg-emerald-400 hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center justify-center gap-2 group">
                     Subscribe
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </button>
                 </div>
 
-                <div className="flex items-center gap-2 mt-4 text-sm text-indigo-200">
+                <div className="flex items-center gap-2 mt-4 text-sm text-emerald-200">
                   <Check className="w-4 h-4" />
                   <span>Join 500,000+ subscribers</span>
                 </div>
@@ -214,7 +214,7 @@ export default function ProlancerFooter() {
           {/* Categories with Icons */}
           <div>
             <h4 className="font-bold text-lg mb-6 flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-indigo-400" />
+              <TrendingUp className="w-5 h-5 text-emerald-400" />
               Categories
             </h4>
             <ul className="space-y-3">
@@ -224,7 +224,7 @@ export default function ProlancerFooter() {
                     href="#"
                     className="text-slate-400 hover:text-white transition-colors text-sm flex items-center gap-2 group"
                   >
-                    <item.icon className="w-4 h-4 text-indigo-400 group-hover:text-white transition-colors" />
+                    <item.icon className="w-4 h-4 text-emerald-400 group-hover:text-white transition-colors" />
                     {item.name}
                   </a>
                 </li>
@@ -310,8 +310,8 @@ export default function ProlancerFooter() {
                 href="mailto:hello@prolancer.com"
                 className="flex items-start gap-3 text-slate-400 hover:text-white transition-colors text-sm group"
               >
-                <div className="bg-indigo-500/20 p-2 rounded-lg group-hover:bg-indigo-500/30 transition-colors">
-                  <Mail className="w-4 h-4 text-indigo-400" />
+                <div className="bg-emerald-500/20 p-2 rounded-lg group-hover:bg-emerald-500/30 transition-colors">
+                  <Mail className="w-4 h-4 text-emerald-400" />
                 </div>
                 <span className="mt-1">hello@prolancer.com</span>
               </a>
@@ -319,14 +319,14 @@ export default function ProlancerFooter() {
                 href="tel:+1234567890"
                 className="flex items-start gap-3 text-slate-400 hover:text-white transition-colors text-sm group"
               >
-                <div className="bg-indigo-500/20 p-2 rounded-lg group-hover:bg-indigo-500/30 transition-colors">
-                  <Phone className="w-4 h-4 text-indigo-400" />
+                <div className="bg-emerald-500/20 p-2 rounded-lg group-hover:bg-emerald-500/30 transition-colors">
+                  <Phone className="w-4 h-4 text-emerald-400" />
                 </div>
                 <span className="mt-1">+1 (234) 567-890</span>
               </a>
               <div className="flex items-start gap-3 text-slate-400 text-sm">
-                <div className="bg-indigo-500/20 p-2 rounded-lg">
-                  <MapPin className="w-4 h-4 text-indigo-400" />
+                <div className="bg-emerald-500/20 p-2 rounded-lg">
+                  <MapPin className="w-4 h-4 text-emerald-400" />
                 </div>
                 <span className="mt-1">
                   123 Innovation Street

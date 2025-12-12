@@ -10,7 +10,7 @@ export const updateApplicationStatusAction = async (
   const headers = await getAuthHeaders();
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/applications/${applicationId}/status`,
+    `${process.env.API_BASE_URL}/applications/${applicationId}/status`,
     {
       method: "PATCH",
       headers,

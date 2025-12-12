@@ -209,7 +209,7 @@ export default function ChatInput({
                     />
                   ) : (
                     <div className="flex flex-col items-center justify-center p-2 text-center h-full w-full">
-                      <FileIcon className="h-8 w-8 text-blue-500 mb-1" />
+                      <FileIcon className="h-8 w-8 text-emerald-500 mb-1" />
                       <span className="text-[10px] w-full truncate font-medium text-foreground">
                         {att.name}
                       </span>

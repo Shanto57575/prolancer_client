@@ -83,12 +83,16 @@ export default function MessageBubble({
           isMe ? "items-end" : "items-start"
         )}
       >
+        <span className="text-[10px] text-muted-foreground mb-1 px-1 select-none">
+          {senderName}
+        </span>
+
         {content && (
           <div
             className={cn(
               "px-4 py-2.5 rounded-2xl text-sm shadow-sm relative transition-all duration-200",
               isMe
-                ? "bg-blue-600 text-white rounded-tr-none shadow-blue-600/20"
+                ? "bg-emerald-600 text-white rounded-tr-none shadow-emerald-600/20"
                 : "bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 rounded-tl-none shadow-sm"
             )}
           >
@@ -192,7 +196,7 @@ export default function MessageBubble({
                         : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
                     )}
                   >
-                    <div className="h-10 w-10 shrink-0 rounded-xl bg-linear-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                    <div className="h-10 w-10 shrink-0 rounded-xl bg-linear-to-br from-emerald-50 to-emerald-50 dark:from-emerald-900/20 dark:to-emerald-900/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
                       {att.type === "pdf" || att.name.endsWith(".pdf") ? (
                         <FileText className="h-5 w-5" />
                       ) : (

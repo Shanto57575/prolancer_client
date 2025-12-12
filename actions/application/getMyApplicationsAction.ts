@@ -8,7 +8,7 @@ export const getMyApplicationsAction = async (searchParams: any) => {
   const queryString = new URLSearchParams(searchParams).toString();
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/applications/my-applications?${queryString}`,
+    `${process.env.API_BASE_URL}/applications/my-applications?${queryString}`,
     {
       method: "GET",
       headers,

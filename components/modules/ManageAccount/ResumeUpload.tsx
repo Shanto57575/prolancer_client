@@ -29,7 +29,7 @@ export default function ResumeUpload({
 
       {resumeUrl ? (
         <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg border border-slate-200">
-          <FileText className="w-8 h-8 text-indigo-600" />
+          <FileText className="w-8 h-8 text-emerald-600" />
           <div className="flex-1">
             <p className="text-sm font-medium text-slate-900">
               Resume uploaded
@@ -38,7 +38,7 @@ export default function ResumeUpload({
               href={resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-indigo-600 hover:text-indigo-700 flex items-center gap-1 mt-1"
+              className="text-xs text-emerald-600 hover:text-emerald-700 flex items-center gap-1 mt-1"
             >
               View Resume <ExternalLink className="w-3 h-3" />
             </a>
@@ -72,7 +72,7 @@ export default function ResumeUpload({
             onUploadBegin={() => setIsUploading(true)}
             appearance={{
               button:
-                "ut-ready:bg-indigo-600 ut-uploading:cursor-not-allowed bg-indigo-600 ut-uploading:bg-indigo-400",
+                "ut-ready:bg-emerald-600 ut-uploading:cursor-not-allowed bg-emerald-600 ut-uploading:bg-emerald-400",
               allowedContent: "text-xs text-slate-500",
             }}
           />

@@ -34,12 +34,12 @@ export default function FileUploader({
             className="relative flex items-center p-3 border rounded-lg bg-slate-50"
           >
             <div className="flex-1 min-w-0 flex items-center gap-2">
-              <FileIcon className="h-8 w-8 text-blue-500 shrink-0" />
+              <FileIcon className="h-8 w-8 text-emerald-500 shrink-0" />
               <div className="flex-1 min-w-0">
                 <Link
                   href={url}
                   target="_blank"
-                  className="text-sm font-medium text-blue-600 hover:underline truncate block"
+                  className="text-sm font-medium text-emerald-600 hover:underline truncate block"
                 >
                   Attachment {index + 1}
                 </Link>
@@ -73,9 +73,9 @@ export default function FileUploader({
               toast.error(`Error uploading files: ${error.message}`);
             }}
             appearance={{
-              button: "bg-blue-600 text-white hover:bg-blue-700",
+              button: "bg-emerald-600 text-white hover:bg-emerald-700",
               container: "w-full",
-              label: "text-blue-600 hover:text-blue-700",
+              label: "text-emerald-600 hover:text-emerald-700",
             }}
           />
           {isUploading && (

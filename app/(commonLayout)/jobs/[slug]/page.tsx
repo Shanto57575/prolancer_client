@@ -1,4 +1,7 @@
-import { getJobByIdAction } from "@/actions/job/job";
+import {
+  getJobByIdPublicAction,
+  getAllJobsPublicAction,
+} from "@/actions/job/job";
 import { getProfileAction } from "@/actions/user/getProfileAction";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -13,17 +16,25 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import ApplyJobButton from "@/components/modules/job/ApplyJobButton";
+import DirectMessageButton from "@/components/modules/job/DirectMessageButton";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
+export async function generateStaticParams() {
+  const { data: jobs } = await getAllJobsPublicAction(1, 20);
+  if (!jobs) return [];
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return jobs.map((job: any) => ({
+    slug: job.slug,
+  }));
+}
+
 export default async function JobDetailsPage({ params }: Props) {
   const { slug } = await params;
-  const [jobRes, profileRes] = await Promise.all([
-    getJobByIdAction(slug),
-    getProfileAction(),
-  ]);
+  const jobRes = await getJobByIdPublicAction(slug);
 
   if (!jobRes.ok) {
     return (
@@ -37,9 +48,9 @@ export default async function JobDetailsPage({ params }: Props) {
   }
 
   const job = jobRes.data;
-  const user = profileRes.ok ? profileRes.data : null;
-  const isFreelancer = user?.role === "FREELANCER";
-  const isApplied = user && job.applicants?.includes(user._id);
+  const profileRes = await getProfileAction();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const currentUser: any = profileRes.ok ? profileRes.data : null;
 
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/30">
@@ -94,8 +105,8 @@ export default async function JobDetailsPage({ params }: Props) {
                 </div>
 
                 {job.projectDuration && (
-                  <div className="text-center p-3 rounded-lg bg-blue-500/5 border border-blue-500/10">
-                    <Clock className="h-5 w-5 mx-auto mb-2 text-blue-600 dark:text-blue-400" />
+                  <div className="text-center p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/10">
+                    <Clock className="h-5 w-5 mx-auto mb-2 text-emerald-600 dark:text-emerald-400" />
                     <p className="text-lg sm:text-xl font-bold text-foreground">
                       {job.projectDuration}
                     </p>
@@ -204,11 +215,7 @@ export default async function JobDetailsPage({ params }: Props) {
           <div className="lg:col-span-4">
             <div className="sticky top-6 space-y-6">
               <div className="bg-card rounded-2xl shadow-sm border p-6">
-                <ApplyJobButton
-                  jobId={job._id}
-                  isApplied={isApplied}
-                  isFreelancer={isFreelancer}
-                />
+                <ApplyJobButton jobId={job._id} applicants={job.applicants} />
 
                 {job.applicationCount > 0 && (
                   <p className="text-center text-sm text-muted-foreground">
@@ -244,10 +251,21 @@ export default async function JobDetailsPage({ params }: Props) {
                     <p className="text-sm text-muted-foreground">Client</p>
                   </div>
                 </div>
+                <div className="mt-4">
+                  {currentUser?.role === "FREELANCER" && (
+                    <DirectMessageButton
+                      jobId={job._id}
+                      clientId={job.clientId?._id}
+                      jobTitle={job.title}
+                      currentUserId={currentUser?._id}
+                      isPremium={currentUser?.isPremium}
+                    />
+                  )}
+                </div>
               </div>
 
               {/* Quick Stats */}
-              <div className="bg-linear-to-br from-primary/5 to-primary/10 rounded-2xl border border-primary/20 p-6">
+              <div className="rounded-2xl bg-zinc-100 shadow-md p-6">
                 <h3 className="text-lg font-bold mb-4">Job Details</h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">

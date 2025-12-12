@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getAllJobsAction } from "@/actions/job/job";
+import { getAllJobsPublicAction } from "@/actions/job/job";
 import { getAllServices } from "@/actions/service/service";
 import CommonPagination from "@/components/Shared/CommonPagination";
 import CommonSearch from "@/components/Shared/CommonSearch";
@@ -63,18 +63,6 @@ export default async function AllJobsPage({
   const currentPage = Number(page) || 1;
   const searchTerm = search || "";
 
-  const servicesResponse = await getAllServices({ limit: 100 });
-  const services = servicesResponse.ok ? servicesResponse.data : [];
-  console.log(services);
-
-  const serviceOptions = [
-    { label: "All Services", value: "ALL" },
-    ...services.map((service: any) => ({
-      label: service.name,
-      value: service._id,
-    })),
-  ];
-
   const filters: any = {};
 
   if (status && status !== "ALL") {
@@ -89,12 +77,20 @@ export default async function AllJobsPage({
   if (serviceCategory && serviceCategory !== "ALL")
     filters.serviceCategory = serviceCategory;
 
-  const { data: jobs, meta } = await getAllJobsAction(
-    currentPage,
-    9,
-    searchTerm,
-    filters
-  );
+  const [servicesResponse, { data: jobs, meta }] = await Promise.all([
+    getAllServices({ limit: 100 }),
+    getAllJobsPublicAction(currentPage, 9, searchTerm, filters),
+  ]);
+  const services = servicesResponse.ok ? servicesResponse.data : [];
+  console.log(services);
+
+  const serviceOptions = [
+    { label: "All Services", value: "ALL" },
+    ...services.map((service: any) => ({
+      label: service.name,
+      value: service._id,
+    })),
+  ];
 
   const hasActiveFilters =
     searchTerm ||
@@ -106,7 +102,7 @@ export default async function AllJobsPage({
   return (
     <div className="max-w-7xl mx-auto min-h-screen relative overflow-hidden">
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-linear-to-br from-emerald-50/40 to-transparent rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-linear-to-tr from-blue-50/40 to-transparent rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-linear-to-tr from-emerald-50/40 to-transparent rounded-full blur-3xl"></div>
 
       <div className="relative z-10 container mx-auto py-8 sm:py-12 lg:py-16 px-3 sm:px-6 lg:px-8 max-w-[1600px]">
         {/* Premium Header */}
@@ -248,7 +244,7 @@ export default async function AllJobsPage({
                           variant="outline"
                           className={`text-xs font-semibold shrink-0 capitalize border-2 ${
                             job.jobType === "hourly"
-                              ? "border-blue-200 text-blue-700 bg-blue-50"
+                              ? "border-emerald-200 text-emerald-700 bg-emerald-50"
                               : "border-emerald-200 text-emerald-700 bg-emerald-50"
                           }`}
                         >

@@ -9,14 +9,11 @@ export const toggleJobStatusAction = async (
 ) => {
   const headers = await getAuthHeaders();
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/jobs/${jobId}`,
-    {
-      method: "PATCH",
-      headers,
-      body: JSON.stringify({ status }),
-    }
-  );
+  const res = await fetch(`${process.env.API_BASE_URL}/jobs/${jobId}`, {
+    method: "PATCH",
+    headers,
+    body: JSON.stringify({ status }),
+  });
 
   const data = await res.json();
   if (data?.success) {

@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import getAuthHeaders from "../sharedFunction/getAuthHeaders";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
+const API_BASE = process.env.API_BASE_URL;
 
 export async function createJobAction(formData: FormData) {
   try {
@@ -171,14 +171,18 @@ export async function getMyJobsAction(
   }
 }
 
-export async function getAllJobsAction(
+/**
+ * Public action to get all jobs.
+ * Does NOT use cookies() to allow for Static Site Generation (SSG) / ISR.
+ * Revalidates every 60 seconds.
+ */
+export async function getAllJobsPublicAction(
   page = 1,
   limit = 10,
   search = "",
   filters = {}
 ) {
   try {
-    const headers = await getAuthHeaders();
     const query = new URLSearchParams({
       page: String(page),
       limit: String(limit),
@@ -188,8 +192,10 @@ export async function getAllJobsAction(
 
     const res = await fetch(`${API_BASE}/jobs?${query.toString()}`, {
       method: "GET",
-      headers,
-      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      next: { revalidate: 60 }, // ISR: Revalidate every 60 seconds
     });
 
     const data = await res.json();
@@ -204,13 +210,34 @@ export async function getAllJobsAction(
   }
 }
 
-export async function getJobByIdAction(id: string) {
+/**
+ * Legacy action that might have used auth, redirected to public for now
+ * but kept for backward compatibility if we decide to re-add strict auth checks later.
+ * Ideally, we migrate to use getAllJobsPublicAction for the public lists.
+ */
+export async function getAllJobsAction(
+  page = 1,
+  limit = 10,
+  search = "",
+  filters = {}
+) {
+  // reusing the public action logic to potentially remove the cookie dependency if this wasn't strictly private
+  return getAllJobsPublicAction(page, limit, search, filters);
+}
+
+/**
+ * Public action to get single job.
+ * Does NOT use cookies() to allow for SSG/ISR.
+ * Revalidates every 1 hour (3600s).
+ */
+export async function getJobByIdPublicAction(id: string) {
   try {
-    const headers = await getAuthHeaders();
     const res = await fetch(`${API_BASE}/jobs/${id}`, {
       method: "GET",
-      headers,
-      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      next: { revalidate: 3600 }, // ISR: Revalidate every hour
     });
 
     const data = await res.json();
@@ -223,4 +250,8 @@ export async function getJobByIdAction(id: string) {
       message: error instanceof Error ? error.message : "Unexpected error",
     };
   }
+}
+
+export async function getJobByIdAction(id: string) {
+  return getJobByIdPublicAction(id);
 }

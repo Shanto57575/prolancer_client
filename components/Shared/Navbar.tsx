@@ -1,21 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import {
-  Book,
-  Menu,
-  Sunset,
-  Trees,
-  Zap,
-  ChevronDown,
-  User,
-  Settings,
-  LogOut,
-} from "lucide-react";
+import { Menu, ChevronDown, User, Settings, LogOut } from "lucide-react";
 import Image from "next/image";
 import NotificationIndicator from "@/components/Shared/NotificationIndicator";
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 import {
   Accordion,
@@ -83,46 +75,8 @@ export default function Navbar({
   menu = [
     { title: "Home", url: "/" },
     {
-      title: "Explore",
-      url: "#",
-      items: [
-        {
-          title: "Web Development",
-          description: "Hire expert MERN, Next.js, Laravel developers",
-          icon: <Book className="size-5 shrink-0" />,
-          url: "#",
-        },
-        {
-          title: "Design & Branding",
-          description: "High-quality designs for your brand",
-          icon: <Trees className="size-5 shrink-0" />,
-          url: "#",
-        },
-        {
-          title: "Writing & Translation",
-          description: "Articles, copywriting, translation experts",
-          icon: <Sunset className="size-5 shrink-0" />,
-          url: "#",
-        },
-        {
-          title: "Marketing",
-          description: "Social media, SEO, email marketing services",
-          icon: <Zap className="size-5 shrink-0" />,
-          url: "#",
-        },
-      ],
-    },
-    {
       title: "Find Jobs",
       url: "/jobs",
-    },
-    {
-      title: "How It Works",
-      url: "/how-it-works",
-    },
-    {
-      title: "Blog",
-      url: "/blog",
     },
   ],
   auth = {
@@ -132,6 +86,7 @@ export default function Navbar({
   user = null,
 }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   const getUserInitials = (user: any) => {
     if (!user) return "U";
@@ -143,6 +98,11 @@ export default function Navbar({
       .toUpperCase()
       .slice(0, 2);
   };
+
+  const finalMenu =
+    user?.role === "FREELANCER"
+      ? [...menu, { title: "Pricing", url: "/pricing" }]
+      : menu;
 
   return (
     <header className="py-4 lg:py-5 border-b bg-background/95 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
@@ -164,7 +124,7 @@ export default function Navbar({
             {/* Menu */}
             <NavigationMenu className="flex-1">
               <NavigationMenuList className="gap-1">
-                {menu.map((item) => renderMenuItem(item))}
+                {finalMenu.map((item) => renderMenuItem(item, pathname))}
               </NavigationMenuList>
             </NavigationMenu>
           </div>
@@ -300,7 +260,9 @@ export default function Navbar({
 
                 <div className="px-6 py-6 flex flex-col gap-6">
                   <nav className="flex flex-col gap-1">
-                    {menu.map((item) => renderMobileMenuItem(item, setIsOpen))}
+                    {finalMenu.map((item) =>
+                      renderMobileMenuItem(item, setIsOpen, pathname)
+                    )}
                   </nav>
 
                   <div className="flex flex-col gap-3 pt-4 border-t">
@@ -391,7 +353,7 @@ export default function Navbar({
   );
 }
 
-const renderMenuItem = (item: MenuItem) => {
+const renderMenuItem = (item: MenuItem, pathname: string) => {
   if (item.items) {
     return (
       <NavigationMenuItem key={item.title}>
@@ -403,7 +365,7 @@ const renderMenuItem = (item: MenuItem) => {
             <div className="grid gap-2">
               {item.items.map((sub) => (
                 <NavigationMenuLink asChild key={sub.title}>
-                  <SubMenuLink item={sub} />
+                  <SubMenuLink item={sub} pathname={pathname} />
                 </NavigationMenuLink>
               ))}
             </div>
@@ -413,13 +375,20 @@ const renderMenuItem = (item: MenuItem) => {
     );
   }
 
+  const isActive = pathname === item.url;
+
   return (
     <NavigationMenuItem key={item.title}>
-      <NavigationMenuLink
-        href={item.url}
-        className="inline-flex h-10 items-center justify-center rounded-md px-4 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-      >
-        {item.title}
+      <NavigationMenuLink asChild>
+        <Link
+          href={item.url}
+          className={cn(
+            "inline-flex h-10 items-center justify-center rounded-md px-4 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50",
+            isActive && "bg-accent text-accent-foreground"
+          )}
+        >
+          {item.title}
+        </Link>
       </NavigationMenuLink>
     </NavigationMenuItem>
   );
@@ -427,7 +396,8 @@ const renderMenuItem = (item: MenuItem) => {
 
 const renderMobileMenuItem = (
   item: MenuItem,
-  setIsOpen: (open: boolean) => void
+  setIsOpen: (open: boolean) => void,
+  pathname: string
 ) => {
   if (item.items) {
     return (
@@ -448,6 +418,7 @@ const renderMobileMenuItem = (
                   key={sub.title}
                   item={sub}
                   mobile
+                  pathname={pathname}
                   onClick={() => setIsOpen(false)}
                 />
               ))}
@@ -458,12 +429,17 @@ const renderMobileMenuItem = (
     );
   }
 
+  const isActive = pathname === item.url;
+
   return (
     <Link
       key={item.title}
       href={item.url}
       onClick={() => setIsOpen(false)}
-      className="text-base font-medium py-3 px-3 rounded-lg hover:bg-accent transition-colors"
+      className={cn(
+        "text-base font-medium py-3 px-3 rounded-lg hover:bg-accent transition-colors",
+        isActive && "bg-accent text-accent-foreground"
+      )}
     >
       {item.title}
     </Link>
@@ -473,19 +449,25 @@ const renderMobileMenuItem = (
 const SubMenuLink = ({
   item,
   mobile = false,
+  pathname,
   onClick,
 }: {
   item: MenuItem;
   mobile?: boolean;
+  pathname?: string;
   onClick?: () => void;
 }) => {
+  const isActive = pathname === item.url;
+
   return (
     <Link
       href={item.url}
       onClick={onClick}
-      className={`flex gap-3 p-3 rounded-lg hover:bg-accent transition-colors group ${
-        mobile ? "text-sm" : ""
-      }`}
+      className={cn(
+        "flex gap-3 p-3 rounded-lg hover:bg-accent transition-colors group",
+        mobile ? "text-sm" : "",
+        isActive && "bg-accent text-accent-foreground"
+      )}
     >
       <div className="text-muted-foreground group-hover:text-foreground transition-colors">
         {item.icon}

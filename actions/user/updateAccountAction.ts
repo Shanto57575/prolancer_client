@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 
 export async function updateAccountAction(formData: FormData) {
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const API_BASE = process.env.API_BASE_URL;
   if (!API_BASE) {
     return { ok: false, message: "API URL not configured" };
   }

@@ -9,16 +9,16 @@ export default function CategoriesSection() {
       title: "Programming & Tech",
       subtitle: "Software Developer, Data Analyst, Network Engineer",
       jobs: "2,847",
-      linear: "from-blue-500 to-cyan-500",
-      bglinear: "from-blue-50 to-cyan-50",
+      linear: "from-emerald-500 to-cyan-500",
+      bglinear: "from-emerald-50 to-cyan-50",
     },
     {
       icon: "🎨",
       title: "Graphics & Design",
       subtitle: "UI/UX Designer, Graphic Designer, Illustrator",
       jobs: "1,932",
-      linear: "from-purple-500 to-pink-500",
-      bglinear: "from-purple-50 to-pink-50",
+      linear: "from-emerald-500 to-pink-500",
+      bglinear: "from-emerald-50 to-pink-50",
     },
     {
       icon: "📱",
@@ -41,8 +41,8 @@ export default function CategoriesSection() {
       title: "AI Services",
       subtitle: "Machine Learning Engineer, AI Consultant, Data Scientist",
       jobs: "987",
-      linear: "from-indigo-500 to-purple-500",
-      bglinear: "from-indigo-50 to-purple-50",
+      linear: "from-emerald-500 to-emerald-500",
+      bglinear: "from-emerald-50 to-emerald-50",
     },
     {
       icon: "🎬",
@@ -75,13 +75,13 @@ export default function CategoriesSection() {
       <div className="container mx-auto px-4 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+          <div className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
             <TrendingUp className="w-4 h-4" />
             Trending Top Categories
           </div>
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
             Explore Talent by{" "}
-            <span className="bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-emerald-600 to-emerald-600 bg-clip-text text-transparent">
               Categories
             </span>
           </h2>
@@ -113,7 +113,7 @@ export default function CategoriesSection() {
                 </div>
 
                 {/* Content */}
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-900">
+                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-emerald-900">
                   {category.title}
                 </h3>
                 <p className="text-sm text-gray-500 mb-4 leading-relaxed group-hover:text-gray-700">
@@ -130,7 +130,7 @@ export default function CategoriesSection() {
                       {category.jobs} jobs
                     </span>
                   </div>
-                  <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-indigo-600 transform group-hover:translate-x-1 transition-all" />
+                  <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-600 transform group-hover:translate-x-1 transition-all" />
                 </div>
               </div>
             </div>
@@ -142,7 +142,7 @@ export default function CategoriesSection() {
           <Button
             variant="outline"
             size="lg"
-            className="group px-8 py-6 border-2 border-gray-200 hover:border-indigo-500 hover:bg-indigo-50 rounded-xl text-base font-semibold"
+            className="group px-8 py-6 border-2 border-gray-200 hover:border-emerald-500 hover:bg-emerald-50 rounded-xl text-base font-semibold"
           >
             Explore All Categories
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -150,7 +150,7 @@ export default function CategoriesSection() {
         </div>
 
         {/* Trust Section */}
-        <div className="mt-20 bg-linear-to-br from-blue-400 via-blue-500 to-blue-900 rounded-3xl p-8 lg:p-12 relative overflow-hidden">
+        <div className="mt-20 bg-linear-to-br from-emerald-400 via-emerald-500 to-emerald-900 rounded-3xl p-8 lg:p-12 relative overflow-hidden">
           {/* Decorative Elements */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
@@ -164,7 +164,7 @@ export default function CategoriesSection() {
                 <h3 className="text-3xl lg:text-4xl font-bold text-white mb-4">
                   Global Trust of 1 Million Businesses and Counting
                 </h3>
-                <p className="text-indigo-100 text-lg leading-relaxed">
+                <p className="text-emerald-100 text-lg leading-relaxed">
                   Connect with skilled professionals, streamline collaboration,
                   and unlock success. Join now and redefine your work
                   experience!

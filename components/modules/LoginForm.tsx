@@ -108,12 +108,12 @@ export default function LoginForm({ action }: Props) {
             <FieldLabel htmlFor="password" className="text-sm font-medium">
               Password
             </FieldLabel>
-            <Link
+            {/* <Link
               href="/forgot-password"
               className="text-xs text-primary hover:underline hover:text-primary/80 font-medium transition-colors"
             >
               Forgot password?
-            </Link>
+            </Link> */}
           </div>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />

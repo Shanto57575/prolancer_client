@@ -34,12 +34,7 @@ export const ADMIN_ROUTES = [
   },
   {
     title: "Platform",
-    items: [
-      { title: "Services", url: "/dashboard/admin/services" },
-      { title: "Payments", url: "/dashboard/admin/payments" },
-      { title: "Reports", url: "/dashboard/admin/reports" },
-      { title: "Settings", url: "/dashboard/admin/settings" },
-    ],
+    items: [{ title: "Payments", url: "/dashboard/admin/payments" }],
   },
 ];
 
@@ -61,10 +56,7 @@ export const FREELANCER_ROUTES = [
   },
   {
     title: "Finance",
-    items: [
-      { title: "Payments", url: "/dashboard/freelancer/payments" },
-      { title: "Earnings Report", url: "/dashboard/freelancer/earnings" },
-    ],
+    items: [{ title: "Payments", url: "/dashboard/freelancer/payments" }],
   },
 ];
 
@@ -81,15 +73,7 @@ export const CLIENT_ROUTES = [
     items: [
       { title: "Create Job", url: "/dashboard/client/create-job" },
       { title: "My Posted Jobs", url: "/dashboard/client/my-posted-jobs" },
-      { title: "Hire Freelancer", url: "/dashboard/client/hire-freelancer" },
       { title: "Messages", url: "/dashboard/client/messages" },
-    ],
-  },
-  {
-    title: "Finance",
-    items: [
-      { title: "Payments", url: "/dashboard/client/payments" },
-      { title: "Invoices", url: "/dashboard/client/invoices" },
     ],
   },
 ];

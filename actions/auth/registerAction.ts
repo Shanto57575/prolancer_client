@@ -32,7 +32,7 @@ export async function registerAction(formData: FormData) {
     role: role as RegisterFormData["role"],
   };
 
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const API_BASE = process.env.API_BASE_URL;
   if (!API_BASE) {
     return { ok: false, message: "Server is not configured (API URL missing)" };
   }

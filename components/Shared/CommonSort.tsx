@@ -20,12 +20,15 @@ interface CommonSortProps {
   defaultField?: string;
 }
 
-export default function CommonSort({ fields, defaultField }: CommonSortProps) {
+export default function CommonSort({
+  fields = [],
+  defaultField,
+}: CommonSortProps) {
   const router = useRouter();
   const params = useSearchParams();
 
   const currentSortBy =
-    params.get("sortBy") || defaultField || fields[0]?.value;
+    params.get("sortBy") || defaultField || fields?.[0]?.value || "";
   const currentSortOrder = params.get("sortOrder") || "desc";
 
   const updateSort = (field: string, order: string) => {

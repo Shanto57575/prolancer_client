@@ -11,7 +11,7 @@ export const getJobApplicationsAction = async (
   const queryString = new URLSearchParams(searchParams).toString();
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/applications/job/${jobId}?${queryString}`,
+    `${process.env.API_BASE_URL}/applications/job/${jobId}?${queryString}`,
     {
       method: "GET",
       headers,

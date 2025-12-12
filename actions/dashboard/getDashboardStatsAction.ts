@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 
 export async function getDashboardStatsAction() {
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const API_BASE = process.env.API_BASE_URL;
   if (!API_BASE) {
     return { ok: false, message: "API URL not configured" };
   }
@@ -19,6 +19,7 @@ export async function getDashboardStatsAction() {
     // Removing 'returnSecureToken' and 'as any' as they are not standard fetch options
     const res = await fetch(`${API_BASE.replace(/\/$/, "")}/dashboard/stats`, {
       method: "GET",
+      cache: "no-store",
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",

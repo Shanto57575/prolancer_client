@@ -18,7 +18,7 @@ export async function loginAction(formData: FormData) {
     return { ok: false, errors };
   }
 
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const API_BASE = process.env.API_BASE_URL;
 
   if (!API_BASE) {
     return { ok: false, message: "API URL missing in server config" };
