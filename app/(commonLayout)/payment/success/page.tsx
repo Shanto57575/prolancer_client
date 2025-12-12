@@ -13,20 +13,39 @@ export default function PaymentSuccessPage() {
 
   const [, setVerifying] = useState(!!sessionId);
   const [paymentStatus, setPaymentStatus] = useState<
-    "verifying" | "success" | "failed"
+    "verifying" | "pending" | "success" | "failed"
   >(sessionId ? "verifying" : "failed");
 
   useEffect(() => {
-    if (sessionId) {
-      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/payment/verify-session`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success && data.data.isPaid) {
+    if (!sessionId) return;
+
+    let pollInterval: NodeJS.Timeout | null = null;
+
+    const verifyPayment = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.API_BASE_URL}/payment/verify-session`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ sessionId }),
+          }
+        );
+
+        const data = await res.json();
+
+        if (data.success && data.data.isPaid) {
+          if (data.data.processed) {
+            // Webhook has processed the payment
             setPaymentStatus("success");
+            setVerifying(false);
+
+            // Clear polling if active
+            if (pollInterval) {
+              clearInterval(pollInterval);
+              pollInterval = null;
+            }
+
             // Trigger confetti
             const duration = 3 * 1000;
             const animationEnd = Date.now() + duration;
@@ -60,13 +79,50 @@ export default function PaymentSuccessPage() {
               });
             }, 250);
           } else {
-            setPaymentStatus("failed");
+            // Payment is paid but webhook hasn't processed yet
+            // Start polling if not already polling
+            if (!pollInterval && paymentStatus !== "pending") {
+              setPaymentStatus("pending");
+              setVerifying(false);
+
+              // Poll every 2 seconds for webhook processing
+              pollInterval = setInterval(() => {
+                verifyPayment();
+              }, 2000);
+            }
           }
-        })
-        .catch(() => setPaymentStatus("failed"))
-        .finally(() => setVerifying(false));
-    }
-  }, [sessionId]);
+        } else {
+          // Payment failed or not completed
+          setPaymentStatus("failed");
+          setVerifying(false);
+
+          if (pollInterval) {
+            clearInterval(pollInterval);
+            pollInterval = null;
+          }
+        }
+      } catch (error) {
+        console.error("Payment verification error:", error);
+        setPaymentStatus("failed");
+        setVerifying(false);
+
+        if (pollInterval) {
+          clearInterval(pollInterval);
+          pollInterval = null;
+        }
+      }
+    };
+
+    // Initial verification
+    verifyPayment();
+
+    // Cleanup polling on unmount
+    return () => {
+      if (pollInterval) {
+        clearInterval(pollInterval);
+      }
+    };
+  }, [sessionId, paymentStatus]);
 
   return (
     <div className="min-h-[80vh] flex flex-col items-center justify-center p-4 text-center">
@@ -78,6 +134,22 @@ export default function PaymentSuccessPage() {
           </h1>
           <p className="text-slate-500 mt-2">
             Please wait while we confirm your transaction.
+          </p>
+        </div>
+      )}
+
+      {paymentStatus === "pending" && (
+        <div className="flex flex-col items-center animate-in fade-in duration-500">
+          <Loader2 className="h-12 w-12 text-primary animate-spin mb-4" />
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+            Processing Payment...
+          </h1>
+          <p className="text-slate-500 mt-2">
+            Your payment was successful! We&apos;re activating your premium
+            features now.
+          </p>
+          <p className="text-slate-400 text-sm mt-1">
+            This usually takes just a few seconds.
           </p>
         </div>
       )}
