@@ -8,7 +8,14 @@ import CommonFilter from "@/components/Shared/CommonFilter";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import { Briefcase, Clock, X, DollarSign, Zap, Star } from "lucide-react";
+import {
+  Briefcase,
+  Clock,
+  X,
+  DollarSign,
+  Star,
+  ArrowRight,
+} from "lucide-react";
 import Link from "next/link";
 
 const sortFields = [
@@ -101,47 +108,54 @@ export default async function AllJobsPage({
 
   return (
     <div className="max-w-7xl mx-auto min-h-screen relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-linear-to-br from-emerald-50/40 to-transparent rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-linear-to-tr from-emerald-50/40 to-transparent rounded-full blur-3xl"></div>
-
       <div className="relative z-10 container mx-auto py-8 sm:py-12 lg:py-16 px-3 sm:px-6 lg:px-8 max-w-[1600px]">
         {/* Premium Header */}
         <div className="mb-8 sm:mb-12">
-          <div className="bg-white/80 backdrop-blur-xl border border-slate-200/60 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-            <div className="flex items-center justify-between flex-wrap gap-4">
+          <div className="bg-white dark:bg-slate-900 shadow-xl shadow-emerald-500/10 dark:shadow-emerald-500/5 rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-100 dark:border-slate-800 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-emerald-500/10 transition-colors duration-500"></div>
+
+            <div className="relative z-10 flex items-center justify-between flex-wrap gap-4">
               <div>
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="h-1 w-12 bg-linear-to-r from-emerald-500 to-teal-500 rounded-full"></div>
-                  <span className="text-emerald-600 text-sm font-semibold tracking-wider uppercase flex items-center gap-1.5">
+                  <div className="h-1.5 w-12 bg-linear-to-r from-emerald-500 to-teal-500 rounded-full shadow-sm shadow-emerald-500/50"></div>
+                  <span className="text-emerald-600 dark:text-emerald-400 text-sm font-bold tracking-wider uppercase flex items-center gap-1.5">
                     Live Opportunities
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
                   </span>
                 </div>
-                <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 bg-clip-text text-transparent mb-3 tracking-tight">
-                  Premium Projects
+                <h1 className="text-3xl sm:text-4xl lg:text-6xl font-black text-slate-900 dark:text-white mb-3 tracking-tight">
+                  Premium{" "}
+                  <span className="bg-linear-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
+                    Projects
+                  </span>
                 </h1>
-                <p className="text-slate-600 text-base sm:text-lg">
-                  <span className="text-slate-900 font-bold">
+                <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-xl">
+                  Discover{" "}
+                  <span className="text-slate-900 dark:text-white font-bold">
                     {meta?.total || 0}
                   </span>{" "}
-                  curated {meta?.total === 1 ? "opportunity" : "opportunities"}{" "}
-                  from verified clients
+                  curated opportunities from verified clients. Updated daily for
+                  your success.
                 </p>
               </div>
               <div className="hidden lg:flex items-center gap-6">
-                <div className="text-center px-6 py-4 bg-linear-to-br from-slate-50 to-white rounded-2xl border border-slate-200/60">
-                  <div className="text-3xl font-bold bg-linear-to-br from-slate-900 to-slate-700 bg-clip-text text-transparent mb-1">
+                <div className="text-center px-6 py-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700/50 backdrop-blur-sm">
+                  <div className="text-3xl font-bold text-slate-900 dark:text-white mb-1">
                     {meta?.total || 0}
                   </div>
-                  <div className="text-xs text-slate-500 uppercase tracking-wide font-medium">
-                    Active
+                  <div className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide font-bold">
+                    Active Jobs
                   </div>
                 </div>
-                <div className="text-center px-6 py-4 bg-linear-to-br from-emerald-50 to-teal-50 rounded-2xl border border-emerald-200/60">
-                  <div className="text-3xl font-bold bg-linear-to-br from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-1">
+                <div className="text-center px-6 py-4 bg-emerald-50 dark:bg-emerald-900/10 rounded-2xl border border-emerald-100 dark:border-emerald-800/30 backdrop-blur-sm">
+                  <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-1">
                     24h
                   </div>
-                  <div className="text-xs text-emerald-700 uppercase tracking-wide font-medium">
-                    Updated
+                  <div className="text-xs text-emerald-700 dark:text-emerald-300 uppercase tracking-wide font-bold">
+                    New Added
                   </div>
                 </div>
               </div>
@@ -150,10 +164,10 @@ export default async function AllJobsPage({
         </div>
 
         {/* Elite Search & Filter */}
-        <div className="mb-8 bg-white/80 backdrop-blur-xl border border-slate-200/60 rounded-2xl p-4 sm:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+        <div className="mb-8 bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 shadow-lg shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800">
           <CommonSearch placeholder="Search projects by title, technology, or expertise..." />
 
-          <div className="mt-4 pt-4 border-t border-slate-200/60">
+          <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
             <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               <CommonSort fields={sortFields} defaultField="createdAt" />
               <CommonFilter
@@ -185,10 +199,10 @@ export default async function AllJobsPage({
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="gap-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200"
+                    className="gap-2 text-slate-500 hover:text-red-600 hover:bg-red-50 dark:text-slate-400 dark:hover:text-red-400 dark:hover:bg-red-900/20 transition-colors"
                   >
                     <X className="h-4 w-4" />
-                    Clear
+                    Clear Filters
                   </Button>
                 </Link>
               )}
@@ -203,145 +217,136 @@ export default async function AllJobsPage({
 
               const CardContent = (
                 <div
-                  className={`relative bg-white border rounded-2xl h-full flex flex-col overflow-hidden transition-all duration-500 ${
+                  className={`relative bg-white dark:bg-slate-900 border rounded-2xl h-full flex flex-col overflow-hidden transition-all duration-300 ${
                     isClosed
-                      ? "border-slate-200 shadow-sm cursor-not-allowed"
-                      : "border-slate-200/60 shadow-[0_2px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.12)] hover:border-emerald-300 group-hover:scale-[1.02] group-hover:-translate-y-1"
+                      ? "border-slate-200 dark:border-slate-800 opacity-75 grayscale cursor-not-allowed"
+                      : "border-slate-200 dark:border-slate-800 hover:border-emerald-300 dark:hover:border-emerald-700 shadow-lg shadow-slate-200/50 dark:shadow-none hover:shadow-xl hover:shadow-emerald-500/10 hover:-translate-y-1"
                   }`}
                 >
                   {/* Accent line on hover */}
                   {!isClosed && (
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-emerald-500 via-teal-500 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity rounded-t-2xl"></div>
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-emerald-500 via-teal-500 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   )}
 
                   {isClosed && (
-                    <div className="absolute inset-0 bg-slate-50/80 flex items-center justify-center rounded-2xl">
-                      <div className="text-center">
-                        <div className="inline-flex items-center gap-2 bg-white border border-slate-300 rounded-full px-5 py-2.5 shadow-sm">
-                          <div className="h-2 w-2 bg-slate-400 rounded-full"></div>
-                          <span className="text-slate-600 text-sm font-semibold">
-                            No longer taking applications
-                          </span>
-                        </div>
+                    <div className="absolute inset-0 bg-slate-50/50 dark:bg-slate-950/50 z-20 flex items-center justify-center backdrop-blur-[1px]">
+                      <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full px-5 py-2.5 shadow-lg flex items-center gap-2">
+                        <div className="h-2 w-2 bg-slate-400 rounded-full"></div>
+                        <span className="text-slate-600 dark:text-slate-300 text-sm font-bold">
+                          Applications Closed
+                        </span>
                       </div>
                     </div>
                   )}
 
-                  <div className="p-5 sm:p-6 flex flex-col flex-1">
+                  <div className="p-6 flex flex-col flex-1">
                     {/* Header */}
-                    <div className="mb-4">
+                    <div className="mb-5">
                       <div className="flex items-start justify-between gap-3 mb-3">
                         <h3
-                          className={`text-base sm:text-lg font-bold line-clamp-2 leading-tight ${
+                          className={`text-lg font-bold line-clamp-2 leading-tight ${
                             isClosed
-                              ? "text-slate-500"
-                              : "text-slate-900 group-hover:text-emerald-600 transition-colors"
+                              ? "text-slate-500 dark:text-slate-500"
+                              : "text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors"
                           }`}
                         >
                           {job.title}
                         </h3>
                         <Badge
                           variant="outline"
-                          className={`text-xs font-semibold shrink-0 capitalize border-2 ${
+                          className={`text-xs font-bold shrink-0 capitalize px-2.5 py-0.5 border-none ${
                             job.jobType === "hourly"
-                              ? "border-emerald-200 text-emerald-700 bg-emerald-50"
-                              : "border-emerald-200 text-emerald-700 bg-emerald-50"
+                              ? "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 ring-1 ring-inset ring-emerald-600/20"
+                              : "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 ring-1 ring-inset ring-blue-600/20"
                           }`}
                         >
                           {job.jobType}
                         </Badge>
                       </div>
 
-                      <div className="flex items-center gap-3 text-xs text-slate-500">
-                        <div className="flex items-center gap-1.5">
+                      <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
+                        <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md">
                           <Clock className="h-3.5 w-3.5" />
                           <span className="font-medium">
                             {format(new Date(job.createdAt), "MMM dd, yyyy")}
                           </span>
                         </div>
                         {job.serviceCategory && (
-                          <>
-                            <span className="text-slate-300">•</span>
-                            <span className="truncate text-slate-700 font-semibold">
+                          <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md max-w-[50%]">
+                            <span className="text-slate-400">•</span>
+                            <span className="truncate font-semibold text-slate-700 dark:text-slate-300">
                               {typeof job.serviceCategory === "string"
                                 ? job.serviceCategory
                                 : job.serviceCategory?.name}
                             </span>
-                          </>
+                          </div>
                         )}
                       </div>
                     </div>
 
                     {/* Description */}
-                    <p className="text-sm text-slate-600 line-clamp-3 mb-4 leading-relaxed flex-1">
+                    <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-3 mb-6 leading-relaxed flex-1">
                       {job.description.replace(/<[^>]*>?/gm, "")}
                     </p>
 
                     {/* Skills */}
                     {job.requiredSkills && job.requiredSkills.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-5">
+                      <div className="flex flex-wrap gap-2 mb-6">
                         {job.requiredSkills
-                          ?.slice(0, 4)
+                          ?.slice(0, 3)
                           .map((skill: string) => (
                             <span
                               key={skill}
-                              className="text-xs px-3 py-1.5 bg-slate-50 text-slate-700 rounded-lg font-semibold border border-slate-200"
+                              className="text-xs px-2.5 py-1 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-md font-medium border border-slate-100 dark:border-slate-700"
                             >
                               {skill}
                             </span>
                           ))}
-                        {job.requiredSkills?.length > 4 && (
-                          <span className="text-xs px-3 py-1.5 bg-slate-50 text-slate-500 rounded-lg font-semibold border border-slate-200">
-                            +{job.requiredSkills.length - 4}
+                        {job.requiredSkills?.length > 3 && (
+                          <span className="text-xs px-2.5 py-1 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-md font-medium border border-slate-100 dark:border-slate-700">
+                            +{job.requiredSkills.length - 3}
                           </span>
                         )}
                       </div>
                     )}
 
                     {/* Footer */}
-                    <div className="pt-4 border-t border-slate-100 mt-auto space-y-3">
-                      <div className="flex items-center justify-between">
+                    <div className="pt-5 border-t border-slate-100 dark:border-slate-800 mt-auto">
+                      <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2">
-                          <div className="h-8 w-8 rounded-full bg-linear-to-br from-emerald-100 to-teal-100 flex items-center justify-center">
-                            <DollarSign className="h-4 w-4 text-emerald-600" />
+                          <div className="h-9 w-9 rounded-full bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center">
+                            <DollarSign className="h-4.5 w-4.5 text-emerald-600 dark:text-emerald-400" />
                           </div>
-                          <span className="text-xl sm:text-2xl font-bold text-slate-900">
-                            {job.budget ? job.budget.toLocaleString() : "TBD"}
-                          </span>
+                          <div>
+                            <div className="text-lg font-bold text-slate-900 dark:text-white leading-none">
+                              {job.budget ? job.budget.toLocaleString() : "TBD"}
+                            </div>
+                            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider mt-0.5">
+                              Budget
+                            </div>
+                          </div>
                         </div>
-                        <div className="flex items-center gap-1.5 bg-linear-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-lg px-3 py-1.5">
-                          <Star className="h-3.5 w-3.5 text-amber-500" />
-                          <span className="text-xs font-bold text-amber-700 capitalize">
-                            {job.experienceLevel}
-                          </span>
+                        <div
+                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-bold capitalize ${
+                            job.experienceLevel === "expert"
+                              ? "bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 border-purple-200 dark:border-purple-800"
+                              : job.experienceLevel === "intermediate"
+                              ? "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800"
+                              : "bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border-green-200 dark:border-green-800"
+                          }`}
+                        >
+                          <Star className="h-3 w-3 fill-current" />
+                          {job.experienceLevel}
                         </div>
                       </div>
 
                       {!isClosed && (
-                        <div className="flex items-center justify-between pt-2">
-                          <div className="flex items-center gap-2 text-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Zap className="h-4 w-4" />
-                            <span className="text-sm font-semibold">
-                              Quick Apply
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-1 text-slate-500 group-hover:text-emerald-600 transition-colors">
-                            <span className="text-sm font-semibold">
-                              Explore
-                            </span>
-                            <svg
-                              className="h-4 w-4 group-hover:translate-x-1 transition-transform"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2.5}
-                                d="M17 8l4 4m0 0l-4 4m4-4H3"
-                              />
-                            </svg>
+                        <div className="w-full bg-slate-50 dark:bg-slate-800 rounded-xl p-3 flex items-center justify-between group-hover:bg-emerald-50 dark:group-hover:bg-emerald-900/10 transition-colors duration-300">
+                          <span className="pl-3 text-sm font-semibold text-slate-600 dark:text-slate-400 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
+                            View Details
+                          </span>
+                          <div className="h-8 w-8 rounded-lg bg-white dark:bg-slate-700 group-hover:bg-emerald-500 flex items-center justify-center transition-colors shadow-sm">
+                            <ArrowRight className="h-4 w-4 text-slate-400 dark:text-slate-300 group-hover:text-white -ml-0.5" />
                           </div>
                         </div>
                       )}
@@ -369,26 +374,24 @@ export default async function AllJobsPage({
               );
             })
           ) : (
-            <div className="col-span-full text-center py-20 sm:py-32">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-linear-to-br from-slate-100 to-slate-50 border border-slate-200 mb-6 shadow-sm">
-                <Briefcase className="h-10 w-10 text-slate-400" />
+            <div className="col-span-full text-center py-24 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 dashed shadow-sm">
+              <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-slate-50 dark:bg-slate-800 mb-6 relative">
+                <div className="absolute inset-0 bg-emerald-500/5 rounded-full blur-xl"></div>
+                <Briefcase className="h-10 w-10 text-slate-300 dark:text-slate-600 relative z-10" />
               </div>
-              <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
                 No Opportunities Found
               </h3>
-              <p className="text-slate-600 mb-8 max-w-md mx-auto px-4">
+              <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-md mx-auto">
                 {hasActiveFilters
-                  ? "Refine your search criteria to discover matching projects"
-                  : "New premium projects are added daily. Check back soon."}
+                  ? "We couldn't find any projects matching your filters. Try adjusting your search criteria."
+                  : "New premium projects are added daily. Check back soon for new opportunities."}
               </p>
               {hasActiveFilters && (
                 <Link href="/jobs">
-                  <Button
-                    variant="outline"
-                    className="gap-2 bg-white border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-slate-400"
-                  >
+                  <Button className="gap-2 bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">
                     <X className="h-4 w-4" />
-                    Reset Filters
+                    Reset All Filters
                   </Button>
                 </Link>
               )}
@@ -398,8 +401,8 @@ export default async function AllJobsPage({
 
         {/* Pagination */}
         {meta && meta.total > 0 && (
-          <div className="flex justify-center">
-            <div className="bg-white/80 backdrop-blur-xl border border-slate-200/60 rounded-2xl p-2 shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+          <div className="flex justify-center mt-12 mb-8">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-full p-2 shadow-sm">
               <CommonPagination
                 page={meta.page}
                 limit={meta.limit}

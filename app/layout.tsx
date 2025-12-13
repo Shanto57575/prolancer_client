@@ -8,6 +8,7 @@ import { ourFileRouter } from "./api/uploadthing/core";
 
 import { getProfileAction } from "@/actions/user/getProfileAction";
 import { NotificationProvider } from "@/context/NotificationContext";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -30,11 +31,18 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={montserrat.className}>
-        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-        <NotificationProvider userId={user?._id} role={user?.role}>
-          {children}
-        </NotificationProvider>
-        <Toaster position="top-right" richColors />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+          <NotificationProvider userId={user?._id} role={user?.role}>
+            {children}
+          </NotificationProvider>
+          <Toaster position="top-right" richColors />
+        </ThemeProvider>
       </body>
     </html>
   );

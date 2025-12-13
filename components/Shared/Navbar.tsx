@@ -2,27 +2,19 @@
 "use client";
 
 import { Menu, ChevronDown, User, Settings, LogOut } from "lucide-react";
-import Image from "next/image";
-import NotificationIndicator from "@/components/Shared/NotificationIndicator";
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
+import NotificationIndicator from "@/components/Shared/NotificationIndicator";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import {
   Sheet,
@@ -41,6 +33,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { logoutAction } from "@/actions/auth/logoutAction";
+import { useTheme } from "next-themes";
+import { ModeToggle } from "./ModeToggle";
 
 interface MenuItem {
   title: string;
@@ -87,6 +81,7 @@ export default function Navbar({
 }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const { theme } = useTheme();
 
   const getUserInitials = (user: any) => {
     if (!user) return "U";
@@ -131,6 +126,7 @@ export default function Navbar({
 
           {/* Right side actions */}
           <div className="flex items-center gap-3 shrink-0">
+            <ModeToggle />
             {user ? (
               <>
                 <NotificationIndicator />
@@ -188,7 +184,7 @@ export default function Navbar({
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
-                      onClick={async () => await logoutAction()}
+                      onClick={() => logoutAction()}
                       className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950"
                     >
                       <LogOut className="mr-2 h-4 w-4" />
@@ -229,6 +225,7 @@ export default function Navbar({
           </Link>
 
           <div className="flex items-center gap-2">
+            <ModeToggle />
             {user && <NotificationIndicator />}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
@@ -312,9 +309,9 @@ export default function Navbar({
                         <Button
                           variant="outline"
                           className="w-full justify-start gap-2 text-red-600 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
-                          onClick={async () => {
-                            await logoutAction();
+                          onClick={() => {
                             setIsOpen(false);
+                            logoutAction();
                           }}
                         >
                           <LogOut className="h-4 w-4" />
@@ -354,27 +351,6 @@ export default function Navbar({
 }
 
 const renderMenuItem = (item: MenuItem, pathname: string) => {
-  if (item.items) {
-    return (
-      <NavigationMenuItem key={item.title}>
-        <NavigationMenuTrigger className="h-10 px-4 text-sm font-medium">
-          {item.title}
-        </NavigationMenuTrigger>
-        <NavigationMenuContent className="bg-popover">
-          <div className="w-[420px] p-4">
-            <div className="grid gap-2">
-              {item.items.map((sub) => (
-                <NavigationMenuLink asChild key={sub.title}>
-                  <SubMenuLink item={sub} pathname={pathname} />
-                </NavigationMenuLink>
-              ))}
-            </div>
-          </div>
-        </NavigationMenuContent>
-      </NavigationMenuItem>
-    );
-  }
-
   const isActive = pathname === item.url;
 
   return (
@@ -399,36 +375,6 @@ const renderMobileMenuItem = (
   setIsOpen: (open: boolean) => void,
   pathname: string
 ) => {
-  if (item.items) {
-    return (
-      <Accordion
-        type="single"
-        collapsible
-        key={item.title}
-        className="border-none"
-      >
-        <AccordionItem value={item.title} className="border-none">
-          <AccordionTrigger className="text-base font-medium hover:no-underline py-3 px-3 hover:bg-accent rounded-lg transition-colors">
-            {item.title}
-          </AccordionTrigger>
-          <AccordionContent className="pb-2 pt-1">
-            <div className="flex flex-col gap-1 pl-2">
-              {item.items.map((sub) => (
-                <SubMenuLink
-                  key={sub.title}
-                  item={sub}
-                  mobile
-                  pathname={pathname}
-                  onClick={() => setIsOpen(false)}
-                />
-              ))}
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-    );
-  }
-
   const isActive = pathname === item.url;
 
   return (
@@ -442,46 +388,6 @@ const renderMobileMenuItem = (
       )}
     >
       {item.title}
-    </Link>
-  );
-};
-
-const SubMenuLink = ({
-  item,
-  mobile = false,
-  pathname,
-  onClick,
-}: {
-  item: MenuItem;
-  mobile?: boolean;
-  pathname?: string;
-  onClick?: () => void;
-}) => {
-  const isActive = pathname === item.url;
-
-  return (
-    <Link
-      href={item.url}
-      onClick={onClick}
-      className={cn(
-        "flex gap-3 p-3 rounded-lg hover:bg-accent transition-colors group",
-        mobile ? "text-sm" : "",
-        isActive && "bg-accent text-accent-foreground"
-      )}
-    >
-      <div className="text-muted-foreground group-hover:text-foreground transition-colors">
-        {item.icon}
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className="font-semibold text-sm mb-1 group-hover:text-foreground">
-          {item.title}
-        </p>
-        {item.description && (
-          <p className="text-xs text-muted-foreground leading-snug line-clamp-2">
-            {item.description}
-          </p>
-        )}
-      </div>
     </Link>
   );
 };
