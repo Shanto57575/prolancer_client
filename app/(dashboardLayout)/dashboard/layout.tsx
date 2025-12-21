@@ -4,7 +4,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
-import { getProfileAction } from "@/actions/user/getProfileAction";
+import { getCurrentUser } from "@/lib/dal/user";
 import { Montserrat } from "next/font/google";
 
 export const dynamic = "force-dynamic";
@@ -21,7 +21,7 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { role } = (await getProfileAction())?.data;
+  const { role } = (await getCurrentUser())?.data;
 
   return (
     <div className={montserrat.className}>

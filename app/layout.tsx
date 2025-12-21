@@ -6,7 +6,7 @@ import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "./api/uploadthing/core";
 
-import { getProfileAction } from "@/actions/user/getProfileAction";
+import { getCurrentUser } from "@/lib/dal/user";
 import { NotificationProvider } from "@/context/NotificationContext";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -25,7 +25,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const profileRes = await getProfileAction();
+  const profileRes = await getCurrentUser();
   const user = profileRes?.ok ? profileRes.data : null;
 
   return (

@@ -109,11 +109,9 @@ export default async function AllJobsPage({
   return (
     <div className="max-w-7xl mx-auto min-h-screen relative overflow-hidden">
       <div className="relative z-10 container mx-auto py-8 sm:py-12 lg:py-16 px-3 sm:px-6 lg:px-8 max-w-[1600px]">
-        {/* Premium Header */}
         <div className="mb-8 sm:mb-12">
-          <div className="bg-white dark:bg-slate-900 shadow-xl shadow-emerald-500/10 dark:shadow-emerald-500/5 rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-100 dark:border-slate-800 relative overflow-hidden group">
+          <div className="bg-white dark:bg-slate-950 text-white shadow-xl shadow-emerald-500/10 dark:shadow-emerald-500/5 rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-100 dark:border-slate-800 relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-emerald-500/10 transition-colors duration-500"></div>
-
             <div className="relative z-10 flex items-center justify-between flex-wrap gap-4">
               <div>
                 <div className="flex items-center gap-3 mb-3">
@@ -164,7 +162,7 @@ export default async function AllJobsPage({
         </div>
 
         {/* Elite Search & Filter */}
-        <div className="mb-8 bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 shadow-lg shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800">
+        <div className="mb-8 bg-white dark:bg-slate-950 rounded-2xl p-4 sm:p-6 shadow-lg shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800">
           <CommonSearch placeholder="Search projects by title, technology, or expertise..." />
 
           <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
@@ -217,7 +215,7 @@ export default async function AllJobsPage({
 
               const CardContent = (
                 <div
-                  className={`relative bg-white dark:bg-slate-900 border rounded-2xl h-full flex flex-col overflow-hidden transition-all duration-300 ${
+                  className={`relative bg-white dark:bg-slate-950 border rounded-2xl h-full flex flex-col overflow-hidden transition-all duration-300 ${
                     isClosed
                       ? "border-slate-200 dark:border-slate-800 opacity-75 grayscale cursor-not-allowed"
                       : "border-slate-200 dark:border-slate-800 hover:border-emerald-300 dark:hover:border-emerald-700 shadow-lg shadow-slate-200/50 dark:shadow-none hover:shadow-xl hover:shadow-emerald-500/10 hover:-translate-y-1"
@@ -374,7 +372,7 @@ export default async function AllJobsPage({
               );
             })
           ) : (
-            <div className="col-span-full text-center py-24 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 dashed shadow-sm">
+            <div className="col-span-full text-center py-24 bg-white dark:bg-slate-950 rounded-3xl border border-slate-100 dark:border-slate-800 dashed shadow-sm">
               <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-slate-50 dark:bg-slate-800 mb-6 relative">
                 <div className="absolute inset-0 bg-emerald-500/5 rounded-full blur-xl"></div>
                 <Briefcase className="h-10 w-10 text-slate-300 dark:text-slate-600 relative z-10" />
@@ -389,7 +387,7 @@ export default async function AllJobsPage({
               </p>
               {hasActiveFilters && (
                 <Link href="/jobs">
-                  <Button className="gap-2 bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">
+                  <Button className="gap-2 bg-slate-950 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">
                     <X className="h-4 w-4" />
                     Reset All Filters
                   </Button>
@@ -402,7 +400,7 @@ export default async function AllJobsPage({
         {/* Pagination */}
         {meta && meta.total > 0 && (
           <div className="flex justify-center mt-12 mb-8">
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-full p-2 shadow-sm">
+            <div className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-full p-2 shadow-sm">
               <CommonPagination
                 page={meta.page}
                 limit={meta.limit}

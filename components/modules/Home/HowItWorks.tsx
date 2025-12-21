@@ -84,7 +84,7 @@ export default function HowItWorks() {
                 <div className="flex flex-col items-center text-center">
                   <div className="relative mb-6">
                     <div
-                      className={`w-16 h-16 rounded-2xl bg-linear-to-br ${step.gradient} flex items-center justify-center text-white shadow-lg transform rotate-3 group-hover:rotate-6 transition-transform duration-300`}
+                      className={`w-16 h-16 rounded-2xl bg-linear-to-br ${step.gradient} flex items-center justify-center text-white shadow-lg transform transition-transform duration-300`}
                     >
                       <step.icon className="w-7 h-7" />
                     </div>

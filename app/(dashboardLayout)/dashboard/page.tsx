@@ -1,14 +1,12 @@
 import { getDashboardStatsAction } from "@/actions/dashboard/getDashboardStatsAction";
-import { getProfileAction } from "@/actions/user/getProfileAction";
+import { getCurrentUser } from "@/lib/dal/user";
 import AdminDashboard from "@/components/Dashboard/AdminDashboard";
 import ClientDashboard from "@/components/Dashboard/ClientDashboard";
 import FreelancerDashboard from "@/components/Dashboard/FreelancerDashboard";
 import { redirect } from "next/navigation";
 
-export const dynamic = "force-dynamic";
-
 export default async function DashboardPage() {
-  const userRes = await getProfileAction();
+  const userRes = await getCurrentUser();
 
   if (!userRes.ok || !userRes.data) {
     redirect("/login");

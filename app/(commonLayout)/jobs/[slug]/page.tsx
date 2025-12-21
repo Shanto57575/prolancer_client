@@ -53,13 +53,11 @@ export default async function JobDetailsPage({ params }: Props) {
   const currentUser: any = profileRes.ok ? profileRes.data : null;
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/30">
-      <div className="container mx-auto py-6 sm:py-10 px-4 sm:px-6 lg:px-8 max-w-6xl">
+    <div className="max-w-7xl mx-auto min-h-screen">
+      <div className="container mx-auto py-6 sm:py-10 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
-          {/* Main Content - 8 columns */}
           <div className="lg:col-span-8 space-y-6">
-            {/* Hero Section */}
-            <div className="bg-card rounded-2xl shadow-sm border p-6 sm:p-8">
+            <div className="rounded-2xl bg-white dark:bg-slate-950 shadow dark:shadow-emerald-500 border p-6 sm:p-8">
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
                 <div className="flex-1">
                   <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 leading-tight">
@@ -141,7 +139,7 @@ export default async function JobDetailsPage({ params }: Props) {
             </div>
 
             {/* Description */}
-            <div className="bg-card rounded-2xl shadow-sm border p-6 sm:p-8">
+            <div className="bg-white dark:bg-slate-950 rounded-2xl shadow dark:shadow-emerald-500 border p-6 sm:p-8">
               <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
                 <Briefcase className="h-5 w-5 text-primary" />
                 Job Description
@@ -153,14 +151,14 @@ export default async function JobDetailsPage({ params }: Props) {
             </div>
 
             {/* Skills */}
-            <div className="bg-card rounded-2xl shadow-sm border p-6 sm:p-8">
+            <div className="bg-white dark:bg-slate-950 rounded-2xl shadow dark:shadow-emerald-500 border p-6 sm:p-8">
               <h2 className="text-xl font-bold mb-4">Required Skills</h2>
               <div className="flex flex-wrap gap-2">
                 {job.requiredSkills?.map((skill: string) => (
                   <Badge
                     key={skill}
                     variant="secondary"
-                    className="px-3 py-1.5 text-sm font-medium"
+                    className="px-3 py-1.5 text-sm font-medium dark:bg-slate-950 dark:text-white bg-slate-950 text-white shadow shadow-white"
                   >
                     {skill}
                   </Badge>
@@ -170,7 +168,7 @@ export default async function JobDetailsPage({ params }: Props) {
 
             {/* Attachments */}
             {job.attachments && job.attachments.length > 0 && (
-              <div className="bg-card rounded-2xl shadow-sm border p-6 sm:p-8">
+              <div className="bg-white dark:bg-slate-950 rounded-2xl shadow dark:shadow-emerald-500 border p-6 sm:p-8">
                 <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
                   <Download className="h-5 w-5 text-primary" />
                   Attachments
@@ -214,7 +212,7 @@ export default async function JobDetailsPage({ params }: Props) {
 
           <div className="lg:col-span-4">
             <div className="sticky top-6 space-y-6">
-              <div className="bg-card rounded-2xl shadow-sm border p-6">
+              <div className="bg-white dark:bg-slate-950 rounded-2xl shadow dark:shadow-emerald-500 border p-6">
                 <ApplyJobButton jobId={job._id} applicants={job.applicants} />
 
                 {job.applicationCount > 0 && (
@@ -227,7 +225,7 @@ export default async function JobDetailsPage({ params }: Props) {
                 )}
               </div>
 
-              <div className="bg-card rounded-2xl shadow-sm border p-6">
+              <div className="bg-white dark:bg-slate-950 rounded-2xl shadow dark:shadow-emerald-500 border p-6">
                 <h3 className="text-lg font-bold mb-4">About the Client</h3>
                 <div className="flex items-center gap-4">
                   <div className="h-16 w-16 rounded-full bg-linear-to-br from-primary to-primary/60 overflow-hidden relative shrink-0 ring-4 ring-primary/10">
@@ -265,11 +263,11 @@ export default async function JobDetailsPage({ params }: Props) {
               </div>
 
               {/* Quick Stats */}
-              <div className="rounded-2xl bg-zinc-100 shadow-md p-6">
+              <div className="rounded-2xl bg-slate-100 dark:bg-slate-950 shadow dark:shadow-emerald-500 p-6">
                 <h3 className="text-lg font-bold mb-4">Job Details</h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-sm text-muted-foreground dark:text-white">
                       Budget
                     </span>
                     <span className="font-semibold">

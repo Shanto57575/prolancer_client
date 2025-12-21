@@ -90,10 +90,10 @@ export default function PlatformFeatures() {
           {platformFeatures.map((feature, index) => (
             <div
               key={index}
-              className="group rounded-3xl p-8 hover:bg-slate-50 dark:hover:bg-slate-900 border border-transparent hover:border-slate-200 dark:hover:border-slate-800 transition-all duration-300"
+              className="group rounded-3xl p-8 hover:bg-slate-50 dark:hover:bg-slate-900 shadow shadow-emerald-500 border border-transparent hover:border-slate-200 dark:hover:border-slate-800 transition-all duration-300"
             >
               <div
-                className={`w-16 h-16 rounded-2xl bg-linear-to-br ${feature.linear} flex items-center justify-center mb-8 shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 text-white`}
+                className={`w-16 h-16 rounded-2xl bg-linear-to-br ${feature.linear} flex items-center justify-center mb-8 shadow-lg transform group-hover:scale-110 transition-all duration-300 text-white`}
               >
                 <feature.icon className="w-8 h-8" />
               </div>

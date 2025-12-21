@@ -1,19 +1,27 @@
 "use client";
 
 import {
-  Briefcase,
-  Check,
+  Award,
+  Sparkles,
+  TrendingUp,
+  Users,
+  Star,
+  CheckCircle2,
   ChevronLeft,
   ChevronRight,
-  Heart,
   Quote,
-  Shield,
-  Star,
 } from "lucide-react";
 import { useState } from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export default function Testimonials() {
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const testimonials = [
     {
@@ -24,7 +32,8 @@ export default function Testimonials() {
       text: "Prolancer transformed how we hire talent. We found an amazing developer who built our entire platform. The quality exceeded our expectations, and the process was incredibly smooth.",
       project: "Mobile App Development",
       amount: "$12,000",
-      gradient: "from-purple-500 to-indigo-500",
+      duration: "3 months",
+      category: "Development",
     },
     {
       name: "Michael Chen",
@@ -34,7 +43,8 @@ export default function Testimonials() {
       text: "I've hired over 20 freelancers on Prolancer for various marketing projects. The talent pool is incredible, and the platform makes collaboration effortless. Highly recommended!",
       project: "Digital Marketing Campaign",
       amount: "$8,500",
-      gradient: "from-blue-500 to-cyan-500",
+      duration: "2 months",
+      category: "Marketing",
     },
     {
       name: "Emily Rodriguez",
@@ -44,156 +54,276 @@ export default function Testimonials() {
       text: "As a small business owner, Prolancer gave me access to world-class designers at affordable prices. Our brand identity looks absolutely stunning thanks to the talented freelancers here.",
       project: "Brand Design & Logo",
       amount: "$3,200",
-      gradient: "from-pink-500 to-rose-500",
+      duration: "1 month",
+      category: "Design",
+    },
+    {
+      name: "David Park",
+      role: "Product Manager, InnovateLabs",
+      avatar: "DP",
+      rating: 5,
+      text: "The freelancers on Prolancer helped us launch our product 2 months ahead of schedule. Their expertise and dedication were instrumental to our success.",
+      project: "Product Development",
+      amount: "$15,000",
+      duration: "4 months",
+      category: "Development",
+    },
+    {
+      name: "Lisa Anderson",
+      role: "CMO, GrowthMatrix",
+      avatar: "LA",
+      rating: 5,
+      text: "Working with Prolancer freelancers has been a game-changer for our marketing efforts. The quality of work and professionalism exceeded all expectations.",
+      project: "Content Strategy",
+      amount: "$6,800",
+      duration: "2 months",
+      category: "Marketing",
     },
   ];
 
-  const nextTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-  };
+  const stats = [
+    { icon: Users, value: "50K+", label: "Happy Clients" },
+    { icon: Award, value: "98%", label: "Success Rate" },
+    { icon: TrendingUp, value: "$2M+", label: "Paid Out" },
+  ];
 
-  const prevTestimonial = () => {
-    setCurrentTestimonial(
+  const handlePrevious = () => {
+    setActiveIndex(
       (prev) => (prev - 1 + testimonials.length) % testimonials.length
     );
   };
 
+  const handleNext = () => {
+    setActiveIndex((prev) => (prev + 1) % testimonials.length);
+  };
+
   return (
-    <section className="py-20 lg:py-32 bg-slate-50 dark:bg-slate-900/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16 md:mb-24">
-          <span className="inline-flex items-center gap-2 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-500 px-4 py-2 rounded-full mb-6 font-semibold text-sm border border-yellow-200 dark:border-yellow-800">
-            <Star className="w-4 h-4 fill-current" />
-            Success Stories
-          </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-6">
-            Loved by{" "}
-            <span className="bg-linear-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
-              Thousands
-            </span>
+    <section className="relative py-24 lg:py-32 bg-linear-to-b from-white via-slate-50/50 to-white dark:from-slate-950 dark:via-slate-900/50 dark:to-slate-950">
+      {/* Subtle background decoration */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 bg-emerald-500 text-white px-5 py-2.5 rounded-full mb-6 font-semibold text-sm shadow-lg shadow-emerald-500/20">
+            <Sparkles className="w-4 h-4" />
+            Client Success Stories
+          </div>
+
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-slate-900 dark:text-white">
+            Trusted by Thousands
           </h2>
-          <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 font-medium max-w-2xl mx-auto">
-            See what our clients say about their experience working with
-            Prolancer talent.
+
+          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+            Discover how businesses like yours achieve extraordinary results
+            with Prolancer
           </p>
         </div>
 
-        <div className="max-w-6xl mx-auto">
-          <div className="relative bg-white dark:bg-slate-800 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-none overflow-hidden border border-slate-100 dark:border-slate-700 p-8 md:p-12">
-            {/* Decorative Backgrounds */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3"></div>
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl -translate-x-1/3 translate-y-1/3"></div>
-
-            <div className="relative z-10 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-              <div>
-                <Quote className="w-12 h-12 text-emerald-500 mb-8 opacity-50" />
-
-                <div className="flex gap-1 mb-8">
-                  {[...Array(testimonials[currentTestimonial].rating)].map(
-                    (_, i) => (
-                      <Star
-                        key={i}
-                        className="w-6 h-6 text-yellow-500 fill-current"
-                      />
-                    )
-                  )}
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          {stats.map((stat, i) => (
+            <div
+              key={i}
+              className="group bg-white dark:bg-linear-to-br from-slate-900 via-emerald-950 to-slate-900 text-white rounded-2xl p-8 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300"
+            >
+              <div className="flex items-center gap-4">
+                <div className="bg-emerald-500 p-4 rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <stat.icon className="w-6 h-6 text-white" />
                 </div>
-
-                <p className="text-xl md:text-2xl font-medium text-slate-800 dark:text-slate-100 leading-relaxed mb-8 italic">
-                  &quot;{testimonials[currentTestimonial].text}&quot;
-                </p>
-
-                <div className="flex items-center gap-6">
-                  <div
-                    className={`w-14 h-14 rounded-full bg-linear-to-br ${testimonials[currentTestimonial].gradient} flex items-center justify-center text-white text-xl font-bold shadow-lg ring-4 ring-white dark:ring-slate-700`}
-                  >
-                    {testimonials[currentTestimonial].avatar}
+                <div>
+                  <div className="text-3xl font-bold text-slate-900 dark:text-white">
+                    {stat.value}
                   </div>
-                  <div>
-                    <div className="text-xl font-bold text-slate-900 dark:text-white">
-                      {testimonials[currentTestimonial].name}
-                    </div>
-                    <div className="text-slate-500 dark:text-slate-400 font-medium">
-                      {testimonials[currentTestimonial].role}
-                    </div>
+                  <div className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    {stat.label}
                   </div>
-                </div>
-              </div>
-
-              <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-8 border border-slate-100 dark:border-slate-700 relative">
-                <div className="absolute -top-4 -right-4 bg-emerald-500 text-white p-3 rounded-full shadow-lg">
-                  <Check className="w-6 h-6" />
-                </div>
-
-                <div className="grid gap-6">
-                  <div>
-                    <div className="text-sm uppercase tracking-wide text-slate-500 dark:text-slate-400 font-semibold mb-2">
-                      Project Type
-                    </div>
-                    <div className="text-xl font-bold text-slate-900 dark:text-white">
-                      {testimonials[currentTestimonial].project}
-                    </div>
-                  </div>
-
-                  <div className="h-px bg-slate-200 dark:bg-slate-700"></div>
-
-                  <div>
-                    <div className="text-sm uppercase tracking-wide text-slate-500 dark:text-slate-400 font-semibold mb-2">
-                      Project Value
-                    </div>
-                    <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">
-                      {testimonials[currentTestimonial].amount}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between mt-10 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-xs border border-slate-100 dark:border-slate-700">
-                  <button
-                    onClick={prevTestimonial}
-                    className="p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400"
-                    aria-label="Previous"
-                  >
-                    <ChevronLeft className="w-6 h-6" />
-                  </button>
-                  <div className="flex gap-2">
-                    {testimonials.map((_, index) => (
-                      <div
-                        key={index}
-                        onClick={() => setCurrentTestimonial(index)}
-                        className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                          index === currentTestimonial
-                            ? "w-8 bg-emerald-500"
-                            : "w-2 bg-slate-300 dark:bg-slate-600 hover:bg-emerald-300"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <button
-                    onClick={nextTestimonial}
-                    className="p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400"
-                    aria-label="Next"
-                  >
-                    <ChevronRight className="w-6 h-6" />
-                  </button>
                 </div>
               </div>
             </div>
-          </div>
+          ))}
+        </div>
 
-          <div className="mt-16 flex flex-wrap justify-center gap-8 md:gap-16 border-t border-slate-200 dark:border-slate-800 pt-12">
-            {[
-              { icon: Shield, text: "Verified Reviews" },
-              { icon: Briefcase, text: "Real Projects" },
-              { icon: Heart, text: "Authentic Experiences" },
-            ].map((item, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-full text-emerald-600 dark:text-emerald-400">
-                  <item.icon className="w-5 h-5" />
-                </div>
-                <span className="font-semibold text-slate-700 dark:text-slate-300">
-                  {item.text}
-                </span>
+        {/* Main Testimonial Display */}
+        <div className="bg-white dark:bg-linear-to-br from-slate-900 via-emerald-950 to-slate-900 text-white rounded-3xl p-8 md:p-12 lg:p-16 border border-slate-200 dark:border-slate-800 shadow-2xl shadow-slate-200/50 dark:shadow-none mb-12">
+          <div className="grid lg:grid-cols-5 gap-12 items-start">
+            {/* Left Side - Testimonial Content */}
+            <div className="lg:col-span-3 space-y-8">
+              {/* Quote Icon */}
+              <div className="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center">
+                <Quote className="w-7 h-7 text-emerald-500" />
               </div>
+
+              {/* Rating */}
+              <div className="flex gap-1">
+                {[...Array(testimonials[activeIndex].rating)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className="w-6 h-6 text-emerald-500 fill-emerald-500"
+                  />
+                ))}
+              </div>
+
+              {/* Quote */}
+              <p className="md:text-xl font-medium text-slate-900 dark:text-white leading-relaxed text-justify">
+                {testimonials[activeIndex].text}
+              </p>
+
+              {/* Author Info */}
+              <div className="flex items-center gap-5 pt-6 border-t border-slate-200 dark:border-slate-800">
+                <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-emerald-500/30">
+                  {testimonials[activeIndex].avatar}
+                </div>
+                <div>
+                  <div className="text-xl font-bold text-slate-900 dark:text-white">
+                    {testimonials[activeIndex].name}
+                  </div>
+                  <div className="text-slate-600 dark:text-slate-400">
+                    {testimonials[activeIndex].role}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side - Project Details */}
+            <div className="lg:col-span-2 space-y-6">
+              <div className="bg-slate-50 dark:bg-slate-950 rounded-2xl p-8 border border-slate-200 dark:border-slate-800">
+                <div className="space-y-6">
+                  <div>
+                    <div className="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wider">
+                      Project Type
+                    </div>
+                    <div className="text-xl font-bold text-slate-900 dark:text-white">
+                      {testimonials[activeIndex].project}
+                    </div>
+                  </div>
+
+                  <div className="h-px bg-slate-200 dark:bg-slate-800"></div>
+
+                  <div className="grid grid-cols-2 gap-6">
+                    <div>
+                      <div className="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wider">
+                        Value
+                      </div>
+                      <div className="text-2xl font-bold text-emerald-500">
+                        {testimonials[activeIndex].amount}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wider">
+                        Duration
+                      </div>
+                      <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                        {testimonials[activeIndex].duration}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-4">
+                    <div className="inline-flex items-center gap-2 bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-lg shadow-emerald-500/30">
+                      <CheckCircle2 className="w-4 h-4" />
+                      {testimonials[activeIndex].category}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Navigation */}
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={handlePrevious}
+                  className="flex-1 bg-white dark:bg-slate-950 border-2 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white px-6 py-3 rounded-xl font-semibold hover:border-emerald-500 dark:hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-950/20 transition-all flex items-center justify-center gap-2 group"
+                >
+                  <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                  Previous
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="flex-1 bg-emerald-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-emerald-600 transition-all flex items-center justify-center gap-2 group shadow-lg shadow-emerald-500/30"
+                >
+                  Next
+                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Shadcn Carousel - Testimonial Thumbnails */}
+        <div className="relative px-12">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-4">
+              {testimonials.map((testimonial, index) => (
+                <CarouselItem
+                  key={index}
+                  className="pl-4 md:basis-1/2 lg:basis-1/3"
+                >
+                  <button
+                    onClick={() => setActiveIndex(index)}
+                    className={`w-full text-left p-6 rounded-2xl border-2 transition-all duration-300 ${
+                      index === activeIndex
+                        ? "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-500 shadow-xl shadow-emerald-500/20"
+                        : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-emerald-500 dark:hover:border-emerald-500"
+                    }`}
+                  >
+                    <div className="flex items-center gap-4 mb-3">
+                      <div
+                        className={`w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold transition-all duration-300 ${
+                          index === activeIndex
+                            ? "bg-linear-to-br from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-500/30"
+                            : "bg-slate-400"
+                        }`}
+                      >
+                        {testimonial.avatar}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-slate-900 dark:text-white truncate">
+                          {testimonial.name}
+                        </div>
+                        <div className="text-sm text-slate-600 dark:text-slate-400 flex items-center gap-2">
+                          <span className="truncate">
+                            {testimonial.category}
+                          </span>
+                          <span className="text-emerald-500">•</span>
+                          <span>{testimonial.amount}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
+                      {testimonial.text}
+                    </div>
+                  </button>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/20 hover:border-emerald-500 dark:hover:border-emerald-500 text-slate-900 dark:text-white" />
+            <CarouselNext className="bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/20 hover:border-emerald-500 dark:hover:border-emerald-500 text-slate-900 dark:text-white" />
+          </Carousel>
+
+          {/* Carousel Indicators */}
+          <div className="flex justify-center gap-2 mt-8">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  setActiveIndex(index);
+                }}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  index === activeIndex
+                    ? "w-8 bg-emerald-500"
+                    : "w-2 bg-slate-300 dark:bg-slate-700 hover:bg-emerald-300 dark:hover:bg-emerald-700"
+                }`}
+                aria-label={`Go to testimonial ${index + 1}`}
+              />
             ))}
           </div>
         </div>

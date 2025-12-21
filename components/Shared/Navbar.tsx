@@ -33,7 +33,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { logoutAction } from "@/actions/auth/logoutAction";
-import { useTheme } from "next-themes";
 import { ModeToggle } from "./ModeToggle";
 
 interface MenuItem {
@@ -72,6 +71,22 @@ export default function Navbar({
       title: "Find Jobs",
       url: "/jobs",
     },
+    {
+      title: "Why Prolancer",
+      url: "/why-prolancer",
+    },
+    {
+      title: "How it works",
+      url: "/how-it-works",
+    },
+    {
+      title: "Blog",
+      url: "/blog",
+    },
+    {
+      title: "Contact",
+      url: "/contact",
+    },
   ],
   auth = {
     login: { title: "Login", url: "/login" },
@@ -81,7 +96,6 @@ export default function Navbar({
 }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-  const { theme } = useTheme();
 
   const getUserInitials = (user: any) => {
     if (!user) return "U";

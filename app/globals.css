@@ -146,6 +146,25 @@
   --sidebar-ring: oklch(0.55 0.18 155);
 }
 
+.bg-hero-grid {
+  background-image: linear-gradient(
+      to right,
+      rgba(148, 163, 184, 0.08) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+.dark .bg-hero-grid {
+  background-image: linear-gradient(
+      to right,
+      rgba(148, 163, 184, 0.04) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
