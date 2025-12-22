@@ -337,14 +337,13 @@ export default async function AllJobsPage({
                           {job.experienceLevel}
                         </div>
                       </div>
-
                       {!isClosed && (
-                        <div className="w-full bg-slate-50 dark:bg-slate-800 rounded-xl p-3 flex items-center justify-between group-hover:bg-emerald-50 dark:group-hover:bg-emerald-900/10 transition-colors duration-300">
-                          <span className="pl-3 text-sm font-semibold text-slate-600 dark:text-slate-400 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
+                        <div className="w-full bg-emerald-50 dark:bg-slate-800/50 rounded-lg p-4 flex items-center justify-between group-hover:bg-emerald-50 dark:group-hover:bg-emerald-950/30 transition-all duration-200">
+                          <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                             View Details
                           </span>
-                          <div className="h-8 w-8 rounded-lg bg-white dark:bg-slate-700 group-hover:bg-emerald-500 flex items-center justify-center transition-colors shadow-sm">
-                            <ArrowRight className="h-4 w-4 text-slate-400 dark:text-slate-300 group-hover:text-white -ml-0.5" />
+                          <div className="h-9 w-9 rounded-lg bg-white dark:bg-emerald-700 group-hover:bg-emerald-600 dark:group-hover:bg-emerald-800 flex items-center justify-center transition-all duration-200 shadow-sm group-hover:shadow-md">
+                            <ArrowRight className="h-4 w-4 text-emerald-600 dark:text-emerald-200 group-hover:text-white transition-colors" />
                           </div>
                         </div>
                       )}

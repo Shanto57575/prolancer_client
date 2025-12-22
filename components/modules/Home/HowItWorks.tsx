@@ -45,7 +45,7 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section className="py-20 lg:py-32 bg-slate-50 dark:bg-slate-900/50 relative overflow-hidden">
+    <section className="py-20 lg:py-32 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
       {/* Background Decorative Blobs */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-1/2 left-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2"></div>
@@ -74,12 +74,12 @@ export default function HowItWorks() {
           {howItWorks.map((step, index) => (
             <div key={index} className="relative group">
               {index < howItWorks.length - 1 && (
-                <div className="hidden lg:block absolute top-10 left-[60%] w-[80%] h-[2px] bg-slate-200 dark:bg-slate-800 -z-10">
+                <div className="hidden lg:block absolute top-10 left-[60%] w-[80%] h-[2px] bg-slate-200 dark:bg-slate-950 -z-10">
                   <div className="h-full bg-emerald-500 w-0 group-hover:w-full transition-all duration-700 ease-in-out"></div>
                 </div>
               )}
 
-              <div className="relative rounded-2xl p-8 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-emerald-500/50 dark:hover:border-emerald-500/50 shadow-xs hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-300 h-full group-hover:-translate-y-2">
+              <div className="relative rounded-2xl p-8 bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-700 hover:border-emerald-500/50 dark:hover:border-emerald-500/50 shadow-xs hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-300 h-full group-hover:-translate-y-2">
                 <div className="flex flex-col items-center text-center">
                   <div className="relative mb-6">
                     <div

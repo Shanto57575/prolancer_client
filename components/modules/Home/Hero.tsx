@@ -47,22 +47,19 @@ export default function ProlancerHero() {
       </div>
       <div className="relative z-10 max-w-6xl px-6 text-center">
         {/* Badge */}
-        <span className="inline-flex px-4 py-2 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-sm mb-6">
+        <span className="mb-10 shadow shadow-emerald-600 dark:shadow-emerald-400 bg-emerald-600 text-white dark:bg-black dark:text-emerald-100 px-5 py-2 rounded-full">
           #1 Freelance Marketplace
         </span>
-
         {/* Heading */}
-        <h1 className="text-4xl md:text-6xl font-bold mb-4">
+        <h1 className="text-4xl md:text-6xl font-bold my-4">
           Hire Expert Freelancers
           <RotatingText />
         </h1>
-
         {/* Subtitle */}
         <p className="max-w-2xl mx-auto text-muted-foreground mb-8">
           Connect with trusted professionals across design, development, and
           marketing — faster and safer.
         </p>
-
         {/* CTAs */}
         <div className="flex justify-center gap-4 mb-10">
           <Link
@@ -78,7 +75,6 @@ export default function ProlancerHero() {
             Learn More
           </Link>
         </div>
-
         {/* Trust Points */}
         <div className="flex flex-wrap justify-center gap-6 mb-12 text-sm">
           {["Secure Escrow", "Verified Professionals", "24/7 Support"].map(
@@ -90,7 +86,6 @@ export default function ProlancerHero() {
             )
           )}
         </div>
-
         {/* Categories */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
           {categories.map(({ name, icon: Icon }) => (
@@ -103,7 +98,6 @@ export default function ProlancerHero() {
             </div>
           ))}
         </div>
-
         {/* Stats */}
         <div className="flex flex-wrap justify-center gap-10">
           {stats.map(({ icon: Icon, value, label }) => (

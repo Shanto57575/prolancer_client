@@ -194,7 +194,7 @@ export default function ProlancerFooter() {
                     placeholder="Enter your email"
                     className="flex-1 px-6 py-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/30 placeholder:text-white/60 text-white focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
                   />
-                  <button className="bg-white text-emerald-500 px-8 py-4 rounded-xl font-bold hover:bg-emerald-400 hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center justify-center gap-2 group">
+                  <button className="cursor-pointer bg-white text-emerald-600 shadow shadow-emerald-500 px-8 py-4 rounded-xl font-bold hover:bg-emerald-800 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 group">
                     Subscribe
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </button>

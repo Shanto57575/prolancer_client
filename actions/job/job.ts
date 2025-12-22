@@ -171,11 +171,6 @@ export async function getMyJobsAction(
   }
 }
 
-/**
- * Public action to get all jobs.
- * Does NOT use cookies() to allow for Static Site Generation (SSG) / ISR.
- * Revalidates every 60 seconds.
- */
 export async function getAllJobsPublicAction(
   page = 1,
   limit = 10,
