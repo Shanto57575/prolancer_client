@@ -105,7 +105,7 @@ export default async function MyApplicationsPage({
                             ? "bg-green-500"
                             : app.status === "rejected"
                             ? "text-red-50"
-                            : "bg-gray-200"
+                            : "bg-yellow-500 text-white"
                         }`}
                       >
                         {app.status}

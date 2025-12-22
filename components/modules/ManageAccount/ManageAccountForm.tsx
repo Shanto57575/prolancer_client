@@ -206,7 +206,7 @@ export default function ManageAccountForm() {
       />
       <Button
         type="button"
-        className="bg-emerald-100 text-emerald-900 hover:bg-emerald-200 hover:text-emerald-900"
+        className="bg-emerald-100 dark:bg-emerald-800 text-emerald-900 dark:text-emerald-100 hover:bg-emerald-200 hover:text-emerald-900"
       >
         {userRole.charAt(0) + userRole.slice(1).toLowerCase()} Account
       </Button>

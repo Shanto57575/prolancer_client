@@ -25,13 +25,15 @@ export default function ResumeUpload({
 
   return (
     <div className="space-y-3">
-      <label className="text-sm font-medium text-slate-700">Resume (PDF)</label>
+      <label className="text-sm font-medium text-slate-700 dark:text-slate-200">
+        Resume (PDF)
+      </label>
 
       {resumeUrl ? (
-        <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg border border-slate-200">
+        <div className="flex items-center gap-3 p-4 bg-slate-50 dark:bg-black rounded-lg border border-slate-200">
           <FileText className="w-8 h-8 text-emerald-600" />
           <div className="flex-1">
-            <p className="text-sm font-medium text-slate-900">
+            <p className="text-sm font-medium text-slate-900 dark:text-slate-200">
               Resume uploaded
             </p>
             <a

@@ -5,7 +5,7 @@ import { Zap, Shield, Users } from "lucide-react";
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen bg-linear-to-br from-slate-50 via-emerald-50 to-emerald-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+    <div className="flex min-h-screen bg-linear-to-br from-slate-50 via-emerald-50 to-emerald-100 dark:from-emerald-950 dark:via-slate-950 dark:to-emerald-950">
       <div className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-12">
         <div className="w-full max-w-md space-y-6">
           {/* Mobile Logo */}
@@ -45,7 +45,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-linear-to-br from-slate-900 via-emerald-950 to-slate-900 p-12 items-center justify-center">
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-linear-to-br from-slate-950 via-emerald-950 to-emerald-950 p-12 items-center justify-center">
         <div className="absolute inset-0 bg-grid-white/[0.05] bg-size-[32px_32px]" />
         <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
 

@@ -28,7 +28,9 @@ export default function ImageUpload({
 
   return (
     <div className="space-y-3">
-      <label className="text-sm font-medium text-slate-700">{label}</label>
+      <label className="text-sm font-medium text-slate-700 dark:text-slate-400">
+        {label}
+      </label>
 
       <div className="flex items-start gap-4">
         {previewUrl ? (
@@ -49,7 +51,7 @@ export default function ImageUpload({
             </button>
           </div>
         ) : (
-          <div className="h-32 w-32 shrink-0 rounded-full bg-slate-100 border-2 border-dashed border-slate-300 flex items-center justify-center">
+          <div className="h-32 w-32 shrink-0 rounded-full bg-slate-100 dark:bg-slate-950 border-2 border-dashed border-slate-300 flex items-center justify-center">
             <Upload className="w-8 h-8 text-slate-400" />
           </div>
         )}

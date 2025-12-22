@@ -5,7 +5,7 @@ import { registerAction } from "@/actions/auth/registerAction";
 
 export default function RegisterPage() {
   return (
-    <div className="flex min-h-screen bg-zinc-50">
+    <div className="flex min-h-screen bg-linear-to-br from-slate-50 via-emerald-50 to-emerald-100 dark:from-emerald-950 dark:via-slate-950 dark:to-emerald-950">
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-linear-to-br from-slate-900 via-emerald-950 to-slate-900 p-12 items-center justify-center">
         <div className="absolute inset-0 bg-grid-white/[0.05] bg-size-[32px_32px]" />
         <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />

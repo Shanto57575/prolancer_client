@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
-import Link from "next/link";
 
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
