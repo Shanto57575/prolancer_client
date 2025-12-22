@@ -72,16 +72,16 @@ export default function Navbar({
       url: "/jobs",
     },
     {
+      title: "Hire Freelancer",
+      url: "/hire-freelancer",
+    },
+    {
       title: "Why Prolancer",
       url: "/why-prolancer",
     },
     {
       title: "How it works",
       url: "/how-it-works",
-    },
-    {
-      title: "Blog",
-      url: "/blog",
     },
     {
       title: "Contact",

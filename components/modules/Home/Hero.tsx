@@ -1,7 +1,5 @@
-"use client";
-
+import Link from "next/link";
 import { GridPattern } from "./GridPattern";
-import HeroBackground from "./HeroBackground";
 import { RotatingText } from "./RotatingText";
 import {
   CheckCircle2,
@@ -67,12 +65,18 @@ export default function ProlancerHero() {
 
         {/* CTAs */}
         <div className="flex justify-center gap-4 mb-10">
-          <button className="px-6 py-3 rounded-xl bg-emerald-500 text-white font-semibold hover:bg-emerald-600 transition">
+          <Link
+            href="/find-talent"
+            className="px-6 py-3 rounded-xl bg-emerald-500 text-white font-semibold hover:bg-emerald-600 transition"
+          >
             Find Talent
-          </button>
-          <button className="px-6 py-3 rounded-xl border font-semibold hover:bg-muted transition">
-            Post a Job
-          </button>
+          </Link>
+          <Link
+            href="/why-prolancer"
+            className="px-6 py-3 rounded-xl border border-emerald-500 font-semibold hover:bg-muted transition"
+          >
+            Learn More
+          </Link>
         </div>
 
         {/* Trust Points */}

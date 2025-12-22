@@ -73,7 +73,6 @@ export default function HowItWorks() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
           {howItWorks.map((step, index) => (
             <div key={index} className="relative group">
-              {/* Connector Lines for Desktop */}
               {index < howItWorks.length - 1 && (
                 <div className="hidden lg:block absolute top-10 left-[60%] w-[80%] h-[2px] bg-slate-200 dark:bg-slate-800 -z-10">
                   <div className="h-full bg-emerald-500 w-0 group-hover:w-full transition-all duration-700 ease-in-out"></div>
@@ -107,10 +106,10 @@ export default function HowItWorks() {
 
         <div className="text-center mt-16">
           <Link
-            href="/jobs"
+            href="/how-it-works"
             className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-10 py-4 rounded-xl font-bold text-lg shadow-lg shadow-emerald-600/20 hover:shadow-xl hover:shadow-emerald-600/40 transition-all duration-300 transform hover:-translate-y-1 group"
           >
-            Get Started Now
+            Learn More
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
