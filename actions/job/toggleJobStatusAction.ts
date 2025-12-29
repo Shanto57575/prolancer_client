@@ -17,8 +17,9 @@ export const toggleJobStatusAction = async (
 
   const data = await res.json();
   if (data?.success) {
-    revalidateTag("my-jobs", "default");
-    revalidateTag("job-details", "default");
+    revalidateTag("jobs", "max");
+    revalidateTag("my-jobs", "max");
+    revalidateTag(`job-${jobId}`, "max");
   }
 
   return data;

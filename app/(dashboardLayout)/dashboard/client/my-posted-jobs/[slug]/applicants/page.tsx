@@ -9,7 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getJobByIdAction } from "@/actions/job/job";
 import ApplicationActionButtons from "@/components/modules/application/ApplicationActionButtons";
-import { createChatAction } from "@/actions/chat/createChatAction";
+import { createChatAsClient } from "@/actions/chat/createChatAction";
 import { MessageCircle } from "lucide-react";
 
 const sortFields = [
@@ -48,7 +48,7 @@ export default async function JobApplicantsPage({
   }
 
   const job = jobRes.data;
-  const jobId = job._id;
+  const jobId = job?._id;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const filters: any = {};
@@ -177,6 +177,7 @@ export default async function JobApplicantsPage({
                   <div className="flex flex-col gap-2 w-full">
                     <ApplicationActionButtons
                       applicationId={app._id}
+                      jobId={jobId}
                       currentStatus={app.status}
                     />
 
@@ -184,7 +185,7 @@ export default async function JobApplicantsPage({
                       <form
                         action={async () => {
                           "use server";
-                          await createChatAction(
+                          await createChatAsClient(
                             jobId.toString(),
                             app.freelancerId._id
                           );

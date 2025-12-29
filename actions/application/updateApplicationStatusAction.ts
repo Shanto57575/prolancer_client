@@ -5,6 +5,7 @@ import getAuthHeaders from "../sharedFunction/getAuthHeaders";
 
 export const updateApplicationStatusAction = async (
   applicationId: string,
+  jobId: string,
   status: "accepted" | "rejected"
 ) => {
   const headers = await getAuthHeaders();
@@ -20,8 +21,9 @@ export const updateApplicationStatusAction = async (
 
   const data = await res.json();
   if (data?.success) {
-    revalidateTag("job-applications", "default");
-    revalidateTag("my-posted-jobs", "default");
+    revalidateTag(`job-applications-${jobId}`, "max");
+    revalidateTag("my-applications", "max");
+    revalidateTag("jobs", "max");
   }
 
   return data;

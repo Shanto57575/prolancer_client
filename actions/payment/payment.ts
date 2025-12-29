@@ -1,4 +1,3 @@
-"use strict";
 "use server";
 
 import getAuthHeaders from "../sharedFunction/getAuthHeaders";

@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import getAuthHeaders from "../sharedFunction/getAuthHeaders";
 
 const API_BASE = process.env.API_BASE_URL;
@@ -51,7 +51,7 @@ export async function createJobAction(formData: FormData) {
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Failed to create job");
 
-    revalidatePath("/dashboard/client/my-posted-jobs");
+    revalidateTag("jobs", "max");
     return { ok: true, message: "Job created successfully", data: data.data };
   } catch (error: Error | unknown) {
     return {
@@ -107,7 +107,8 @@ export async function updateJobAction(id: string, formData: FormData) {
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Failed to update job");
 
-    revalidatePath("/dashboard/client/my-posted-jobs");
+    revalidateTag("jobs", "max");
+    revalidateTag(`job-${id}`, "max");
     return { ok: true, message: "Job updated successfully" };
   } catch (error: Error | unknown) {
     return {
@@ -128,7 +129,8 @@ export async function deleteJobAction(id: string) {
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Failed to delete job");
 
-    revalidatePath("/dashboard/client/my-posted-jobs");
+    revalidateTag("jobs", "max");
+    revalidateTag(`job-${id}`, "max");
     return { ok: true, message: "Job deleted successfully" };
   } catch (error: Error | unknown) {
     return {
@@ -190,7 +192,9 @@ export async function getAllJobsPublicAction(
       headers: {
         "Content-Type": "application/json",
       },
-      next: { revalidate: 60 }, // ISR: Revalidate every 60 seconds
+      next: {
+        tags: ["jobs"],
+      },
     });
 
     const data = await res.json();
@@ -205,11 +209,6 @@ export async function getAllJobsPublicAction(
   }
 }
 
-/**
- * Legacy action that might have used auth, redirected to public for now
- * but kept for backward compatibility if we decide to re-add strict auth checks later.
- * Ideally, we migrate to use getAllJobsPublicAction for the public lists.
- */
 export async function getAllJobsAction(
   page = 1,
   limit = 10,
@@ -220,11 +219,6 @@ export async function getAllJobsAction(
   return getAllJobsPublicAction(page, limit, search, filters);
 }
 
-/**
- * Public action to get single job.
- * Does NOT use cookies() to allow for SSG/ISR.
- * Revalidates every 1 hour (3600s).
- */
 export async function getJobByIdPublicAction(id: string) {
   try {
     const res = await fetch(`${API_BASE}/jobs/${id}`, {
@@ -232,7 +226,9 @@ export async function getJobByIdPublicAction(id: string) {
       headers: {
         "Content-Type": "application/json",
       },
-      next: { revalidate: 3600 }, // ISR: Revalidate every hour
+      next: {
+        tags: ["job", id],
+      },
     });
 
     const data = await res.json();

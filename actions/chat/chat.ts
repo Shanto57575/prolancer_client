@@ -4,7 +4,7 @@ import getAuthHeaders from "../sharedFunction/getAuthHeaders";
 
 const API_URL = process.env.API_BASE_URL;
 
-export const createChatAction = async (
+export const createChatAsFreelancer = async (
   jobId: string,
   clientId: string,
   freelancerId: string

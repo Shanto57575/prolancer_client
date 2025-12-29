@@ -1,4 +1,3 @@
-"use strict";
 "use client";
 
 import { useEffect, useState } from "react";

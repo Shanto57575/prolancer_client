@@ -17,10 +17,10 @@ export async function getNotificationsAction() {
 
     const data = await res.json();
     return { ok: res.ok, data: data.data, message: data.message };
-  } catch (err: any) {
+  } catch (err: unknown) {
     return {
       ok: false,
-      message: err.message || "Failed to fetch notifications",
+      message: (err as Error).message || "Failed to fetch notifications",
     };
   }
 }
@@ -38,10 +38,10 @@ export async function markAllNotificationsReadAction() {
 
     const data = await res.json();
     return { ok: res.ok, data: data.data, message: data.message };
-  } catch (err: any) {
+  } catch (err: unknown) {
     return {
       ok: false,
-      message: err.message || "Failed to mark notifications read",
+      message: (err as Error).message || "Failed to mark notifications read",
     };
   }
 }

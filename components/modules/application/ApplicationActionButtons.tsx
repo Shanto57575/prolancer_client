@@ -9,11 +9,13 @@ import { toast } from "sonner";
 
 interface ApplicationActionButtonsProps {
   applicationId: string;
+  jobId: string;
   currentStatus: string;
 }
 
 export default function ApplicationActionButtons({
   applicationId,
+  jobId,
   currentStatus,
 }: ApplicationActionButtonsProps) {
   const [loading, setLoading] = useState<string | null>(null);
@@ -22,7 +24,11 @@ export default function ApplicationActionButtons({
   const handleStatusUpdate = async (status: "accepted" | "rejected") => {
     setLoading(status);
     try {
-      const res = await updateApplicationStatusAction(applicationId, status);
+      const res = await updateApplicationStatusAction(
+        applicationId,
+        jobId,
+        status
+      );
       if (res.success) {
         toast.success(`Application ${status} successfully`);
         router.refresh();

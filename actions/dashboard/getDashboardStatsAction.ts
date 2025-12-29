@@ -16,7 +16,6 @@ export async function getDashboardStatsAction() {
       return { ok: false, message: "Not authenticated" };
     }
 
-    // Removing 'returnSecureToken' and 'as any' as they are not standard fetch options
     const res = await fetch(`${API_BASE.replace(/\/$/, "")}/dashboard/stats`, {
       method: "GET",
       cache: "no-store",

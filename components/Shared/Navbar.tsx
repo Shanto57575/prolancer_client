@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { logoutAction } from "@/actions/auth/logoutAction";
-import { ModeToggle } from "./ModeToggle";
+// import ModeToggle from "./ModeToggle";
 
 interface MenuItem {
   title: string;
@@ -61,7 +61,7 @@ interface NavbarProps {
 export default function Navbar({
   logo = {
     url: "/",
-    src: "/newlogo.png",
+    src: "/prolancerlogo.png",
     alt: "ProLancer Logo",
     title: "ProLancer",
   },
@@ -124,7 +124,6 @@ export default function Navbar({
                 src={logo.src}
                 width={100}
                 height={100}
-                className="dark:invert"
                 alt={logo.alt}
                 priority
               />
@@ -140,7 +139,7 @@ export default function Navbar({
 
           {/* Right side actions */}
           <div className="flex items-center gap-3 shrink-0">
-            <ModeToggle />
+            {/* <ModeToggle /> */}
             {user ? (
               <>
                 <NotificationIndicator />
@@ -239,7 +238,7 @@ export default function Navbar({
           </Link>
 
           <div className="flex items-center gap-2">
-            <ModeToggle />
+            {/* <ModeToggle /> */}
             {user && <NotificationIndicator />}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>

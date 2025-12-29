@@ -21,11 +21,11 @@ export default async function ManageService({
   const meta = result.meta || { page, limit, total: services.length };
 
   return (
-    <div className="space-y-8 max-w-3xl mx-auto mt-5">
+    <div className="space-y-8 max-w-7xl mx-auto mt-5">
       <h1 className="text-3xl font-bold">Manage Services</h1>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-x-2">
         <CommonSearch />
-        <ServiceModal trigger={<Button size="sm">Add New Service</Button>} />
+        <ServiceModal trigger={<Button>Add New Service</Button>} />
       </div>
 
       <div className="min-h-[70vh]">

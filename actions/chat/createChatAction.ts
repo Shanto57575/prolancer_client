@@ -5,7 +5,10 @@ import getAuthHeaders from "../sharedFunction/getAuthHeaders";
 
 const API_URL = process.env.API_BASE_URL;
 
-export const createChatAction = async (jobId: string, freelancerId: string) => {
+export const createChatAsClient = async (
+  jobId: string,
+  freelancerId: string
+) => {
   const headers = await getAuthHeaders();
 
   const res = await fetch(`${API_URL}/chats`, {

@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import getAuthHeaders from "../sharedFunction/getAuthHeaders";
 
 export const createApplicationAction = async (jobId: string) => {
@@ -14,9 +14,9 @@ export const createApplicationAction = async (jobId: string) => {
 
   const data = await res.json();
   if (data?.success) {
-    revalidateTag("job-details", "default");
-    revalidateTag("my-applications", "default");
-    revalidatePath("/dashboard");
+    revalidateTag(`job-${jobId}`, "max");
+    revalidateTag("jobs", "max");
+    revalidateTag("my-applications", "max");
   }
 
   return data;

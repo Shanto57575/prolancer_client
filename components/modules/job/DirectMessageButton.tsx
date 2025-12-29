@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { createChatAction } from "@/actions/chat/chat";
+import { createChatAsFreelancer } from "@/actions/chat/chat";
 import { toast } from "sonner";
 
 interface DirectMessageButtonProps {
@@ -42,9 +42,8 @@ export default function DirectMessageButton({
       }
 
       // Create Chat
-      const res = await createChatAction(jobId, clientId, currentUserId);
+      const res = await createChatAsFreelancer(jobId, clientId, currentUserId);
       if (res.success) {
-        // Assuming role is FREELANCER as this button is conditionally rendered for freelancers
         router.push(`/dashboard/freelancer/messages/${res.data._id}`);
       } else {
         toast.error(res.message || "Failed to start chat");

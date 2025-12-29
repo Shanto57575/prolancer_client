@@ -12,7 +12,7 @@ export function VersionSwitcher() {
           href="/"
           className="flex items-center justify-center rounded-lg p-0"
         >
-          <Image src="/newlogo.png" alt="Logo" width={120} height={120} />
+          <Image src="/prolancerlogo.png" alt="Logo" width={120} height={120} />
         </Link>
       </SidebarMenuItem>
     </SidebarMenu>
