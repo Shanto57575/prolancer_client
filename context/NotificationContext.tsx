@@ -30,6 +30,8 @@ interface NotificationContextType {
   clearUnread: () => void;
   markAsRead: (chatId: string) => void;
   role: string | null;
+  currentUser: any;
+  setSession: (user: any) => void;
 }
 
 const NotificationContext = createContext<NotificationContextType | undefined>(
@@ -37,32 +39,42 @@ const NotificationContext = createContext<NotificationContextType | undefined>(
 );
 
 export function NotificationProvider({
-  userId,
-  role,
+  initialUser,
   children,
 }: {
-  userId?: string | null;
-  role?: string | null;
+  initialUser?: any;
   children: React.ReactNode;
 }) {
-  const [unreadCount, setUnreadCount] = useState(0);
+  const [currentUser, setCurrentUser] = useState<any>(initialUser || null);
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
   const router = useRouter();
   const pathname = usePathname();
 
+  const userId = currentUser?._id;
+  const role = currentUser?._id ? currentUser.role : null;
+
+  const setSession = (user: any) => {
+    setCurrentUser(user);
+  };
+
   // Fetch initial notifications
   useEffect(() => {
-    if (!userId) return;
+    if (!userId) {
+      if (notifications.length > 0) {
+        setNotifications([]);
+      }
+      return;
+    }
 
     const fetchNotifs = async () => {
       const res = await getNotificationsAction();
       if (res.ok && res.data) {
         setNotifications(res.data);
-        const count = res.data.filter((n: Notification) => !n.isRead).length;
-        setUnreadCount(count);
       }
     };
     fetchNotifs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   useEffect(() => {
@@ -108,7 +120,6 @@ export function NotificationProvider({
       }
 
       playSound();
-      setUnreadCount((prev) => prev + 1);
 
       // Adapt Pusher data to Notification Interface
       const newNotif: Notification = {
@@ -147,13 +158,14 @@ export function NotificationProvider({
   }, [userId, role, pathname, router]);
 
   const clearUnread = async () => {
-    setUnreadCount(0);
     setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
     await markAllNotificationsReadAction();
   };
 
   const markAsRead = (chatId: string) => {
-    // Optimistic update if needed
+    setNotifications((prev) =>
+      prev.map((n) => (n.link?.includes(chatId) ? { ...n, isRead: true } : n))
+    );
   };
 
   return (
@@ -164,6 +176,8 @@ export function NotificationProvider({
         clearUnread,
         markAsRead,
         role: role || null,
+        currentUser,
+        setSession,
       }}
     >
       {children}
@@ -180,6 +194,8 @@ export const useNotification = () => {
       clearUnread: () => {},
       markAsRead: () => {},
       role: null,
+      currentUser: null,
+      setSession: () => {},
     };
   }
   return context;

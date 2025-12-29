@@ -52,7 +52,6 @@ interface CustomTooltipProps {
   }>;
 }
 
-// Define tooltip components outside of render
 const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     return (

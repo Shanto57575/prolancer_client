@@ -8,7 +8,6 @@ export default function LoginPage() {
     <div className="flex min-h-screen bg-linear-to-br from-slate-50 via-emerald-50 to-emerald-100 dark:from-emerald-950 dark:via-slate-950 dark:to-emerald-950">
       <div className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-12">
         <div className="w-full max-w-md space-y-6">
-          {/* Mobile Logo */}
           <div className="lg:hidden text-center pb-4">
             <h1 className="text-4xl font-bold text-black">ProLancer</h1>
             <p className="mt-2 text-sm text-muted-foreground">
@@ -16,14 +15,13 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* Form Card */}
           <div className="rounded-2xl bg-white dark:bg-slate-900 p-6 sm:p-8 shadow border border-slate-200 dark:border-slate-800">
             <div className="mb-6">
               <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
                 Sign In
               </h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                Enter your credentials to access your account
+                Try demo accounts or use your credentials
               </p>
             </div>
 
@@ -98,9 +96,9 @@ export default function LoginPage() {
           <div className="pt-8">
             <div className="p-6 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20">
               <p className="text-sm text-emerald-100 italic">
-                &quot; ProLancer has transformed how I find and manage freelance
+                &quot;ProLancer has transformed how I find and manage freelance
                 work. The platform is intuitive and the opportunities are
-                endless! &quot;
+                endless!&quot;
               </p>
               <div className="flex items-center gap-3 mt-4">
                 <div className="h-10 w-10 rounded-full bg-linear-to-br from-pink-400 to-emerald-600" />

@@ -62,7 +62,7 @@ export default function ProlancerHero() {
         {/* CTAs */}
         <div className="flex justify-center gap-4 mb-10">
           <Link
-            href="/find-talent"
+            href="/hire-freelancer"
             className="px-6 py-3 rounded-xl bg-emerald-500 text-white font-semibold hover:bg-emerald-600 transition"
           >
             Find Talent

@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import getAuthHeaders from "../sharedFunction/getAuthHeaders";
 
 const API_BASE = process.env.API_BASE_URL;
@@ -21,6 +21,7 @@ export async function createService(formData: FormData) {
     if (!res.ok) throw new Error(data.message || "Failed to create service");
 
     revalidatePath("/dashboard/admin/manage-service");
+    revalidateTag("services", "max");
     return { ok: true, message: "Service created successfully" };
   } catch (error: Error | unknown) {
     return {
@@ -47,7 +48,9 @@ export async function getAllServices({
     const res = await fetch(url, {
       method: "GET",
       headers,
-      cache: "no-store",
+      next: {
+        tags: ["services"],
+      },
     });
 
     const json = await res.json();
@@ -78,6 +81,7 @@ export async function updateService(id: string, formData: FormData) {
     if (!res.ok) throw new Error(data.message || "Failed to update service");
 
     revalidatePath("/dashboard/admin/manage-service");
+    revalidateTag("services", "max");
     return { ok: true, message: "Service updated successfully" };
   } catch (error: Error | unknown) {
     return {
@@ -99,6 +103,7 @@ export async function deleteService(id: string) {
     if (!res.ok) throw new Error(data.message || "Failed to delete service");
 
     revalidatePath("/dashboard/admin/manage-service");
+    revalidateTag("services", "max");
     return { ok: true, message: "Service deleted successfully" };
   } catch (error: Error | unknown) {
     return {

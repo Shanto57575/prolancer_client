@@ -39,12 +39,10 @@ export default async function FreelancerDetailsPage({
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950/50 py-12">
-      <div className="container mx-auto px-4 max-w-5xl">
-        {/* Header Profile Section */}
-        <div className="bg-white dark:bg-slate-950 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-lg border border-slate-100 dark:border-slate-800 mb-8 relative overflow-hidden">
+    <div className="min-h-screen max-w-7xl mx-auto dark:bg-slate-950/50 py-12 px-8">
+      <div className="container mx-auto">
+        <div className="dark:bg-slate-950 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-lg border border-slate-100 dark:border-slate-800 mb-8 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-
           <div className="relative z-10 flex flex-col md:flex-row gap-8 items-start">
             <Avatar className="h-32 w-32 sm:h-40 sm:w-40 border-4 border-slate-50 dark:border-slate-900 shadow-xl rounded-2xl">
               <AvatarImage
