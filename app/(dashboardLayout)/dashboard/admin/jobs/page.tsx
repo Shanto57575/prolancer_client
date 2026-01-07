@@ -90,7 +90,6 @@ export default async function AdminJobsPage({
         </table>
       </div>
 
-      {/* Basic Pagination */}
       {meta && meta.pages > 1 && (
         <div className="flex justify-center gap-2 mt-4">
           {Array.from({ length: meta.pages }, (_, i) => i + 1).map((p) => (

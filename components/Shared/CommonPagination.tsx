@@ -35,7 +35,13 @@ export default function CommonPagination({
     <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious onClick={() => page > 1 && update(page - 1)} />
+          <PaginationPrevious
+            aria-disabled={page === 1}
+            className={`${
+              page === 1 ? "cursor-not-allowed opacity-50 hover:bg-white" : ""
+            }`}
+            onClick={() => page > 1 && update(page - 1)}
+          />
         </PaginationItem>
 
         {Array.from({ length: totalPages }, (_, i) => (
@@ -51,6 +57,12 @@ export default function CommonPagination({
 
         <PaginationItem>
           <PaginationNext
+            aria-disabled={page === totalPages}
+            className={`${
+              page === totalPages
+                ? "cursor-not-allowed opacity-50 hover:bg-white"
+                : ""
+            }`}
             onClick={() => page < totalPages && update(page + 1)}
           />
         </PaginationItem>

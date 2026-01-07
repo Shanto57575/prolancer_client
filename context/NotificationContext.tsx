@@ -58,7 +58,6 @@ export function NotificationProvider({
     setCurrentUser(user);
   };
 
-  // Fetch initial notifications
   useEffect(() => {
     if (!userId) {
       if (notifications.length > 0) {

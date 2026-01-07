@@ -43,30 +43,9 @@ export default async function JobsGrid({
 
             const CardContent = (
               <div
-                className={`relative bg-white dark:bg-slate-950 border rounded-2xl h-full flex flex-col overflow-hidden transition-all duration-300 ${
-                  isClosed
-                    ? "border-slate-200 dark:border-slate-800 opacity-75 grayscale cursor-not-allowed"
-                    : "border-slate-200 dark:border-slate-800 hover:border-emerald-300 dark:hover:border-emerald-700 shadow-lg shadow-slate-200/50 dark:shadow-none hover:shadow-xl hover:shadow-emerald-500/10 hover:-translate-y-1"
-                }`}
+                className={`relative bg-white dark:bg-slate-950 border rounded-2xl h-full flex flex-col overflow-hidden transition-all duration-300`}
               >
-                {/* Accent line on hover */}
-                {!isClosed && (
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-emerald-500 via-teal-500 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                )}
-
-                {isClosed && (
-                  <div className="absolute inset-0 bg-slate-50/50 dark:bg-slate-950/50 z-20 flex items-center justify-center backdrop-blur-[1px]">
-                    <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full px-5 py-2.5 shadow-lg flex items-center gap-2">
-                      <div className="h-2 w-2 bg-slate-400 rounded-full"></div>
-                      <span className="text-slate-600 dark:text-slate-300 text-sm font-bold">
-                        Applications Closed
-                      </span>
-                    </div>
-                  </div>
-                )}
-
                 <div className="p-6 flex flex-col flex-1">
-                  {/* Header */}
                   <div className="mb-5">
                     <div className="flex items-start justify-between gap-3 mb-3">
                       <h3
@@ -178,13 +157,13 @@ export default async function JobsGrid({
               </div>
             );
 
-            if (isClosed) {
-              return (
-                <div key={job._id} className="block h-full">
-                  {CardContent}
-                </div>
-              );
-            }
+            // if (isClosed) {
+            //   return (
+            //     <div key={job._id} className="block h-full">
+            //       {CardContent}
+            //     </div>
+            //   );
+            // }
 
             return (
               <Link
