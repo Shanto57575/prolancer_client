@@ -15,7 +15,6 @@ const montserrat = Montserrat({
 });
 
 import NotificationIndicator from "@/components/Shared/NotificationIndicator";
-// import ModeToggle from "@/components/Shared/ModeToggle";
 
 export default async function DashboardLayout({
   children,
@@ -32,7 +31,6 @@ export default async function DashboardLayout({
           <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4">
             <div className="flex items-center gap-2">
               <SidebarTrigger className="-ml-1" />
-              {/* <ModeToggle /> */}
             </div>
             <div className="flex items-center gap-4">
               <NotificationIndicator />

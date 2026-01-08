@@ -9,6 +9,7 @@ import {
   getNotificationsAction,
   markAllNotificationsReadAction,
 } from "@/actions/notification/notificationActions";
+import { getSession } from "@/actions/auth/getSession";
 
 export interface Notification {
   _id: string;
@@ -60,6 +61,19 @@ export function NotificationProvider({
 
   useEffect(() => {
     if (!userId) {
+      const fetchSession = async () => {
+        try {
+          const user = await getSession();
+          if (user) {
+            setCurrentUser(user);
+          }
+        } catch (error) {
+          console.error("Failed to fetch session:", error);
+        }
+      };
+
+      fetchSession();
+
       if (notifications.length > 0) {
         setNotifications([]);
       }
@@ -79,7 +93,6 @@ export function NotificationProvider({
   useEffect(() => {
     if (!userId || !role) return;
 
-    // Web Audio API for sound
     const playSound = () => {
       try {
         const AudioContext =
@@ -91,7 +104,6 @@ export function NotificationProvider({
         osc.connect(gain);
         gain.connect(ctx.destination);
 
-        // Nice "ding" sound
         osc.type = "sine";
         osc.frequency.setValueAtTime(880, ctx.currentTime);
         osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.3);
@@ -106,14 +118,13 @@ export function NotificationProvider({
       }
     };
 
-    const appKey = process.env.NEXT_PUBLIC_PUSHER_KEY || "YOUR_PUSHER_KEY";
-    const cluster = process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "mt1";
-    const pusher = new Pusher(appKey, { cluster });
+    const appKey = process.env.NEXT_PUBLIC_PUSHER_KEY;
+    const cluster = process.env.NEXT_PUBLIC_PUSHER_CLUSTER;
+    const pusher = new Pusher(appKey as string, { cluster: cluster as string });
 
     const channel = pusher.subscribe(`user-${userId}`);
 
     channel.bind("notification", (data: any) => {
-      // Don't notify if we are already in this chat
       if (pathname?.includes(`/messages/${data.chatId}`)) {
         return;
       }

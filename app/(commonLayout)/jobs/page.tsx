@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import Link from "next/link";
+import { X } from "lucide-react";
+import { Suspense } from "react";
+import { Button } from "@/components/ui/button";
+import CommonSort from "@/components/Shared/CommonSort";
+import JobsGrid from "@/components/modules/Jobs/JobsGrid";
 import { getAllServices } from "@/actions/service/service";
 import CommonSearch from "@/components/Shared/CommonSearch";
-import CommonSort from "@/components/Shared/CommonSort";
 import CommonFilter from "@/components/Shared/CommonFilter";
-import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
-import Link from "next/link";
-import { Suspense } from "react";
-import JobsGrid from "@/components/modules/Jobs/JobsGrid";
 import JobGridSkeleton from "@/components/Shared/Skeletons/JobGridSkeleton";
 
 const sortFields = [

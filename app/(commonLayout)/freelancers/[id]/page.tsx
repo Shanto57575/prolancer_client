@@ -1,4 +1,7 @@
-import { getFreelancerById } from "@/actions/freelancer/freelancer";
+import {
+  getFreelancerById,
+  getPublicFreelancers,
+} from "@/actions/freelancer/freelancer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,6 +19,17 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+export async function generateStaticParams() {
+  const { data: freelancers } = await getPublicFreelancers(1, 20);
+  if (!freelancers) {
+    return [];
+  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return freelancers.map((freelancer: any) => ({
+    id: freelancer._id,
+  }));
+}
 
 export default async function FreelancerDetailsPage({
   params,

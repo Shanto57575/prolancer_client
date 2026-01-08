@@ -10,7 +10,6 @@ export default async function getAuthHeaders() {
   if (accessToken) {
     try {
       const decoded = jwtDecode(accessToken);
-      // Check if expired or expiring in less than 30 seconds
       if (decoded.exp && decoded.exp * 1000 < Date.now() + 30000) {
         isExpired = true;
       }
@@ -35,23 +34,16 @@ export default async function getAuthHeaders() {
         if (data.success && data.data.accessToken) {
           accessToken = data.data.accessToken;
 
-          // Update cookie
           try {
             cookieStore.set("accessToken", accessToken!, {
               httpOnly: true,
               secure: process.env.NODE_ENV === "production",
               sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-              maxAge: 15 * 60, // 15 mins matching backend
+              maxAge: 15 * 60
             });
           } catch {
             // Ignore error if running in Server Component (read-only cookies)
           }
-
-          // If backend rotates refresh token, update it too?
-          // Backend `refreshTokenService` returns `{ accessToken }` only, based on search result.
-          // But `authController` sets cookie. The fetch here won't automatically set cookies from Set-Cookie header of backend response unless we manually parse it,
-          // but we are in a server action.
-          // Since backend returns `data.data.accessToken`, we use that.
         }
       }
     } catch (err) {

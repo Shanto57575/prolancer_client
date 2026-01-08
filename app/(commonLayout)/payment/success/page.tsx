@@ -1,13 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import confetti from "canvas-confetti";
 import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function PaymentSuccessPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-[80vh] items-center justify-center">
+          <Loader2 className="h-12 w-12 text-primary animate-spin" />
+        </div>
+      }
+    >
+      <PaymentContent />
+    </Suspense>
+  );
+}
+
+function PaymentContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
 
@@ -36,17 +50,14 @@ export default function PaymentSuccessPage() {
 
         if (data.success && data.data.isPaid) {
           if (data.data.processed) {
-            // Webhook has processed the payment
             setPaymentStatus("success");
             setVerifying(false);
 
-            // Clear polling if active
             if (pollInterval) {
               clearInterval(pollInterval);
               pollInterval = null;
             }
 
-            // Trigger confetti
             const duration = 3 * 1000;
             const animationEnd = Date.now() + duration;
             const defaults = {
@@ -79,20 +90,16 @@ export default function PaymentSuccessPage() {
               });
             }, 250);
           } else {
-            // Payment is paid but webhook hasn't processed yet
-            // Start polling if not already polling
             if (!pollInterval && paymentStatus !== "pending") {
               setPaymentStatus("pending");
               setVerifying(false);
 
-              // Poll every 2 seconds for webhook processing
               pollInterval = setInterval(() => {
                 verifyPayment();
               }, 2000);
             }
           }
         } else {
-          // Payment failed or not completed
           setPaymentStatus("failed");
           setVerifying(false);
 
@@ -113,10 +120,8 @@ export default function PaymentSuccessPage() {
       }
     };
 
-    // Initial verification
     verifyPayment();
 
-    // Cleanup polling on unmount
     return () => {
       if (pollInterval) {
         clearInterval(pollInterval);

@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import NotificationIndicator from "@/components/Shared/NotificationIndicator";
+import { useNotification } from "@/context/NotificationContext";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
@@ -33,7 +34,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { logoutAction } from "@/actions/auth/logoutAction";
-// import ModeToggle from "./ModeToggle";
 
 interface MenuItem {
   title: string;
@@ -92,8 +92,9 @@ export default function Navbar({
     login: { title: "Login", url: "/login" },
     signup: { title: "Sign Up", url: "/register" },
   },
-  user = null,
 }: NavbarProps) {
+  const { currentUser } = useNotification();
+
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -109,7 +110,7 @@ export default function Navbar({
   };
 
   const finalMenu =
-    user?.role === "FREELANCER"
+    currentUser?.role === "FREELANCER"
       ? [...menu, { title: "Pricing", url: "/pricing" }]
       : menu;
 
@@ -129,7 +130,6 @@ export default function Navbar({
               />
             </Link>
 
-            {/* Menu */}
             <NavigationMenu className="flex-1">
               <NavigationMenuList className="gap-1">
                 {finalMenu.map((item) => renderMenuItem(item, pathname))}
@@ -137,10 +137,8 @@ export default function Navbar({
             </NavigationMenu>
           </div>
 
-          {/* Right side actions */}
           <div className="flex items-center gap-3 shrink-0">
-            {/* <ModeToggle /> */}
-            {user ? (
+            {currentUser ? (
               <>
                 <NotificationIndicator />
 
@@ -152,15 +150,15 @@ export default function Navbar({
                     >
                       <Avatar className="h-8 w-8">
                         <AvatarImage
-                          src={user.avatar}
-                          alt={user.name || user.email}
+                          src={currentUser.avatar}
+                          alt={currentUser.name || currentUser.email}
                         />
                         <AvatarFallback className="bg-primary text-primary-foreground text-sm">
-                          {getUserInitials(user)}
+                          {getUserInitials(currentUser)}
                         </AvatarFallback>
                       </Avatar>
                       <span className="font-medium text-sm max-w-[120px] truncate">
-                        {user.name || user.email}
+                        {currentUser.name || currentUser.email}
                       </span>
                       <ChevronDown className="h-4 w-4 opacity-50" />
                     </Button>
@@ -172,10 +170,10 @@ export default function Navbar({
                     <DropdownMenuLabel className="font-normal">
                       <div className="flex flex-col space-y-1">
                         <p className="text-sm font-medium leading-none">
-                          {user.name || "User"}
+                          {currentUser.name || "User"}
                         </p>
                         <p className="text-xs leading-none text-muted-foreground truncate">
-                          {user.email}
+                          {currentUser.email}
                         </p>
                       </div>
                     </DropdownMenuLabel>
@@ -224,7 +222,6 @@ export default function Navbar({
           </div>
         </nav>
 
-        {/* Mobile & Tablet */}
         <div className="lg:hidden flex items-center justify-between gap-4">
           <Link href={logo.url} className="flex items-center gap-2 shrink-0">
             <Image
@@ -238,8 +235,7 @@ export default function Navbar({
           </Link>
 
           <div className="flex items-center gap-2">
-            {/* <ModeToggle /> */}
-            {user && <NotificationIndicator />}
+            {currentUser && <NotificationIndicator />}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
                 <Button
@@ -276,24 +272,24 @@ export default function Navbar({
                   </nav>
 
                   <div className="flex flex-col gap-3 pt-4 border-t">
-                    {user ? (
+                    {currentUser ? (
                       <>
                         <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
                           <Avatar className="h-10 w-10">
                             <AvatarImage
-                              src={user.avatar}
-                              alt={user.name || user.email}
+                              src={currentUser.avatar}
+                              alt={currentUser.name || currentUser.email}
                             />
                             <AvatarFallback className="bg-primary text-primary-foreground">
-                              {getUserInitials(user)}
+                              {getUserInitials(currentUser)}
                             </AvatarFallback>
                           </Avatar>
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-medium truncate">
-                              {user.name || "User"}
+                              {currentUser.name || "User"}
                             </p>
                             <p className="text-xs text-muted-foreground truncate">
-                              {user.email}
+                              {currentUser.email}
                             </p>
                           </div>
                         </div>

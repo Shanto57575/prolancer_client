@@ -215,7 +215,6 @@ export async function getAllJobsAction(
   search = "",
   filters = {}
 ) {
-  // reusing the public action logic to potentially remove the cookie dependency if this wasn't strictly private
   return getAllJobsPublicAction(page, limit, search, filters);
 }
 
