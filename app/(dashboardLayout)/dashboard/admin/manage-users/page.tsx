@@ -59,7 +59,7 @@ export default async function ManageUsers({
   const meta = result.meta || { page, limit, total: users.length };
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto mt-5 px-4">
+    <div className="space-y-8 mt-5 px-4">
       <h1 className="text-3xl font-bold">Manage Users</h1>
 
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">

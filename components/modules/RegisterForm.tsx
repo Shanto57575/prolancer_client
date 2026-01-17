@@ -95,6 +95,7 @@ export default function RegisterForm({ action }: Props) {
       fd.append("role", formData.role);
 
       const result = await action(fd);
+      console.log("result==>", result);
 
       if (!result?.ok) {
         if (result?.errors) {
@@ -111,8 +112,13 @@ export default function RegisterForm({ action }: Props) {
         position: "bottom-right",
       });
 
-      router.push("/");
-
+      if (result?.data?.user?.email) {
+        router.push(
+          `/verify-email?email=${encodeURIComponent(result?.data?.user?.email)}`,
+        );
+      } else {
+        router.push("/verify-email");
+      }
       setFormData({
         name: "",
         email: "",

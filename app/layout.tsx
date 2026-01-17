@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/sonner";
-import { Montserrat } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "./api/uploadthing/core";
@@ -10,8 +10,8 @@ import NextTopLoader from "nextjs-toploader";
 import { NotificationProvider } from "@/context/NotificationContext";
 import ScrollToTop from "@/components/Shared/ScrollToTop";
 
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
+const openSans = Open_Sans({
+  variable: "--font-open-sans",
   subsets: ["latin"],
 });
 
@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={montserrat.className}>
+      <body className={openSans.className}>
         <ScrollToTop />
         <NextTopLoader color="#10B981" showSpinner={false} />
         <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
