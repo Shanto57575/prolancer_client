@@ -22,10 +22,7 @@ export async function sendOtp(
     }
 
     if (!name || name.trim().length === 0) {
-      return {
-        success: false,
-        error: "Name is required",
-      };
+      console.warn("Name not provided, backend will use stored user name");
     }
 
     const apiUrl = process.env.API_BASE_URL;
@@ -42,7 +39,7 @@ export async function sendOtp(
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, name }),
+      body: JSON.stringify({ email, name: name || "" }),
     });
 
     // Handle non-2xx responses
