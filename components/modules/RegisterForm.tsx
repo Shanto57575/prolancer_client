@@ -1,13 +1,13 @@
 "use client";
 
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useState, FormEvent } from "react";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Button } from "@/components/ui/button";
 import { RegisterFormData, UserRole } from "@/app/types/auth";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Briefcase,
   Users,
@@ -74,7 +74,6 @@ export default function RegisterForm({ action }: Props) {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  console.log("errors from RegisterForm", errors);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -95,7 +94,6 @@ export default function RegisterForm({ action }: Props) {
       fd.append("role", formData.role);
 
       const result = await action(fd);
-      console.log("result==>", result);
 
       if (!result?.ok) {
         if (result?.errors) {
@@ -104,19 +102,30 @@ export default function RegisterForm({ action }: Props) {
         } else {
           toast.error(result?.message || "Registration failed");
         }
+
+        // Handle unverified user re-registration
+        if (result?.isUnverifiedUser) {
+          toast.info("You already have an unverified account. Please verify it now.", {
+            position: "bottom-right",
+          });
+          setTimeout(() => {
+            router.push(
+              `/verify-email?email=${encodeURIComponent(result?.email)}&name=${encodeURIComponent(result?.name)}`
+            );
+          }, 1500);
+        }
         return;
       }
 
       toast.success(result.message || "Account created successfully!", {
-        description: "Welcome to ProLancer.",
+        description: "Welcome to ProLancer. Verify your email to continue.",
         position: "bottom-right",
       });
 
       if (result?.data?.user?.email) {
-        router.push(
-          `/verify-email?email=${encodeURIComponent(result?.data?.user?.email)}`,
-        );
-      } else {
+        router.push(`/verify-email?email=${encodeURIComponent(result?.data?.user?.email)}&name=${encodeURIComponent(result?.data?.user?.name)}`);
+      }
+      else {
         router.push("/verify-email");
       }
       setFormData({
@@ -274,11 +283,10 @@ export default function RegisterForm({ action }: Props) {
         >
           <label
             htmlFor="role-client"
-            className={`group relative flex flex-col items-center justify-center gap-3 rounded-2xl border-2 p-6 cursor-pointer transition-all duration-300 ${
-              formData.role === "CLIENT"
-                ? "border-primary bg-primary/10 shadow-lg shadow-primary/20 scale-[1.02]"
-                : "border-border hover:border-primary/40 hover:bg-accent/30 hover:shadow-md"
-            }`}
+            className={`group relative flex flex-col items-center justify-center gap-3 rounded-2xl border-2 p-6 cursor-pointer transition-all duration-300 ${formData.role === "CLIENT"
+              ? "border-primary bg-primary/10 shadow-lg shadow-primary/20 scale-[1.02]"
+              : "border-border hover:border-primary/40 hover:bg-accent/30 hover:shadow-md"
+              }`}
           >
             <RadioGroupItem
               value="CLIENT"
@@ -286,25 +294,22 @@ export default function RegisterForm({ action }: Props) {
               className="sr-only"
             />
             <div
-              className={`p-3 rounded-xl transition-colors ${
-                formData.role === "CLIENT"
-                  ? "bg-primary/20"
-                  : "bg-muted group-hover:bg-primary/10"
-              }`}
+              className={`p-3 rounded-xl transition-colors ${formData.role === "CLIENT"
+                ? "bg-primary/20"
+                : "bg-muted group-hover:bg-primary/10"
+                }`}
             >
               <Users
-                className={`h-7 w-7 transition-colors ${
-                  formData.role === "CLIENT"
-                    ? "text-primary"
-                    : "text-muted-foreground group-hover:text-primary"
-                }`}
+                className={`h-7 w-7 transition-colors ${formData.role === "CLIENT"
+                  ? "text-primary"
+                  : "text-muted-foreground group-hover:text-primary"
+                  }`}
               />
             </div>
             <div className="text-center space-y-1">
               <p
-                className={`font-bold text-sm transition-colors ${
-                  formData.role === "CLIENT" ? "text-primary" : ""
-                }`}
+                className={`font-bold text-sm transition-colors ${formData.role === "CLIENT" ? "text-primary" : ""
+                  }`}
               >
                 Client
               </p>
@@ -316,11 +321,10 @@ export default function RegisterForm({ action }: Props) {
 
           <label
             htmlFor="role-freelancer"
-            className={`group relative flex flex-col items-center justify-center gap-3 rounded-2xl border-2 p-6 cursor-pointer transition-all duration-300 ${
-              formData.role === "FREELANCER"
-                ? "border-primary bg-primary/10 shadow-lg shadow-primary/20 scale-[1.02]"
-                : "border-border hover:border-primary/40 hover:bg-accent/30 hover:shadow-md"
-            }`}
+            className={`group relative flex flex-col items-center justify-center gap-3 rounded-2xl border-2 p-6 cursor-pointer transition-all duration-300 ${formData.role === "FREELANCER"
+              ? "border-primary bg-primary/10 shadow-lg shadow-primary/20 scale-[1.02]"
+              : "border-border hover:border-primary/40 hover:bg-accent/30 hover:shadow-md"
+              }`}
           >
             <RadioGroupItem
               value="FREELANCER"
@@ -328,25 +332,22 @@ export default function RegisterForm({ action }: Props) {
               className="sr-only"
             />
             <div
-              className={`p-3 rounded-xl transition-colors ${
-                formData.role === "FREELANCER"
-                  ? "bg-primary/20"
-                  : "bg-muted group-hover:bg-primary/10"
-              }`}
+              className={`p-3 rounded-xl transition-colors ${formData.role === "FREELANCER"
+                ? "bg-primary/20"
+                : "bg-muted group-hover:bg-primary/10"
+                }`}
             >
               <Briefcase
-                className={`h-7 w-7 transition-colors ${
-                  formData.role === "FREELANCER"
-                    ? "text-primary"
-                    : "text-muted-foreground group-hover:text-primary"
-                }`}
+                className={`h-7 w-7 transition-colors ${formData.role === "FREELANCER"
+                  ? "text-primary"
+                  : "text-muted-foreground group-hover:text-primary"
+                  }`}
               />
             </div>
             <div className="text-center space-y-1">
               <p
-                className={`font-bold text-sm transition-colors ${
-                  formData.role === "FREELANCER" ? "text-primary" : ""
-                }`}
+                className={`font-bold text-sm transition-colors ${formData.role === "FREELANCER" ? "text-primary" : ""
+                  }`}
               >
                 Freelancer
               </p>

@@ -49,6 +49,17 @@ export async function registerAction(formData: FormData) {
     const data = await res.json().catch(() => ({}));
 
     if (!res.ok) {
+      // Check if user exists but not verified
+      if (data?.message?.includes("Please verify your email")) {
+        // Send back special response to redirect to verify-email
+        return {
+          ok: false,
+          message: data?.message ?? "Registration failed",
+          isUnverifiedUser: true,
+          email: email,
+          name: name,
+        };
+      }
       return {
         ok: false,
         message: data?.message ?? "Registration failed",

@@ -28,7 +28,7 @@ export async function sendOtp(
       };
     }
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const apiUrl = process.env.API_BASE_URL;
     if (!apiUrl) {
       console.error("API URL not configured");
       return {
@@ -43,8 +43,6 @@ export async function sendOtp(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, name }),
-      // Add timeout and other production-grade options
-      signal: AbortSignal.timeout(10000), // 10 second timeout
     });
 
     // Handle non-2xx responses
@@ -104,7 +102,7 @@ export async function verifyOtp(
       };
     }
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const apiUrl = process.env.API_BASE_URL;
     if (!apiUrl) {
       console.error("API URL not configured");
       return {
@@ -119,11 +117,8 @@ export async function verifyOtp(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, otp }),
-      // Add timeout and other production-grade options
-      signal: AbortSignal.timeout(10000), // 10 second timeout
     });
 
-    // Handle non-2xx responses
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       return {
@@ -143,7 +138,6 @@ export async function verifyOtp(
   } catch (error) {
     console.error("Verify OTP error:", error);
 
-    // Handle specific error types
     if (error instanceof Error) {
       if (error.name === "AbortError") {
         return {

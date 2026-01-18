@@ -14,6 +14,7 @@ import {
   UserCog,
   Briefcase,
   User,
+  Target,
 } from "lucide-react";
 
 type Props = {
@@ -146,8 +147,8 @@ export default function LoginForm({ action }: Props) {
     <div className="w-full space-y-5">
       {/* Demo Accounts Info Banner */}
       <div className="p-4 rounded-lg text-center bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800">
-        <p className="text-sm font-medium text-emerald-900 dark:text-emerald-100 mb-2">
-          🎯 Quick Demo Access
+        <p className="flex items-center justify-center gap-x-2 text-sm font-medium text-emerald-900 dark:text-emerald-100 mb-2">
+          <Target size={18} /> <span>Quick Demo Access</span>
         </p>
         <p className="text-xs text-emerald-700 dark:text-emerald-300">
           Click any button below to explore different user roles instantly

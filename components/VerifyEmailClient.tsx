@@ -17,23 +17,61 @@ import {
 } from "@/components/ui/input-otp";
 import { cn } from "@/lib/utils";
 import { Dot } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { sendOtp, verifyOtp } from "@/actions/otp/otp";
 import { Label } from "./ui/label";
 
 interface VerifyEmailClientProps {
+  name?: string;
   email?: string;
 }
 
-export function VerifyEmailClient({ email }: VerifyEmailClientProps) {
+export function VerifyEmailClient({ name, email }: VerifyEmailClientProps) {
   const router = useRouter();
-  const [confirmed, setConfirmed] = useState(false);
-  const [timer, setTimer] = useState(120); // 2 minutes = 120 seconds
+  const [timer, setTimer] = useState(120);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSendingOtp, setIsSendingOtp] = useState(true);
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
+  const otpSentRef = useRef(false); // Guard to prevent multiple OTP sends
+
+  // Auto-send OTP on component mount (only once)
+  useEffect(() => {
+    if (!email || otpSentRef.current) {
+      if (!email) {
+        toast.error("Email is required");
+        router.push("/");
+      }
+      return;
+    }
+
+    otpSentRef.current = true; // Set flag to prevent re-execution
+
+    const autoSendOtp = async () => {
+      setIsSendingOtp(true);
+      try {
+        const result = await sendOtp(email, name as string);
+
+        if (result.success) {
+          toast.success("OTP sent to your email");
+          setTimer(120);
+          setOtp("");
+          setError("");
+        } else {
+          toast.error(result.error || "Failed to send OTP");
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error("Something went wrong. Please try again.");
+      } finally {
+        setIsSendingOtp(false);
+      }
+    };
+
+    autoSendOtp();
+  }, []);
 
   const handleSendOtp = async () => {
     if (!email) {
@@ -45,14 +83,13 @@ export function VerifyEmailClient({ email }: VerifyEmailClientProps) {
     setIsSubmitting(true);
 
     try {
-      const result = await sendOtp(email, "User");
+      const result = await sendOtp(email, name as string);
 
       if (result.success) {
         toast.success("OTP sent to your email", { id: toastId });
-        setConfirmed(true);
-        setTimer(120); // Reset timer to 2 minutes
-        setOtp(""); // Clear OTP input
-        setError(""); // Clear any errors
+        setTimer(120);
+        setOtp("");
+        setError("");
       } else {
         toast.error(result.error || "Failed to send OTP", { id: toastId });
       }
@@ -101,9 +138,8 @@ export function VerifyEmailClient({ email }: VerifyEmailClientProps) {
 
       if (result.success) {
         toast.success("Email verified successfully!", { id: toastId });
-        // Redirect to dashboard or login page
         setTimeout(() => {
-          router.push("/dashboard"); // Change to your desired route
+          router.push("/dashboard");
         }, 1000);
       } else {
         setError(result.error || "Invalid OTP. Please try again.");
@@ -124,21 +160,12 @@ export function VerifyEmailClient({ email }: VerifyEmailClientProps) {
   const handleOtpChange = (value: string) => {
     setOtp(value);
     if (error) {
-      setError(""); // Clear error when user starts typing
+      setError("");
     }
   };
 
-  // Redirect if no email provided
   useEffect(() => {
-    if (!email) {
-      toast.error("Email is required");
-      router.push("/"); // Redirect to home or signup page
-    }
-  }, [email, router]);
-
-  // Timer countdown
-  useEffect(() => {
-    if (!confirmed || timer === 0) {
+    if (timer === 0) {
       return;
     }
 
@@ -147,9 +174,8 @@ export function VerifyEmailClient({ email }: VerifyEmailClientProps) {
     }, 1000);
 
     return () => clearInterval(timerId);
-  }, [confirmed, timer]);
+  }, [timer]);
 
-  // Format timer display (MM:SS)
   const formatTimer = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -161,95 +187,91 @@ export function VerifyEmailClient({ email }: VerifyEmailClientProps) {
   }
 
   return (
-    <>
-      {confirmed ? (
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle className="text-xl">Verify your email address</CardTitle>
-            <CardDescription>
-              Please enter the 6-digit code we sent to <br />
-              <span className="font-medium text-foreground">{email}</span>
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form id="otp-form" onSubmit={handleSubmit} className="space-y-6">
-              <Field>
-                <Label>One-Time Password</Label>
-                <InputOTP
-                  maxLength={6}
-                  value={otp}
-                  onChange={handleOtpChange}
-                  disabled={isSubmitting}
+    <Card className="w-full max-w-md">
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-xl">Verify your email address</CardTitle>
+        <CardDescription>
+          {isSendingOtp
+            ? "Sending OTP to your email..."
+            : `Please enter the 6-digit code we sent to`}
+          <br />
+          <span className="font-medium text-foreground">{email}</span>
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent>
+        {isSendingOtp ? (
+          // Show loading placeholder while sending OTP
+          <div className="space-y-6">
+            <Field>
+              <div className="h-16 bg-muted rounded-lg flex items-center justify-center">
+                <div className="text-sm text-muted-foreground">Loading...</div>
+              </div>
+            </Field>
+          </div>
+        ) : (
+          // Show OTP form once OTP is sent
+          <form id="otp-form" onSubmit={handleSubmit} className="space-y-6">
+            <Field>
+              <Label>One-Time Password</Label>
+              <InputOTP
+                maxLength={6}
+                value={otp}
+                onChange={handleOtpChange}
+                disabled={isSubmitting}
+              >
+                <InputOTPGroup>
+                  <InputOTPSlot index={0} />
+                </InputOTPGroup>
+                <InputOTPGroup>
+                  <InputOTPSlot index={1} />
+                </InputOTPGroup>
+                <InputOTPGroup>
+                  <InputOTPSlot index={2} />
+                </InputOTPGroup>
+                <Dot />
+                <InputOTPGroup>
+                  <InputOTPSlot index={3} />
+                </InputOTPGroup>
+                <InputOTPGroup>
+                  <InputOTPSlot index={4} />
+                </InputOTPGroup>
+                <InputOTPGroup>
+                  <InputOTPSlot index={5} />
+                </InputOTPGroup>
+              </InputOTP>
+              {error && <FieldError>{error}</FieldError>}
+              <p className="text-sm text-muted-foreground mt-2">
+                <Button
+                  onClick={handleSendOtp}
+                  type="button"
+                  variant="link"
+                  disabled={timer !== 0 || isSubmitting}
+                  className={cn("p-0 m-0 h-auto", {
+                    "cursor-pointer": timer === 0,
+                    "text-muted-foreground cursor-not-allowed": timer !== 0,
+                  })}
                 >
-                  <InputOTPGroup>
-                    <InputOTPSlot index={0} />
-                  </InputOTPGroup>
-                  <InputOTPGroup>
-                    <InputOTPSlot index={1} />
-                  </InputOTPGroup>
-                  <InputOTPGroup>
-                    <InputOTPSlot index={2} />
-                  </InputOTPGroup>
-                  <Dot />
-                  <InputOTPGroup>
-                    <InputOTPSlot index={3} />
-                  </InputOTPGroup>
-                  <InputOTPGroup>
-                    <InputOTPSlot index={4} />
-                  </InputOTPGroup>
-                  <InputOTPGroup>
-                    <InputOTPSlot index={5} />
-                  </InputOTPGroup>
-                </InputOTP>
-                {error && <FieldError>{error}</FieldError>}
-                <p className="text-sm text-muted-foreground mt-2">
-                  <Button
-                    onClick={handleSendOtp}
-                    type="button"
-                    variant="link"
-                    disabled={timer !== 0 || isSubmitting}
-                    className={cn("p-0 m-0 h-auto", {
-                      "cursor-pointer": timer === 0,
-                      "text-muted-foreground cursor-not-allowed": timer !== 0,
-                    })}
-                  >
-                    Resend OTP
-                  </Button>{" "}
-                  {timer > 0 && `in ${formatTimer(timer)}`}
-                </p>
-              </Field>
-            </form>
-          </CardContent>
-          <CardFooter className="flex justify-end">
-            <Button
-              form="otp-form"
-              type="submit"
-              disabled={isSubmitting || otp.length !== 6}
-            >
-              {isSubmitting ? "Verifying..." : "Submit"}
-            </Button>
-          </CardFooter>
-        </Card>
-      ) : (
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle className="text-xl">Verify your email address</CardTitle>
-            <CardDescription>
-              We will send you an OTP to <br />
-              <span className="font-medium text-foreground">{email}</span>
-            </CardDescription>
-          </CardHeader>
-          <CardFooter className="flex justify-end">
-            <Button
-              onClick={handleSendOtp}
-              className="w-full max-w-[300px]"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Sending..." : "Send OTP"}
-            </Button>
-          </CardFooter>
-        </Card>
+                  Resend OTP
+                </Button>{" "}
+                {timer > 0 && `in ${formatTimer(timer)}`}
+              </p>
+            </Field>
+          </form>
+        )}
+      </CardContent>
+
+      {!isSendingOtp && (
+        <CardFooter className="flex justify-end">
+          <Button
+            form="otp-form"
+            type="submit"
+            disabled={isSubmitting || otp.length !== 6}
+          >
+            {isSubmitting ? "Verifying..." : "Submit"}
+          </Button>
+        </CardFooter>
       )}
-    </>
+    </Card>
   );
 }
