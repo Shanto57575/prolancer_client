@@ -16,6 +16,7 @@ import {
   User,
   Target,
 } from "lucide-react";
+import { useNotification } from "@/context/NotificationContext";
 
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -50,6 +51,7 @@ export default function LoginForm({ action }: Props) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const { setSession } = useNotification();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -96,6 +98,10 @@ export default function LoginForm({ action }: Props) {
         return;
       }
 
+      if (result.data?.user) {
+        setSession(result.data.user);
+      }
+
       toast.success(result.message || "Logged in successfully", {
         position: "bottom-right",
       });
@@ -128,6 +134,10 @@ export default function LoginForm({ action }: Props) {
       if (!result.ok) {
         toast.error(result.message || "Login failed");
         return;
+      }
+
+      if (result.data?.user) {
+        setSession(result.data.user);
       }
 
       toast.success(`Logged in as ${credentials.label}`, {

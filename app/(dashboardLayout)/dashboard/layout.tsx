@@ -5,26 +5,33 @@ import {
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { getCurrentUser } from "@/lib/dal/user";
-import { Montserrat } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 
 export const dynamic = "force-dynamic";
 
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
+const openSans = Open_Sans({
+  variable: "--font-open-sans",
   subsets: ["latin"],
 });
 
 import NotificationIndicator from "@/components/Shared/NotificationIndicator";
+import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { role } = (await getCurrentUser())?.data;
+  const userRes = await getCurrentUser();
+  const user = userRes?.data;
+  const role = user?.role;
+
+  if (!user) {
+    redirect("/login");
+  }
 
   return (
-    <div className={montserrat.className}>
+    <div className={openSans.className}>
       <SidebarProvider>
         <AppSidebar role={role} />
         <SidebarInset>

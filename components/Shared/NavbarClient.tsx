@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import NotificationIndicator from "@/components/Shared/NotificationIndicator";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -33,6 +33,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { logoutAction } from "@/actions/auth/logoutAction";
+import { useNotification } from "@/context/NotificationContext";
+import { toast } from "sonner";
 
 interface MenuItem {
   title: string;
@@ -54,7 +56,6 @@ interface NavbarProps {
     login: { title: string; url: string };
     signup: { title: string; url: string };
   };
-  currentUser?: any;
 }
 
 export default function NavbarClient({
@@ -91,10 +92,24 @@ export default function NavbarClient({
     login: { title: "Login", url: "/login" },
     signup: { title: "Sign Up", url: "/register" },
   },
-  currentUser,
 }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const { currentUser, setSession } = useNotification();
+
+  const handleLogout = async () => {
+    try {
+      await logoutAction();
+      setSession(null);
+      setIsOpen(false);
+      router.push("/login");
+      toast.success("Logged out successfully");
+    } catch (error) {
+      console.error("Logout failed:", error);
+      toast.error("Logout failed");
+    }
+  };
 
   const getUserInitials = (user: any) => {
     if (!user) return "U";
@@ -193,7 +208,7 @@ export default function NavbarClient({
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
-                      onClick={() => logoutAction()}
+                      onClick={handleLogout}
                       className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950"
                     >
                       <LogOut className="mr-2 h-4 w-4" />
@@ -265,7 +280,7 @@ export default function NavbarClient({
                 <div className="px-6 py-6 flex flex-col gap-6">
                   <nav className="flex flex-col gap-1">
                     {finalMenu.map((item) =>
-                      renderMobileMenuItem(item, setIsOpen, pathname)
+                      renderMobileMenuItem(item, setIsOpen, pathname),
                     )}
                   </nav>
 
@@ -316,10 +331,7 @@ export default function NavbarClient({
                         <Button
                           variant="outline"
                           className="w-full justify-start gap-2 text-red-600 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
-                          onClick={() => {
-                            setIsOpen(false);
-                            logoutAction();
-                          }}
+                          onClick={handleLogout}
                         >
                           <LogOut className="h-4 w-4" />
                           Logout
@@ -367,7 +379,7 @@ const renderMenuItem = (item: MenuItem, pathname: string) => {
           href={item.url}
           className={cn(
             "inline-flex h-10 items-center justify-center rounded-md px-4 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50",
-            isActive && "bg-accent text-accent-foreground"
+            isActive && "bg-accent text-accent-foreground",
           )}
         >
           {item.title}
@@ -380,7 +392,7 @@ const renderMenuItem = (item: MenuItem, pathname: string) => {
 const renderMobileMenuItem = (
   item: MenuItem,
   setIsOpen: (open: boolean) => void,
-  pathname: string
+  pathname: string,
 ) => {
   const isActive = pathname === item.url;
 
@@ -391,7 +403,7 @@ const renderMobileMenuItem = (
       onClick={() => setIsOpen(false)}
       className={cn(
         "text-base font-medium py-3 px-3 rounded-lg hover:bg-accent transition-colors",
-        isActive && "bg-accent text-accent-foreground"
+        isActive && "bg-accent text-accent-foreground",
       )}
     >
       {item.title}
